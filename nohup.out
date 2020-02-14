@@ -1,0 +1,224 @@
+sudo python3 -u main.py
+Traceback (most recent call last):
+  File "main.py", line 60, in <module>
+    main(fake, test)
+  File "main.py", line 52, in main
+    TreadmillServer(tm, metrics)
+  File "/home/pi/treadmill/treadmillServer.py", line 14, in __init__
+    server = HTTPServer((HOST, PORT), create_handler)
+  File "/usr/lib/python3.7/socketserver.py", line 452, in __init__
+2020-02-13 20:50:56 initInitialise: Can't lock /var/run/pigpio.pid
+    self.server_bind()
+  File "/usr/lib/python3.7/http/server.py", line 137, in server_bind
+gpioInitialise() failed. Kill any other instances of this program and ensure pigpiod is not running.
+    socketserver.TCPServer.server_bind(self)
+  File "/usr/lib/python3.7/socketserver.py", line 466, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
+sudo python3 -u main.py
+Server up at :8000
+2020-02-13 20:52:20 sigHandler: Unhandled signal 18, terminating
+
+make: *** [makefile:8: run] Terminated
+make: *** [makefile:8: run] Terminated
+sudo python3 -u main.py
+Server up at :8000
+192.168.1.59 - - [13/Feb/2020 20:54:35] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.59 - - [13/Feb/2020 20:54:35] "GET /favicon.ico HTTP/1.1" 404 -
+192.168.1.143 - - [13/Feb/2020 21:46:58] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:46:59] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:00] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:01] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:02] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:02] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:02] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:03] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:04] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:06] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:07] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:08] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:09] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:10] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:12] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:13] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:14] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:15] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:16] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:17] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:18] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:20] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:21] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:22] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:23] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:24] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:26] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:27] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:28] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:29] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:30] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:32] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:33] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:34] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:35] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:37] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:38] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:39] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:40] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:41] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:42] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:43] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:45] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:46] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:47] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:48] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:49] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:50] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:52] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:53] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:54] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:55] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:56] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:58] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:47:59] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:48:00] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:35] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:36] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:37] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:38] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:39] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:41] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:42] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:43] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:44] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:45] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:46] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:46] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:48] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:48] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:49] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:50] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:50] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:51] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.59 - - [13/Feb/2020 21:49:52] "POST /start HTTP/1.1" 200 -
+speed feedback changed to 1.0
+192.168.1.143 - - [13/Feb/2020 21:49:53] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:54] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:55] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:56] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:57] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:58] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:49:59] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:01] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:02] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:03] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:04] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:05] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:07] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:08] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:09] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:10] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:11] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:13] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:14] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:15] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:15] "POST /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 0.9
+192.168.1.143 - - [13/Feb/2020 21:50:16] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:16] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:17] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:18] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:18] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:19] "POST /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 1.0
+192.168.1.143 - - [13/Feb/2020 21:50:19] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:19] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:19] "POST /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 1.1192.168.1.143 - - [13/Feb/2020 21:50:19] "GET /speed/setpoint HTTP/1.1" 200 -
+
+192.168.1.143 - - [13/Feb/2020 21:50:19] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:20] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:20] "POST /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 1.2
+192.168.1.143 - - [13/Feb/2020 21:50:20] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:20] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:22] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:22] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:22] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:22] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:22] "POST /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 1.3
+192.168.1.143 - - [13/Feb/2020 21:50:23] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:23] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:24] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:24] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:24] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:24] "POST /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 1.4
+192.168.1.143 - - [13/Feb/2020 21:50:25] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:26] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:27] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:28] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:30] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:31] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:32] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:33] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:34] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:35] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:37] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:38] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:39] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:39] "POST /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 1.3
+192.168.1.143 - - [13/Feb/2020 21:50:40] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:40] "POST /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 1.0
+speed feedback changed to 1.3
+192.168.1.143 - - [13/Feb/2020 21:50:40] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:41] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:41] "POST /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 1.2
+192.168.1.143 - - [13/Feb/2020 21:50:42] "POST /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:42] "GET /speed/setpoint HTTP/1.1" 200 -
+speed feedback changed to 1.0
+speed feedback changed to 1.2
+speed feedback changed to 1.3
+192.168.1.143 - - [13/Feb/2020 21:50:43] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:44] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:45] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:46] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:48] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:49] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:50] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:51] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:52] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:53] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:54] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:55] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:56] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:58] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:50:59] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:00] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:01] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:02] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:04] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:05] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:06] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:07] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:09] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:10] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:11] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:12] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:13] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:14] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:15] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:16] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:18] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:19] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:20] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:21] "GET /speed/setpoint HTTP/1.1" 200 -
+192.168.1.143 - - [13/Feb/2020 21:51:22] "GET /speed/setpoint HTTP/1.1" 200 -
+make: *** [makefile:8: run] Bus error
+2020-02-13 21:53:21 sigHandler: Unhandled signal 18, terminating
+
+2020-02-13 21:53:21 sigHandler: Unhandled signal 1, terminating
+

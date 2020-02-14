@@ -1,7 +1,9 @@
 run:
+	$(MAKE) -C i2c
 	sudo python3 -u main.py
 
 run-test:
+	$(MAKE) -C i2c
 	sudo python3 -u main.py real test
 
 run-fake:

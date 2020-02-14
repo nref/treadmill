@@ -37,7 +37,7 @@ class Sniffer:
     A class to passively monitor activity on an I2C bus. 
     (Messages are not ACKed)
     
-    Tested work on an I2C bus running at 100kbps.
+    Tested working on an I2C bus running at 100kbps.
 
     Be sure to start pigpiod. 
     Note that the default GPIO polling interval of 5ms is too slow.

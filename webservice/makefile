@@ -1,9 +1,3 @@
-i2c: i2c.c notify.h
-	gcc -o i2c i2c.c -Wall -Wpedantic -lpigpio -lrt
-	
-i2c-cs: i2c.cs
-	mcs i2c.cs
-
 run:
 	sudo python3 -u main.py
 

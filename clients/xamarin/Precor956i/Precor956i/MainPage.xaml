@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Precor956i.MainPage">
+
+    <StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Button Text="Start"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Clicked="HandleStart" />
+
+            <Button Text="End"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Clicked="HandleEnd" />
+
+            <Button Text="Pause"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Clicked="HandlePause" />
+
+            <Button Text="Resume"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Clicked="HandleResume" />
+        </StackLayout>
+        
+        <StackLayout Orientation="Horizontal">
+            <StackLayout>
+                <Label x:Name="speedFeedbackLabel"
+                   Text="---"
+                   FontSize="Large"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="Center" />
+
+                <Button Text="Speed Up"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="HandleSpeedUp" />
+
+                <Button Text="Speed Down"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="HandleSpeedDown" />
+
+                <Entry x:Name="speedEntry"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Keyboard="Numeric"/>
+
+                <Button Text="Go To Speed"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="HandleGoToSpeed" />
+            </StackLayout>
+
+            <StackLayout>
+                <Label x:Name="inclineFeedbackLabel"
+                   Text="---"
+                   FontSize="Large"
+                   VerticalOptions="CenterAndExpand"
+                   HorizontalOptions="Center" />
+
+                <Button Text="Incline Up"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="HandleInclineUp" />
+
+                <Button Text="Incline Down"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="HandleInclineDown" />
+
+                <Entry x:Name="inclineEntry"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="Center"
+                Keyboard="Numeric"/>
+
+                <Button Text="Go To Incline"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
+                    Clicked="HandleGoToIncline" />
+            </StackLayout>
+        </StackLayout>
+        
+        <Label x:Name="statusLabel"
+               Text="---"
+               FontSize="Large"
+               VerticalOptions="CenterAndExpand"
+               HorizontalOptions="Center" />
+        
+    </StackLayout>
+
+</ContentPage>

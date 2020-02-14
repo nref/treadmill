@@ -13,14 +13,19 @@ class MetricsBoard(MetricsBoardBase):
     def read_forever(self, use_process = False):
 
         if use_process:
-            # Start a process to read metrics data.
-            # It must run as root, so run this script as root.
+            # Pipe metrics data from i2c
+            # i2c must run as root, so run this script as root.
             proc = Popen(["./i2c/bin/i2c"], stdout=PIPE)
-            t = threading.Thread(target=self.read_process, args=(proc, self.handle_data))
+            self.t = threading.Thread(target=self.read_process, args=(proc, self.handle_data))
         else:
             # Read metrics data broadcast on a socket
-            t = threading.Thread(target=self.read_socket, args=(self.handle_data,))
-        t.start()
+            # Requires i2c to be started separately
+            self.sock = socket(AF_INET, SOCK_DGRAM)
+            self.sock.bind(('', 7887))
+
+            self.t = threading.Thread(target=self.read_socket, args=(self.handle_data,))
+
+        self.t.start()
 
         while self.run:
             sleep(0.1)
@@ -30,16 +35,17 @@ class MetricsBoard(MetricsBoardBase):
             # Note, it handles any signal except SIGKILL gracefully
             # by resetting GPIO states
             proc.send_signal(signal.SIGINT)
-        t.join()
+
+        self.sock.close()
+        self.t.join()
 
     def read_socket(self, handle_data):
-        sock = socket(AF_INET, SOCK_DGRAM)
-        sock.bind(('', 7887))
         NEWLINE = 10
 
         buffer = b''
         while self.run:
-            msg, addr = sock.recvfrom(1024)
+            # TODO this prevents SIGINT shutdown
+            msg, addr = self.sock.recvfrom(1024)
             buffer += msg
             
             while NEWLINE in buffer and self.run:

@@ -9,7 +9,7 @@ class MetricsBoardBase:
 
     def __init__(self, treadmill):
         self.run = True
-        self.handle_metric_changed = treadmill.handle_metric_changed
+        self.callbacks = [treadmill.handle_metric_changed]
 
         self.timestamp = "00:00"
         self.distance = 0.0
@@ -22,10 +22,23 @@ class MetricsBoardBase:
     def read_forever(self):
         pass
 
+    def add_callback(self, callback):
+        self.callbacks += callback
+
+    def remove_callback(self, callback):
+        self.callbacks -= callback
+
     def notify_metric_changed(self, metric, value):
-        if self.handle_metric_changed is None:
-            return
-        self.handle_metric_changed(metric, value)
+        # TODO do not modify collection while iterating
+        for callback in self.callbacks: 
+            if callback is None:
+                self.remove_callback(callback)
+                continue
+
+            try:
+                callback(metric, value)
+            except: 
+                self.remove_callback(callback)
 
     def close(self):
         self.run = False

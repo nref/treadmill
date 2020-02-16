@@ -8,8 +8,6 @@ class TreadmillRequestHandler(BaseHTTPRequestHandler):
         self.tm = tm
         self.metrics = metrics
 
-        self.handlers = []
-
         self.get_routes = {
             '/incline/setpoint' : tm.incline_setpoint,
             '/incline/feedback' : tm.incline_setpoint,
@@ -48,12 +46,11 @@ class TreadmillRequestHandler(BaseHTTPRequestHandler):
         BaseHTTPRequestHandler.__init__(self, *args)
 
     def add_callback(self, url):
-        handler = MetricsHttpCallback(url)
-        self.handlers += handler
-        self.metrics.add_callback(handler.handle_metric_changed)
+        callback = MetricsHttpCallback(url)
+        self.metrics.add_http_callback(callback)
 
     def takes_float_arg(self, route):
-        return route in self.route_takes_arg and self.route_takes_float_arg[route]
+        return route in self.route_takes_float_arg and self.route_takes_float_arg[route]
         
     def takes_arg(self, route):
         return route in self.route_takes_arg and self.route_takes_arg[route]

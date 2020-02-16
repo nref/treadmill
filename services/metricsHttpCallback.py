@@ -1,3 +1,4 @@
+import json
 import requests
 
 from treadmillMetric import TreadmillMetric
@@ -8,4 +9,5 @@ class MetricsHttpCallback:
         self.url = url
 
     def handle_metric_changed(self, metric, value):
-        requests.post(self.url, { metric, value })
+        data = { "metric": metric, "value": value } 
+        requests.post(self.url, json.dumps(data, default=str))

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Precor956i.Views;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace Precor956i
 {

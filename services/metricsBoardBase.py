@@ -9,8 +9,9 @@ class MetricsBoardBase:
 
     def __init__(self, treadmill):
         self.run = True
-        self.handle_metric_changed = treadmill.handle_metric_changed
-
+        self.callbacks = [treadmill.handle_metric_changed]
+        self.http_callbacks = {}
+        
         self.timestamp = "00:00"
         self.distance = 0.0
         self.speed_feedback = 0.0
@@ -22,10 +23,37 @@ class MetricsBoardBase:
     def read_forever(self):
         pass
 
+    def add_callback(self, callback):
+        self.callbacks.append(callback)
+
+    def remove_callback(self, callback):
+        self.callbacks.remove(callback)
+
+    def add_http_callback(self, callback):
+        if callback.url not in self.http_callbacks:
+            print(f'Adding callback {callback.url}')
+            self.http_callbacks[callback.url] = callback
+
+    def remove_http_callback(self, url):
+        self.http_callbacks.pop(url, None)
+
     def notify_metric_changed(self, metric, value):
-        if self.handle_metric_changed is None:
-            return
-        self.handle_metric_changed(metric, value)
+        # Do not modify collection while iterating
+        callbacks_to_remove = []
+       
+        for callback in self.callbacks:
+            callback(metric, value)
+
+        for url, callback in self.http_callbacks.items(): 
+            try:
+                callback.handle_metric_changed(metric, value)
+            except Exception as e:
+                print(str(e))
+                callbacks_to_remove.append(url)
+        
+        for url in callbacks_to_remove:
+            print(f'Removing callback: {url}')
+            self.remove_http_callback(url)
 
     def close(self):
         self.run = False

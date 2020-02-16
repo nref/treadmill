@@ -1,9 +1,13 @@
 from http.server import BaseHTTPRequestHandler
+from metricsHttpCallback import MetricsHttpCallback
 
 class TreadmillRequestHandler(BaseHTTPRequestHandler):
 
     def __init__(self, tm, metrics, *args):
         
+        self.tm = tm
+        self.metrics = metrics
+
         self.get_routes = {
             '/incline/setpoint' : tm.incline_setpoint,
             '/incline/feedback' : tm.incline_setpoint,
@@ -21,6 +25,7 @@ class TreadmillRequestHandler(BaseHTTPRequestHandler):
         }
 
         self.post_routes = {
+            '/metrics/callbacks' : self.add_callback,
             '/incline/setpoint' : tm.go_to_incline,
             '/speed/setpoint' : tm.go_to_speed,
             '/start' : tm.start_workout,
@@ -30,12 +35,23 @@ class TreadmillRequestHandler(BaseHTTPRequestHandler):
         }
 
         self.route_takes_arg = {
+            '/metrics/callbacks' : True,
+        }
+
+        self.route_takes_float_arg = {
             '/incline/setpoint' : True,
             '/speed/setpoint' : True,
         }
 
         BaseHTTPRequestHandler.__init__(self, *args)
 
+    def add_callback(self, url):
+        callback = MetricsHttpCallback(url)
+        self.metrics.add_http_callback(callback)
+
+    def takes_float_arg(self, route):
+        return route in self.route_takes_float_arg and self.route_takes_float_arg[route]
+        
     def takes_arg(self, route):
         return route in self.route_takes_arg and self.route_takes_arg[route]
         
@@ -55,9 +71,10 @@ class TreadmillRequestHandler(BaseHTTPRequestHandler):
             return self.not_found()
         
         try:
-
-            if self.takes_arg(self.path):
+            if self.takes_float_arg(self.path):
                 response = self.post_routes[self.path](float(data))
+            elif self.takes_arg(self.path):
+                response = self.post_routes[self.path](data)
             else:
                 response = self.post_routes[self.path]()
             

@@ -18,6 +18,7 @@ namespace Precor956i.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            // TODO this doesn't work since adding Caliburn.Micro
             global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
             LoadApplication(IoC.Get<App>());
         }

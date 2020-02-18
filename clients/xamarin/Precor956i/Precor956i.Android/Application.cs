@@ -3,6 +3,9 @@ using Android.Runtime;
 using Caliburn.Micro;
 using Ninject;
 using Ninject.Extensions.Conventions;
+using Precor956i.Clients;
+using Precor956i.DomainServices;
+using Precor956i.Infrastructure;
 using Precor956i.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -32,6 +35,7 @@ namespace Precor956i.Droid
         {
             var settings = new NinjectSettings() { LoadExtensions = false };
             _container = new StandardKernel(settings);
+            var config = new DomainConfiguration();
 
             _container.Bind(x =>
             {
@@ -40,6 +44,20 @@ namespace Precor956i.Droid
                  .BindDefaultInterface();
             });
 
+            _container.Rebind<ILoggingService>()
+                .To<LoggingService>()
+                .InSingletonScope();
+
+            _container.Rebind<IConnectionService>()
+                .To<ConnectionService>()
+                .InSingletonScope();
+
+            _container.Rebind<IDomainConfiguration>()
+                .ToConstant(config);
+
+            _container.Rebind<ITreadmillClient>()
+                .To<TreadmillClient>()
+                .WithConstructorArgument("remoteUrl", config.RemoteUrl);
         }
 
         protected override IEnumerable<Assembly> SelectAssemblies()

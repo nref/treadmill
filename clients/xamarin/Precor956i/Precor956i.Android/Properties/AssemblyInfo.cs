@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Android.App;
 
@@ -9,7 +8,7 @@ using Android.App;
 [assembly: AssemblyTitle("Precor956i.Android")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Doug Slater")]
+[assembly: AssemblyCompany("Slater")]
 [assembly: AssemblyProduct("Precor956i.Android")]
 [assembly: AssemblyCopyright("Copyright ©  2020 Doug Slater")]
 [assembly: AssemblyTrademark("")]

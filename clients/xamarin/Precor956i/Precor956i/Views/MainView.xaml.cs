@@ -7,8 +7,13 @@ namespace Precor956i.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainView : ContentView
     {
-        public MainView()
+        private IMainViewModel _viewModel;
+
+        public MainView(IMainViewModel viewModel)
         {
+            _viewModel = viewModel;
+            BindingContext = _viewModel;
+
             InitializeComponent();
         }
     }

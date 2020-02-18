@@ -11,7 +11,12 @@ using Xamarin.Forms;
 
 namespace Precor956i.ViewModels
 {
-    public class MainViewModel : BindableObject
+    public interface IMainViewModel
+    {
+
+    }
+
+    public class MainViewModel : BindableObject, IMainViewModel
     {
         private readonly HttpClient _client = new HttpClient();
         private readonly HttpListener _httpListener = new HttpListener();

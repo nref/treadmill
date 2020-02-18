@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,11 +15,16 @@ namespace Precor956i.ViewModels
     {
         private readonly HttpClient _client = new HttpClient();
         private readonly HttpListener _httpListener = new HttpListener();
+        private readonly UdpClient _udpClient = new UdpClient(7889);
+
         private readonly string _host = "http://192.168.1.152:8000";
-        private readonly string _callback = "http://172.16.1.3:8080/metrics/callback/";
+        private readonly string _httpCallback = "http://192.168.1.151:8080/callbacks/metrics/http/";
+        private readonly string _udpCallback = "192.168.1.151:7889";
+        private readonly string _udpHealthCallback = "192.168.1.151:7890";
+
         private bool _connected = false;
         private DateTime _lastCallback = DateTime.UtcNow;
-        private const int CallbackTimeoutSeconds = 5;
+        private const int CallbackTimeoutSeconds = 15;
 
         private string _generalStatus = "---";
         private string _connectionStatus = "---";
@@ -113,9 +118,11 @@ namespace Precor956i.ViewModels
 
         public MainViewModel()
         {
-            Task.Run(() => Serve());
+            Task.Run(() => ServeHttp());
+            Task.Run(() => ServeUdp(new IPEndPoint(IPAddress.Parse("192.168.1.151"), 7889), HandleHealthCallback));
+            Task.Run(() => ServeUdp(new IPEndPoint(IPAddress.Parse("192.168.1.151"), 7890), ParseJson));
             Task.Run(() => ManageRegistration());
-            //Task.Run(() => Poll());
+            Task.Run(() => Poll());
 
             HandleStart = new Command(async () => await Post("start"));
             HandleEnd = new Command(async () => await Post("end"));
@@ -135,9 +142,20 @@ namespace Precor956i.ViewModels
             public string value { get; set; }
         }
 
-        private void Serve()
+        private void ServeUdp(IPEndPoint endpoint, Action<string> callback)
         {
-            _httpListener.Prefixes.Add(_callback);
+            while (true)
+            {
+                var data = _udpClient.Receive(ref endpoint);
+                _lastCallback = DateTime.UtcNow;
+                var message = System.Text.Encoding.UTF8.GetString(data);
+                callback(message);
+            }
+        }
+
+        private void ServeHttp()
+        {
+            _httpListener.Prefixes.Add(_httpCallback);
             _httpListener.Start();
 
             while (true)
@@ -146,16 +164,21 @@ namespace Precor956i.ViewModels
                 _lastCallback = DateTime.UtcNow;
                 var json = Read(context.Request);
 
-                if (context.Request.Url.AbsoluteUri.EndsWith("metrics/callback/"))
+                if (context.Request.Url.AbsoluteUri.EndsWith("callbacks/metrics/"))
                 {
-                    Parse(json);
+                    ParseJson(json);
                 }
 
                 Write(context.Response, HttpStatusCode.OK, "ok");
             }
         }
 
-        private void Parse(string json)
+        private void HandleHealthCallback(string message)
+        {
+
+        }
+
+        private void ParseJson(string json)
         {
             try
             {
@@ -173,7 +196,7 @@ namespace Precor956i.ViewModels
             }
             catch (Exception e)
             {
-                GeneralStatus = e.Message;
+                GeneralStatus = $"{json}: {e.Message}";
             }
         }
 
@@ -200,10 +223,12 @@ namespace Precor956i.ViewModels
             ConnectionStatus = "Disconnected";
         }
 
-        private void HandleConnected()
+        private async void HandleConnected()
         {
             _connected = true;
             ConnectionStatus = "Connected";
+            //var response = await Post("callbacks/metrics/http", _httpCallback);
+            var response = await Post("callbacks/metrics/udp", _udpCallback);
         }
 
         private async void ManageRegistration()
@@ -227,7 +252,8 @@ namespace Precor956i.ViewModels
         {
             await SafeExecAsync(async () =>
             {
-                var response = await Post("metrics/callbacks", _callback);
+                var response = await Post("callbacks/health", _udpHealthCallback);
+
                 if (response == default)
                 {
                     HandleDisconnected();
@@ -245,7 +271,7 @@ namespace Precor956i.ViewModels
             while (true)
             {
                 PollOnce();
-                Thread.Sleep(250);
+                Thread.Sleep(5*1000);
             }
         }
 

@@ -13,6 +13,12 @@
 #define SDA_RISING  4
 #define SDA_STEADY  8
 
+// Each message from the Precor treadmill metrics board should have this many chars
+#define MSG_LEN 26
+
+char buffer[MSG_LEN];
+int received_length = 0;
+
 static volatile sig_atomic_t keep_running = 1;
 int scl_pin = 9;
 int sda_pin = 10;
@@ -56,13 +62,15 @@ void parse_i2c(int SCL, int SDA)
                 }
                 else
                 {
+                    // Replace any unprintable character with a space
                     if (isprint(byte))
                     {
-                        char buf[2];
-                        sprintf(buf, "%c", (char)byte);
-                        notify(buf);
+                        sprintf(&buffer[received_length++], "%c", (char)byte);
                     }
-                    else notify(" ");
+                    else 
+                    {
+                        sprintf(&buffer[received_length++], " ");
+                    }
 
                     bit = 0;
                     byte = 0;
@@ -85,7 +93,16 @@ void parse_i2c(int SCL, int SDA)
                 in_data = 0;
                 byte = 0;
                 bit = 0;
-                notify("\n"); // stop
+
+                // Should have received the whole message now: not more, not less
+                if (received_length != MSG_LEN)
+                {
+                    received_length = 0;
+                    break;
+                }
+                
+                sprintf(&buffer[received_length++], "\n"); // message end
+                notify(buffer);
             }
             break;
   
@@ -95,7 +112,7 @@ void parse_i2c(int SCL, int SDA)
                 in_data = 1;
                 byte = 0;
                 bit = 0;
-                //notify("->"); // start
+                // message start
             }
             break;
   
@@ -103,6 +120,10 @@ void parse_i2c(int SCL, int SDA)
             break;
  
     }
+
+    // Get ready to receive next message
+    if (received_length > MSG_LEN)
+        received_length = 0;
 }
 
 void handle_interrupt(int _) 

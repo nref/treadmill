@@ -1,15 +1,18 @@
-﻿using Precor956i.Views;
+﻿using Ninject;
+using Precor956i.Views;
 using Xamarin.Forms;
 
 namespace Precor956i
 {
-    public partial class App : Application
+    public class App : Application
     {
-        public App()
-        {
-            InitializeComponent();
+        private readonly IKernel _container;
 
-            MainPage = new MainPage();
+        public App(IKernel container)
+        {
+            _container = container;
+
+            MainPage = _container.Get<MainView>();
         }
 
         protected override void OnStart()

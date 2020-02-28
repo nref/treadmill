@@ -7,14 +7,13 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Precor956i.Clients;
 using Precor956i.Dto;
-using Precor956i.Infrastructure;
-using Precor956i.Models;
+using Precor956i.Shared;
 
 namespace Precor956i.DomainServices
 {
     public delegate void MetricChangedEvent(double value);
 
-    public interface ITreadmillDomainService
+    public interface ITreadmillService
     {
         event MetricChangedEvent SpeedChanged;
         event MetricChangedEvent InclineChanged;
@@ -50,14 +49,14 @@ namespace Precor956i.DomainServices
         Task<double> GetInclineFeedback();
     }
 
-    public class TreadmillDomainService : ITreadmillDomainService
+    public class TreadmillService : ITreadmillService
     {
         public event MetricChangedEvent SpeedChanged;
         public event MetricChangedEvent InclineChanged;
 
         private readonly ILoggingService _logger;
         private readonly IConnectionService _connections;
-        private readonly IDomainConfiguration _config;
+        private readonly IPreferencesService _config;
         private readonly ITreadmillClient _client;
         private readonly HttpListener _httpListener = new HttpListener();
 
@@ -92,7 +91,7 @@ namespace Precor956i.DomainServices
             }
         }
 
-        public TreadmillDomainService(ILoggingService logger, IConnectionService connections, IDomainConfiguration config, ITreadmillClient client)
+        public TreadmillService(ILoggingService logger, IConnectionService connections, IPreferencesService config, ITreadmillClient client)
         {
             _logger = logger;
             _connections = connections;
@@ -100,8 +99,8 @@ namespace Precor956i.DomainServices
             _client = client;
 
             Task.Run(() => ServeHttp());
-            Task.Run(() => ServeUdp(new IPEndPoint(IPAddress.Parse(_config.LocalIp), _config.LocalUdpPort), HandleHealthCallback));
-            Task.Run(() => ServeUdp(new IPEndPoint(IPAddress.Parse(_config.LocalIp), _config.LocalUdpHealthPort), ParseJson));
+            Task.Run(() => ServeUdp(new IPEndPoint(IPAddress.Parse(_config.LocalIp), _config.LocalUdpPort), ParseJson));
+            Task.Run(() => ServeUdp(new IPEndPoint(IPAddress.Parse(_config.LocalIp), _config.LocalUdpHealthPort), HandleHealthCallback));
             Task.Run(() => ManageRegistration());
             Task.Run(() => Poll());
         }
@@ -143,22 +142,22 @@ namespace Precor956i.DomainServices
 
         public async Task<bool> GoToSpeed(double setpoint)
         {
-            return await _client.GoToSpeed(setpoint);
+            return await SafeExecAsync(async () => await _client.GoToSpeed(setpoint));
         }
 
         public async Task<bool> GoToIncline(double setpoint)
         {
-            return await _client.GoToIncline(setpoint);
+            return await SafeExecAsync(async () => await _client.GoToIncline(setpoint));
         }
 
         public async Task<double> GetSpeedFeedback()
         {
-            return await _client.GetSpeedFeedback();
+            return await SafeExecAsync(async () => await _client.GetSpeedFeedback());
         }
 
         public async Task<double> GetInclineFeedback()
         {
-            return await _client.GetInclineFeedback();
+            return await SafeExecAsync(async () => await _client.GetInclineFeedback());
         }
 
         private void ServeUdp(IPEndPoint endpoint, Action<string> callback)
@@ -167,7 +166,8 @@ namespace Precor956i.DomainServices
 
             while (true)
             {
-                var data = client.Receive(ref endpoint);
+                var remote = new IPEndPoint(endpoint.Address, endpoint.Port);
+                var data = client.Receive(ref remote);
                 _lastCallback = DateTime.UtcNow;
                 var message = System.Text.Encoding.UTF8.GetString(data);
                 callback(message);
@@ -217,7 +217,7 @@ namespace Precor956i.DomainServices
             }
             catch (Exception e)
             {
-                _logger.Log($"{json}: {e.Message}");
+                _logger.LogEvent($"{json}: {e.Message}");
             }
         }
 
@@ -317,7 +317,7 @@ namespace Precor956i.DomainServices
             catch (Exception e)
             {
                 _connected = false;
-                _logger.Log(e.Message);
+                _logger.LogEvent(e.Message);
             }
         }
 
@@ -329,7 +329,7 @@ namespace Precor956i.DomainServices
             }
             catch (Exception e)
             {
-                _logger.Log(e.Message);
+                _logger.LogEvent(e.Message);
                 return default;
             }
         }

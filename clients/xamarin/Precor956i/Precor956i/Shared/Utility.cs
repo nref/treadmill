@@ -1,4 +1,4 @@
-﻿namespace Precor956i.Models
+﻿namespace Precor956i.Shared
 {
     public class Utility
     {

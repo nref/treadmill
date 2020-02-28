@@ -5,11 +5,11 @@ using Xamarin.Forms.Xaml;
 namespace Precor956i.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainView : TabbedPage
+    public partial class WorkoutView : ContentView
     {
-        private IMainViewModel _viewModel;
+        private readonly IWorkoutViewModel _viewModel;
 
-        public MainView(IMainViewModel viewModel)
+        public WorkoutView(IWorkoutViewModel viewModel)
         {
             _viewModel = viewModel;
             BindingContext = _viewModel;

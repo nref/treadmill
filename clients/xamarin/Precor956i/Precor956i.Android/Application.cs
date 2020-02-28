@@ -5,7 +5,6 @@ using Ninject;
 using Ninject.Extensions.Conventions;
 using Precor956i.Clients;
 using Precor956i.DomainServices;
-using Precor956i.Infrastructure;
 using Precor956i.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -35,7 +34,7 @@ namespace Precor956i.Droid
         {
             var settings = new NinjectSettings() { LoadExtensions = false };
             _container = new StandardKernel(settings);
-            var config = new DomainConfiguration();
+            var config = new PreferencesService();
 
             _container.Bind(x =>
             {
@@ -52,7 +51,11 @@ namespace Precor956i.Droid
                 .To<ConnectionService>()
                 .InSingletonScope();
 
-            _container.Rebind<IDomainConfiguration>()
+            _container.Rebind<ITreadmillService>()
+                .To<TreadmillService>()
+                .InSingletonScope();
+
+            _container.Rebind<IPreferencesService>()
                 .ToConstant(config);
 
             _container.Rebind<ITreadmillClient>()

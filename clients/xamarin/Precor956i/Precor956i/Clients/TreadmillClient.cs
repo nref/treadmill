@@ -95,13 +95,13 @@ namespace Precor956i.Clients
 
         public async Task<double> GetInclineFeedback()
         {
-            var speedString = await GetAsync($"speed/feedback");
+            var speedString = await GetAsync($"incline/feedback");
             return Convert.ToDouble(speedString);
         }
 
         public async Task<double> GetSpeedFeedback()
         {
-            var inclineString = await GetAsync($"incline/feedback");
+            var inclineString = await GetAsync($"speed/feedback");
             return Convert.ToDouble(inclineString);
         }
 

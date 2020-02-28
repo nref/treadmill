@@ -1,121 +1,17 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:shared="clr-namespace:Precor956i.Shared"
              mc:Ignorable="d"
-             x:Class="Precor956i.Views.MainView">
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+            x:Class="Precor956i.Views.MainView"
+            ItemsSource="{Binding Items}"
+            SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
 
-    <ContentView.Resources>
-        <ResourceDictionary>
-            <shared:StringToDoubleConverter x:Key="stringToDoubleConverter" />
-        </ResourceDictionary>
-    </ContentView.Resources>
-    
-    <ContentView.Content>
-
-        <StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <Button Text="Start"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="Center"
-                Command="{Binding HandleStart}" />
-
-                <Button Text="End"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="Center"
-                Command="{Binding HandleEnd}" />
-
-                <Button Text="Pause"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="Center"
-                Command="{Binding HandlePause}" />
-
-                <Button Text="Resume"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="Center"
-                Command="{Binding HandleResume}" />
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal">
-                <StackLayout>
-                    <Label x:Name="speedFeedbackLabel"
-                    Text="{Binding Speed}"
-                    FontSize="Large"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center" />
-
-                    <Button Text="Speed Up"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center"
-                    Command="{Binding HandleSpeedUp}" />
-
-                    <Button Text="Speed Down"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center"
-                    Command="{Binding HandleSpeedDown}" />
-
-                    <Entry x:Name="speedEntry"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center"
-                    Keyboard="Numeric"
-                    WidthRequest="60"
-                    Text="{Binding SpeedEntry, 
-                        Converter={StaticResource stringToDoubleConverter}, 
-                        Mode=OneWayToSource}"/>
-
-                    <Button Text="Go To Speed"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center"
-                    Command="{Binding HandleGoToSpeed}" />
-                </StackLayout>
-
-                <StackLayout>
-                    <Label x:Name="inclineFeedbackLabel"
-                    Text="{Binding Incline}"
-                    FontSize="Large"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center" />
-
-                    <Button Text="Incline Up"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center"
-                    Command="{Binding HandleInclineUp}" />
-
-                    <Button Text="Incline Down"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center"
-                    Command="{Binding HandleInclineDown}" />
-
-                    <Entry x:Name="inclineEntry"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center"
-                    Keyboard="Numeric"
-                    WidthRequest="60"
-                    Text="{Binding InclineEntry, 
-                        Converter={StaticResource stringToDoubleConverter}, 
-                        Mode=OneWayToSource}"/>
-
-                    <Button Text="Go To Incline"
-                    VerticalOptions="CenterAndExpand"
-                    HorizontalOptions="Center"
-                    Command="{Binding HandleGoToIncline}" />
-                </StackLayout>
-            </StackLayout>
-
-            <Label x:Name="statusLabel"
-               Text="{Binding GeneralStatus}"
-               FontSize="Large"
-               VerticalOptions="CenterAndExpand"
-               HorizontalOptions="Center" />
-
-            <Label x:Name="connectionStatusLabel"
-               Text="{Binding ConnectionStatus}"
-               FontSize="Large"
-               VerticalOptions="End"
-               HorizontalOptions="Start" />
-
-        </StackLayout>
-    </ContentView.Content>
-</ContentView>
+    <TabbedPage.ItemTemplate>
+        <DataTemplate>
+            <ContentPage Title="{Binding DisplayName}" cal:View.Model="{Binding}" />
+        </DataTemplate>
+    </TabbedPage.ItemTemplate>
+</TabbedPage>

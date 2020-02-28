@@ -12,7 +12,7 @@ namespace Precor956i
         {
             _container = container;
 
-            MainPage = new ContentPage { Content = _container.Get<MainView>() };
+            MainPage = _container.Get<MainView>();
         }
 
         protected override void OnStart()

@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:b="clr-namespace:Xamarin.Behaviors;assembly=Xamarin.Behaviors"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:shared="clr-namespace:Precor956i.Shared"
+             x:Class="Precor956i.Views.WorkoutView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <shared:BoolToColorConverter x:Key="boolToColorConverter" />
+            <shared:PausedToColorConverter x:Key="pausedToColorConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+    
+    <ContentView.Content>
+      
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ScrollView Grid.Row="0" Grid.ColumnSpan="2">
+
+                <ListView ItemsSource="{Binding Workout}">
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid BackgroundColor="{Binding Active, Converter={StaticResource boolToColorConverter}}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="1" Text="{Binding DurationSeconds}" FontSize="Large" HorizontalOptions="Start"/>
+                                    <Label Grid.Column="2" Text="{Binding ElapsedSeconds}" FontSize="Large"/>
+                                    <Label Grid.Column="3" Text="{Binding Speed}" FontSize="Large" HorizontalOptions="End"/>
+                                    <!--<Button Grid.Column="4" Text="Delete" CommandParameter="{Binding}"/>-->
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+
+            <Button Grid.Row="1" Grid.Column="0" Text="Do Workout"
+                        HeightRequest="200"
+                        BackgroundColor="LightGray"
+                        Command="{Binding HandleDoWorkout}" />
+
+            <Button Grid.Row="1" Grid.Column="1" Text="Pause"
+                        HeightRequest="200"
+                        BackgroundColor="{Binding Paused, Converter={StaticResource pausedToColorConverter}}"
+                        Command="{Binding HandlePauseWorkout}" />
+        </Grid>
+    </ContentView.Content>
+</ContentView>

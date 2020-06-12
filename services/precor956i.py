@@ -33,7 +33,7 @@ class Precor956i:
 
         self.setup_pins()
         self.start_threads()
-
+        
     def setup_pins(self):
         pins = {
             "Reset": 17,
@@ -44,8 +44,8 @@ class Precor956i:
             "Incline Down": 24,
         }
 
-        self.start = LED(pins["Start"])
         self.reset = LED(pins["Reset"])
+        self.start = LED(pins["Start"])
         self.speed_up = LED(pins["Speed Up"])
         self.speed_down = LED(pins["Speed Down"])
         self.incline_up = LED(pins["Incline Up"])
@@ -68,10 +68,12 @@ class Precor956i:
         elif metric == TreadmillMetric.Speed:
             self.speed_feedback = value
             print(f"speed feedback changed to {value}")
+
         elif metric == TreadmillMetric.Distance:
             self.distance = value
 
     def pulse(self, led, duration_s = 0.1, then_wait_s = 0.1):
+        print(f'pulse({led.pin}, {duration_s}, {then_wait_s})')
         led.on()
 
         if duration_s > 0:
@@ -137,8 +139,19 @@ class Precor956i:
             elif diff > 0:
                 decrement_func()
 
+    def validate_state(self):
+        
+        if (self.state in [TreadmillState.Started] and self.speed_feedback < ZERO):
+            print(f"speed is zero. Assuming paused.")
+            self.state = TreadmillState.Paused
+
+        if (self.state not in [TreadmillState.Started] and self.speed_feedback > ZERO):
+            print(f"speed is nonzero. Assuming started.")
+            self.state = TreadmillState.Started
+
     # Do not change speed or incline outside of the Started state
     def state_ok(self):
+        self.validate_state()
         return self.state in [TreadmillState.Started]
 
     # Do not change speed or incline when the setpoint has been reached

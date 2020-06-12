@@ -14,8 +14,8 @@ class MetricsUdpCallback:
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
     def handle_metric_changed(self, metric, value):
-        if metric == TreadmillMetric.Timestamp or metric == TreadmillMetric.Distance:
-            return # Don't care
+        if metric in [TreadmillMetric.Timestamp]:
+            return # Don't care and timestamp causes problems with json.dumps
 
         data = { "metric": metric, "value": value } 
         self.send_udp(json.dumps(data, default=str))

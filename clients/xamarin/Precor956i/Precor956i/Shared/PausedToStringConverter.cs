@@ -4,11 +4,11 @@ using Xamarin.Forms;
 
 namespace Precor956i.Shared
 {
-    public class PausedToColorConverter : IValueConverter
+    public class PausedToStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? Color.Orange : Color.FromHex("FFDE33");
+            return (bool)value ? "Paused" : "Pause";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

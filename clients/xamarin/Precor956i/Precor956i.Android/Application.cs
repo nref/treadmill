@@ -43,6 +43,10 @@ namespace Precor956i.Droid
                  .BindDefaultInterface();
             });
 
+            _container.Rebind<IWorkoutViewModel>()
+                .To<WorkoutViewModel>()
+                .InSingletonScope();
+
             _container.Rebind<ILoggingService>()
                 .To<LoggingService>()
                 .InSingletonScope();

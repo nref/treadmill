@@ -12,7 +12,7 @@ namespace Precor956i.ViewModels
         public MainViewModel
         (
             IControlsViewModel controlsViewModel, 
-            IWorkoutViewModel workoutViewModel,
+            IWorkoutsViewModel workoutsViewModel,
             ILogViewModel logViewModel,
             ISettingsViewModel settingsViewModel
         )
@@ -20,7 +20,7 @@ namespace Precor956i.ViewModels
             foreach (var item in new object[] 
             { 
                 controlsViewModel, 
-                workoutViewModel, 
+                workoutsViewModel, 
                 logViewModel, 
                 settingsViewModel
             })
@@ -28,7 +28,7 @@ namespace Precor956i.ViewModels
                 Items.Add(item);
             }
 
-            ActivateItemAsync(Items[0], new System.Threading.CancellationToken());
+            ActivateItemAsync(Items[1], new System.Threading.CancellationToken());
         }
     }
 }

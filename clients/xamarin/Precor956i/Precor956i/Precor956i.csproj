@@ -33,6 +33,9 @@
     <Compile Update="Views\ControlsView.xaml.cs">
       <DependentUpon>ControlsView.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\WorkoutsView.xaml.cs">
+      <DependentUpon>WorkoutsView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

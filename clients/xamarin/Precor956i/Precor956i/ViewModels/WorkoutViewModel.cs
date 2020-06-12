@@ -1,24 +1,25 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using Precor956i.DomainServices;
 using Precor956i.Models;
-using Precor956i.Shared;
 using Xamarin.Forms;
 
 namespace Precor956i.ViewModels
 {
     public interface IWorkoutViewModel
     {
-
+        Workout Workout { get; set; }
     }
 
     public class WorkoutViewModel : BindableObject, IWorkoutViewModel
     {
+        public bool Idle => !Active && !Paused;
+
         public bool Paused
         {
-            get => _paused; set
+            get => _paused; 
+            set
             {
                 if (_paused == value)
                     return;
@@ -28,16 +29,45 @@ namespace Precor956i.ViewModels
             }
         }
 
+        public bool Active 
+        { 
+            get => _workoutActive;
+            set
+            {
+                if (_workoutActive == value)
+                    return;
+
+                _workoutActive = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Workout Workout
+        {
+            get => _workout;
+            set
+            {
+                if (_workout == value)
+                    return;
+
+                _workout = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string DisplayName { get; set; } = "Workout";
         public ICommand HandleDoWorkout { private set; get; }
         public ICommand HandlePauseWorkout { private set; get; }
+        public ICommand HandleResumeWorkout { private set; get; }
+        public ICommand HandleEndWorkout { private set; get; }
         public ICommand HandleDeleteSegment { private set; get; }
         
-        public FullyObservableCollection<WorkoutSegment> Workout { get; set; } = new FullyObservableCollection<WorkoutSegment>();
+        private bool _paused;
+        private bool _workoutActive;
+        private Workout _workout;
 
         private readonly ILoggingService _logger;
         private readonly ITreadmillService _treadmill;
-        private bool _paused;
         private DateTime _segmentStart;
         private TimeSpan _pollInterval = new TimeSpan(0, 0, 1);
         private int _segmentIndex;
@@ -49,35 +79,11 @@ namespace Precor956i.ViewModels
             _logger = logger;
             _treadmill = treadmill;
 
-            ParseWorkout();
-
             HandleDoWorkout = new Command(DoWorkout);
             HandlePauseWorkout = new Command(PauseWorkout);
+            HandleResumeWorkout = new Command(ResumeWorkout);
+            HandleEndWorkout = new Command(EndWorkout);
             HandleDeleteSegment = new Command(DeleteSegment);
-        }
-
-        private void ParseWorkout()
-        {
-            //string _workout = "960@7.5;45@9.0;45@6.7;45@9.1;45@6.7;45@9.2;45@6.7;45@9.3;45@6.7;45@9.4;45@6.7;45@9.5;45@6.7;400@9.0;960@7.2";
-            string _workout = "2700@7.5;20@10.9;20@6.7;20@10.9;20@6.7;20@10.9;20@6.7;20@10.9;20@6.7";
-            //string _workout = "3@7.5;2@10.9;2@6.7";
-
-            var segments = _workout.Split(';');
-            var workout = segments.Select(segment =>
-            {
-                var split = segment.Split('@');
-                int seconds = Convert.ToInt32(split[0]);
-                double speed = Convert.ToDouble(split[1]);
-
-                return new WorkoutSegment
-                {
-                    Speed = speed,
-                    DurationSeconds = seconds
-                };
-            });
-
-            foreach (var segment in workout)
-                Workout.Add(segment);
         }
 
         private void DeleteSegment(object segment)
@@ -87,21 +93,41 @@ namespace Precor956i.ViewModels
 
         private async void PauseWorkout()
         {
-            _logger.LogEvent($"Un/Pausing workout");
-            
-            Paused = !Paused;
+            Paused = true;
 
-            if (Paused)
-                await _treadmill.Pause();
-            else
-                await _treadmill.Resume();
+            _logger.LogEvent($"Pausing workout");
+            await _treadmill.Pause();
+        }
+
+        private async void ResumeWorkout()
+        {
+            Paused = false;
+
+            _logger.LogEvent($"Resuming workout");
+            await _treadmill.Resume();
+        }
+
+        private async void EndWorkout()
+        {
+            _logger.LogEvent($"Ending workout");
+
+            await _treadmill.End();
+            Paused = false;
+            Active = false;
         }
 
         private async void DoWorkout()
         {
+            if (Workout == default)
+            {
+                _logger.LogEvent($"Cannot start workout; none selected");
+                return;
+            }
+
             Reset();
 
             _logger.LogEvent($"Beginning workout");
+            Active = true;
             await _treadmill.Start();
 
             DoSegment();
@@ -109,6 +135,17 @@ namespace Precor956i.ViewModels
 
         private async void DoSegment()
         {
+            if (!Active)
+                return;
+
+            if (_segmentIndex >= Workout.Count)
+            {
+                _logger.LogEvent($"Workout finished");
+                await _treadmill.End();
+                Active = false;
+                return;
+            }
+
             _logger.LogEvent($"Beginning segment {_segmentIndex + 1}");
 
             _segment.Active = true;
@@ -120,10 +157,14 @@ namespace Precor956i.ViewModels
 
         private bool SegmentTick(CancellationToken token)
         {
+            if (!Active)
+                return false;
+
             if (_segmentIndex >= Workout.Count)
             {
-                _logger.LogEvent($"Workout finished");
+                _logger.LogEvent($"Workout finished mid-segment");
                 _treadmill.End();
+                Active = false;
                 return false;
             }
 

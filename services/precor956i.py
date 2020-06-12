@@ -36,8 +36,8 @@ class Precor956i:
 
     def setup_pins(self):
         pins = {
-            "Start": 17,
-            "Reset": 18,
+            "Reset": 17,
+            "Start": 18,
             "Speed Up": 27,
             "Speed Down": 22,
             "Incline Up": 23,

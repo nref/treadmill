@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:b="clr-namespace:Xamarin.Behaviors;assembly=Xamarin.Behaviors"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
@@ -10,8 +9,11 @@
 
     <ContentView.Resources>
         <ResourceDictionary>
+            <shared:BoolInverter x:Key="boolInverter" />
             <shared:BoolToColorConverter x:Key="boolToColorConverter" />
             <shared:PausedToColorConverter x:Key="pausedToColorConverter" />
+            <shared:PausedToStringConverter x:Key="pausedToStringConverter" />
+            <shared:PausedToFontAttributesConverter x:Key="pausedToFontAttributesConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
     
@@ -21,16 +23,18 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+           
+            <ScrollView Grid.Row="0">
 
-            <ScrollView Grid.Row="0" Grid.ColumnSpan="2">
-
-                <ListView ItemsSource="{Binding Workout}">
+                <ListView x:Name="WorkoutSegments" 
+                          RowHeight="100" 
+                          ItemsSource="{Binding Workout, Mode=TwoWay}">
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -43,10 +47,9 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Grid.Column="1" Text="{Binding DurationSeconds}" FontSize="Large" HorizontalOptions="Start"/>
-                                    <Label Grid.Column="2" Text="{Binding ElapsedSeconds}" FontSize="Large"/>
-                                    <Label Grid.Column="3" Text="{Binding Speed}" FontSize="Large" HorizontalOptions="End"/>
-                                    <!--<Button Grid.Column="4" Text="Delete" CommandParameter="{Binding}"/>-->
+                                    <Label Grid.Column="1" Text="{Binding DurationSeconds}" FontSize="56" HorizontalOptions="Start"/>
+                                    <Label Grid.Column="2" Text="{Binding ElapsedSeconds}" FontSize="56"/>
+                                    <Label Grid.Column="3" Text="{Binding Speed}" FontSize="56" HorizontalOptions="End"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
@@ -55,15 +58,31 @@
                 </ListView>
             </ScrollView>
 
-            <Button Grid.Row="1" Grid.Column="0" Text="Do Workout"
+            <Button Grid.Row="2" Text="Do Workout"
+                        IsVisible="{Binding Idle}"
                         HeightRequest="200"
-                        BackgroundColor="LightGray"
+                        BackgroundColor="Green"
                         Command="{Binding HandleDoWorkout}" />
 
-            <Button Grid.Row="1" Grid.Column="1" Text="Pause"
+            <Button Grid.Row="2" Text="{Binding Paused, Converter={StaticResource pausedToStringConverter}}" 
+                        IsVisible="{Binding Active}"
                         HeightRequest="200"
+                        FontAttributes="{Binding Paused, Converter={StaticResource pausedToFontAttributesConverter}}"
                         BackgroundColor="{Binding Paused, Converter={StaticResource pausedToColorConverter}}"
                         Command="{Binding HandlePauseWorkout}" />
+
+            <Button Grid.Row="1" Text="Resume"
+                        IsVisible="{Binding Paused}"
+                        HeightRequest="200"
+                        BackgroundColor="Green"
+                        Command="{Binding HandleResumeWorkout}" />
+            
+            <Button Grid.Row="2" Text="End" 
+                        IsVisible="{Binding Paused}"
+                        HeightRequest="200"
+                        BackgroundColor="Red"
+                        Command="{Binding HandleEndWorkout}" />
+
         </Grid>
     </ContentView.Content>
 </ContentView>

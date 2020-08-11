@@ -150,6 +150,8 @@ namespace Precor956i.ViewModels
 
             _segment.Active = true;
             _segmentStart = DateTime.UtcNow;
+
+            await _treadmill.GoToIncline(_segment.Incline);
             await _treadmill.GoToSpeed(_segment.Speed);
 
             Device.StartTimer(_pollInterval, () => SegmentTick(_cts.Token));

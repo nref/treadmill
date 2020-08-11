@@ -79,6 +79,7 @@ namespace Precor956i.Models
         }
 
         public double Distance { get; set; }
+        public double Incline { get; set; }
 
         /// <summary>
         /// Min/mi
@@ -137,6 +138,12 @@ namespace Precor956i.Models
         public static WorkoutSegment WithDuration(this WorkoutSegment segment, double durationSeconds)
         {
             segment.Distance = durationSeconds / (segment.Pace.MinutesPerMile * 60); // s / (s/mi) == mi
+            return segment;
+        }
+
+        public static WorkoutSegment AtIncline(this WorkoutSegment segment, double incline)
+        {
+            segment.Incline = incline;
             return segment;
         }
     }

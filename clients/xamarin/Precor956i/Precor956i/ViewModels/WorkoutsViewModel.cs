@@ -42,8 +42,20 @@ namespace Precor956i.ViewModels
                 workout.Add(WorkoutSegment.SecondsAtPace(20, "00:5:30.000"));
                 workout.Add(WorkoutSegment.SecondsAtPace(20, "00:08:57.000"));
             }
-
             Workouts.Add(workout);
+
+            var workout2 = new Workout("5mi easy 4x50m light hill strides")
+            {
+                WorkoutSegment.MilesAtPace(5, "00:8:57.000").AtIncline(1.0)
+            };
+
+            foreach (var _ in Enumerable.Range(0, 4))
+            {
+                workout2.Add(WorkoutSegment.SecondsAtPace(10, "00:6:30.000").AtIncline(4.0));
+                workout2.Add(WorkoutSegment.SecondsAtPace(10, "00:08:57.000").AtIncline(4.0));
+            }
+
+            Workouts.Add(workout2);
 
             var recovery = "00:10:00.000";
             Workouts.Add(new Workout("8x400m")

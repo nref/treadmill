@@ -1,1 +1,1 @@
-A python web service and Android app for remote control of a Precor956i commercial treadmill using the GPIO pins of a Raspberry Pi.
+A web service and mobile app for remote control of a commercial treadmills using the GPIO pins of a Raspberry Pi. Currently, the Precor Experience 956i is supported.

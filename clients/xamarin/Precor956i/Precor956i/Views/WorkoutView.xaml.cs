@@ -13,7 +13,6 @@ namespace Precor956i.Views
         {
             _viewModel = viewModel;
             BindingContext = _viewModel;
-
             InitializeComponent();
         }
     }

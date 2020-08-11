@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using System.Linq;
+using System.Net;
 using System.Runtime.CompilerServices;
 using Xamarin.Essentials;
 
@@ -67,7 +69,7 @@ namespace Precor956i.DomainServices
         private void Seed()
         {
             RemoteUrl = "http://192.168.1.152:8000";
-            LocalIp = "192.168.1.151";
+            LocalIp = Dns.GetHostAddresses(Dns.GetHostName()).First().ToString();
             LocalHttpPort = 8080;
             LocalUdpPort = 7889;
             LocalUdpHealthPort = 7890;

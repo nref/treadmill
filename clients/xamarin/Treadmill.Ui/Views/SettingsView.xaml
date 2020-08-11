@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:shared="clr-namespace:Treadmill.Ui.Shared"
+             x:Class="Treadmill.Ui.Views.SettingsView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <shared:IntToStringConverter x:Key="intToStringConverter" />
+
+            <Style TargetType="Entry">
+                <Style.Triggers>
+                    <Trigger TargetType="Entry" Property="IsFocused" Value="True">
+                        <Setter Property="BackgroundColor" Value="Moccasin" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </ContentView.Resources>
+    
+    <ContentView.Content>
+      <ScrollView>
+            <StackLayout>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="Server URL" FontSize="Large" VerticalOptions="Center"/>
+                    <Entry Grid.Column="1" Text="{Binding RemoteUrl, Mode=TwoWay}" />
+                </Grid>
+
+                <Grid>
+                    <BoxView BackgroundColor="Gray" />
+                    <StackLayout BackgroundColor="White" Margin="5">
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="IP Address" FontSize="Large" VerticalOptions="Center"/>
+                            <Entry Grid.Column="1" Text="{Binding LocalIp, Mode=TwoWay}" />
+                        </Grid>
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="HTTP Port" FontSize="Large" VerticalOptions="Center"/>
+                            <Entry Grid.Column="1" Text="{Binding LocalHttpPort, Mode=TwoWay, Converter={StaticResource intToStringConverter}}" />
+                        </Grid>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0" Text="{Binding LocalUrl, Mode=OneWay}" VerticalOptions="Center" HorizontalTextAlignment="End"/>
+                        </Grid>
+                    </StackLayout>
+
+                </Grid>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="UDP Metrics Port" FontSize="Small" VerticalOptions="Center"/>
+                    <Entry Grid.Column="1" Text="{Binding LocalUdpPort, Mode=OneWay, Converter={StaticResource intToStringConverter}}" />
+                </Grid>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="UDP Health Port" FontSize="Small" VerticalOptions="Center"/>
+                    <Entry Grid.Column="1" Text="{Binding LocalUdpHealthPort, Mode=OneWay, Converter={StaticResource intToStringConverter}}" />
+                </Grid>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentView.Content>
+</ContentView>

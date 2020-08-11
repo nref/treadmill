@@ -9,6 +9,7 @@ from treadmillServer import TreadmillServer
 from fakeMetricsBoard import FakeMetricsBoard
 from metricsBoard import MetricsBoard
 from precor956i import Precor956i
+from gpiozero import LED
 
 def close(tm, metrics):
     tm.end_workout() 
@@ -16,12 +17,6 @@ def close(tm, metrics):
     metrics.close()
 
 def test_main(tm, metrics):
-    
-    def handle_sigint(sig, frame):
-        close(tm, metrics)
-        sys.exit(0)
-
-    signal.signal(signal.SIGINT, handle_sigint)
 
     # Error conditions
     tm.go_to_speed(0.55)
@@ -38,13 +33,86 @@ def test_main(tm, metrics):
        tm.go_to_incline(incline)
        sleep(10)
 
-def main(fake = False, test = False):
+def test_incline():
+    
+    incl_up = LED(23)
+    incl_down = LED(24)
 
+    while (True):
+        print("incl up")
+        incl_up.on()
+        sleep(0.2)
+        incl_up.off()
+        sleep(5)
+
+        print("incl down")
+        incl_down.on()
+        sleep(0.2)
+        incl_down.off()
+        sleep(5)
+
+def test_speed():
+    
+    start = LED(18)
+    stop = LED(17)
+    speed_up = LED(27)
+    speed_down = LED(22)
+
+    sleep(2)
+    print("start")
+    start.on()
+    sleep(1)
+    start.off()
+    sleep(5)
+
+    i = 0
+    while (i < 2):
+        i+=1
+
+        print("speed up")
+        speed_up.on()
+        sleep(2)
+        speed_up.off()
+        sleep(5)
+
+        print("speed down")
+        speed_down.on()
+        sleep(2)
+        speed_down.off()
+        sleep(5)
+
+    print("stop")
+    stop.on()
+    sleep(1)
+    stop.off()
+
+def test_stop():
+    stop = LED(17)
+
+    while (True):
+        print("stop")
+        stop.on()
+        sleep(0.2)
+        stop.off()
+        sleep(2)
+
+def main(fake = False, test = False):
+    # test_incline()
+    # test_speed()
+    # test_stop()
+    # return
+    
     if fake:
         Device.pin_factory = MockFactory()
 
     tm = Precor956i()
     metrics = FakeMetricsBoard(tm) if fake else MetricsBoard(tm)
+    
+    def handle_sigint(sig, frame):
+        close(tm, metrics)
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, handle_sigint)
 
     if test:
         test_main(tm, metrics)

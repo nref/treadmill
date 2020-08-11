@@ -8,13 +8,13 @@ stop:
 	sudo pkill -f main.py
 	sudo pkill i2c
 
-run-test:
+test:
 	$(MAKE) -C i2c
 	sudo ./i2c/bin/i2c > /dev/null &
 	python3 -u main.py real test
 
-run-fake:
+fake:
 	sudo python3 -u main.py fake
 
-run-fake-test:
+fake-test:
 	sudo python3 -u main.py fake test

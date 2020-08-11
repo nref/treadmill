@@ -1,0 +1,15 @@
+[Unit]
+Description=Treadmill Service
+Requires=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=5
+User=root
+WorkingDirectory=/home/pi/precor956i/services
+ExecStart=/usr/bin/make run
+
+[Install]
+WantedBy=multi-user.target

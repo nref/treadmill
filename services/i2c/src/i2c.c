@@ -31,7 +31,7 @@ void parse_i2c(int SCL, int SDA)
     static int oldSCL=1, oldSDA=1;
  
     int xSCL, xSDA;
- 
+
     if (SCL != oldSCL)
     {
         oldSCL = SCL;
@@ -90,6 +90,7 @@ void parse_i2c(int SCL, int SDA)
         case SCL_STEADY + SDA_RISING:
             if (SCL)
             {
+                printf("message end. len=%d, bit=%d\n",received_length,bit);
                 in_data = 0;
                 byte = 0;
                 bit = 0;
@@ -134,6 +135,7 @@ void handle_interrupt(int _)
 
 void handle_scl_changed(int gpio, int level, uint32_t tick)
 {
+    //printf("handle_scl_changed: %d\n", level);
     if (gpio != scl_pin)
         return;
 
@@ -143,6 +145,7 @@ void handle_scl_changed(int gpio, int level, uint32_t tick)
 
 void handle_sda_changed(int gpio, int level, uint32_t tick)
 {
+    //printf("handle_sda_changed: %d\n", level);
     if (gpio != sda_pin)
         return;
 
@@ -150,7 +153,7 @@ void handle_sda_changed(int gpio, int level, uint32_t tick)
     parse_i2c(scl, sda);
 }
 
-void sleep_ns(long seconds, long nanoseconds)
+void sleep_for(long seconds, long nanoseconds)
 {
     struct timespec ts;
     ts.tv_sec = seconds;
@@ -184,6 +187,9 @@ int setupGpio()
 
 int main(int argc, char* argv[])
 {
+    printf("scl: %d\n", scl_pin);
+    printf("sda: %d\n", sda_pin);
+
     // Don't buffer stdout
     setbuf(stdout, NULL);
 
@@ -192,7 +198,7 @@ int main(int argc, char* argv[])
 
     while (keep_running)
     {
-        sleep_ns(1, 0);
+        sleep_for(1, 0);
     }
 
     gpioTerminate();

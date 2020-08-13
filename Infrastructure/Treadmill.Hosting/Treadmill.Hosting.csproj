@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Treadmil.Infrastructure\Treadmil.Infrastructure.csproj" />
+    <ProjectReference Include="..\Treadmill.Infrastructure\Treadmill.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

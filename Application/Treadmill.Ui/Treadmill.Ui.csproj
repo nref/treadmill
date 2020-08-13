@@ -59,4 +59,9 @@
   <ItemGroup>
     <Folder Include="Infrastructure\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Api\Treadmill.Api\Treadmill.Api.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Treadmil.Infrastructure\Treadmil.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>

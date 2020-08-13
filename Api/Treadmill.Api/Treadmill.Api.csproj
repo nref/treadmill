@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Treadmill.Domain\Treadmill.Domain.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Treadmil.Infrastructure\Treadmil.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Treadmill.Hosting\Treadmill.Hosting.csproj" />
+    <ProjectReference Include="..\Treadmill.Dto\Treadmill.Dto.csproj" />
+  </ItemGroup>
+
+</Project>

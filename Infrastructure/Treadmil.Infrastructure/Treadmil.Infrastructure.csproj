@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Lamar" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Treadmill.Domain\Treadmill.Domain.csproj" />
+    <ProjectReference Include="..\Treadmill.Adapters.Gpio\Treadmill.Adapters.Gpio.csproj" />
+  </ItemGroup>
+
+</Project>

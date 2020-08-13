@@ -5,6 +5,9 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Treadmill.Api;
+using Treadmill.Hosting;
+using Treadmill.Infrastructure;
 using Treadmill.Ui.Clients;
 using Treadmill.Ui.Dto;
 using Treadmill.Ui.Shared;
@@ -103,6 +106,18 @@ namespace Treadmill.Ui.DomainServices
             Task.Run(() => ServeUdp(new IPEndPoint(IPAddress.Parse(_config.LocalIp), _config.LocalUdpHealthPort), HandleHealthCallback));
             Task.Run(() => ManageRegistration());
             Task.Run(() => Poll());
+
+            Task.Run(() =>
+            {
+                var dc = new DomainConfiguration
+                {
+                    GpioClientRemoteUrl = "http://192.168.1.164:8001",
+                    ListenUri = "http://localhost:8002/"
+                };
+
+                new SelfHost(new ApiCompositionRoot(dc))
+                    .Run(dc.ListenUri);
+            });
         }
 
         public async Task<bool> AddHttpMetricsCallback(string uri)

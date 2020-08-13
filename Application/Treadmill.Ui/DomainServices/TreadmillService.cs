@@ -112,11 +112,18 @@ namespace Treadmill.Ui.DomainServices
                 var dc = new DomainConfiguration
                 {
                     GpioClientRemoteUrl = "http://192.168.1.164:8001",
-                    ListenUri = "http://localhost:8002/"
+                    ListenUri = $"http://{config.LocalIp}:8002/"
                 };
 
-                new SelfHost(new ApiCompositionRoot(dc))
-                    .Run(dc.ListenUri);
+                try
+                {
+                    new SelfHost(new ApiCompositionRoot(dc))
+                        .Run(dc.ListenUri);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogEvent(e.Message);
+                }
             });
         }
 

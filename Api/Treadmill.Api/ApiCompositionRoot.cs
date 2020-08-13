@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Treadmill.Api.Controllers;
+﻿using Treadmill.Api.Controllers;
 using Treadmill.Infrastructure;
 
 namespace Treadmill.Api
@@ -8,10 +7,7 @@ namespace Treadmill.Api
     {
         public ApiCompositionRoot(DomainConfiguration config) : base(config)
         {
-            Container.Configure(_ =>
-            {
-                _.AddTransient<IController, TreadmillController>();
-            });
+            Container.Bind<IController>().To<TreadmillController>();
         }
     }
 }

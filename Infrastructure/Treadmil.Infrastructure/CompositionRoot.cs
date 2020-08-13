@@ -1,7 +1,8 @@
-﻿using Lamar;
+﻿using Ninject;
 using System.Collections.Generic;
 using System.Linq;
 using Treadmill.Adapters.Gpio;
+using Treadmill.Domain;
 using Treadmill.Domain.Adapters;
 
 namespace Treadmill.Infrastructure
@@ -13,27 +14,26 @@ namespace Treadmill.Infrastructure
 
     public class CompositionRoot : ICompositionRoot
     {
-        protected Container Container { get; private set; }
+        protected IKernel Container { get; private set; }
 
         private readonly DomainConfiguration _config;
 
         public CompositionRoot(DomainConfiguration config)
         {
-            Container = new Container(registry =>
-            {
-                registry.Scan(scanner =>
-                {
-                    scanner.AssembliesFromApplicationBaseDirectory();
-                    scanner.WithDefaultConventions();
-                });
-
-                registry.For<ITreadmillAdapter>().Use<TreadmillAdapter>();
-                registry.For<ITreadmillClient>().Use<GpioClient>()
-                    .Ctor<string>("remoteUrl").Is(config.GpioClientRemoteUrl);
-            });
             _config = config;
+            Container = new StandardKernel(new NinjectSettings { LoadExtensions = false });
+
+            //Container.Bind(x => x
+            //    .FromAssembliesMatching("Treadmill.*")
+            //    .SelectAllClasses()
+            //    .BindDefaultInterface()
+            //);
+
+            Container.Bind<ITreadmillService>().To<TreadmillService>();
+            Container.Bind<ITreadmillAdapter>().To<TreadmillAdapter>();
+            Container.Bind<ITreadmillClient>().To<GpioClient>().WithConstructorArgument("remoteUrl", config.GpioClientRemoteUrl);
         }
 
-        public List<T> GetAll<T>() => Container.GetAllInstances<T>().ToList();
+        public List<T> GetAll<T>() => Container.GetAll<T>().ToList();
     }
 }

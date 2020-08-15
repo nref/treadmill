@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              mc:Ignorable="d"
              xmlns:shared="clr-namespace:Treadmill.Ui.Shared"
              x:Class="Treadmill.Ui.Views.WorkoutView">
@@ -33,9 +34,28 @@
             <ScrollView Grid.Row="0">
 
                 <ListView x:Name="WorkoutSegments" 
+                          Header="{Binding}"
                           RowHeight="100" 
+                          cal:Message.Attach="[Event ItemSelected] = [Action HandleItemSelected($source, $this.SelectedItem)]"
                           ItemsSource="{Binding Workout, Mode=TwoWay}">
+                    
+                    <ListView.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid BackgroundColor="NavajoWhite">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
+                                <Label Grid.Column="0" Text="Distance (mi)" FontSize="48" HorizontalOptions="End"/>
+                                <Label Grid.Column="1" Text="% Complete" FontSize="48" HorizontalOptions="Center"/>
+                                <Label Grid.Column="2" Text="Incline" FontSize="48" HorizontalOptions="End"/>
+                                <Label Grid.Column="3" Text="Speed" FontSize="48" HorizontalOptions="End"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.HeaderTemplate>
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
@@ -47,9 +67,10 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Grid.Column="1" Text="{Binding DurationSeconds}" FontSize="56" HorizontalOptions="Start"/>
-                                    <Label Grid.Column="2" Text="{Binding ElapsedSeconds}" FontSize="56"/>
-                                    <Label Grid.Column="3" Text="{Binding Speed}" FontSize="56" HorizontalOptions="End"/>
+                                    <Label Grid.Column="0" Text="{Binding DistanceMiles, StringFormat='{0:N2}'}" FontSize="48" HorizontalOptions="End"/>
+                                    <Label Grid.Column="1" Text="{Binding PercentComplete, StringFormat='{0:P1}'}" FontSize="48" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="2" Text="{Binding Incline}" FontSize="48" HorizontalOptions="End"/>
+                                    <Label Grid.Column="3" Text="{Binding Speed}" FontSize="48" HorizontalOptions="End"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>

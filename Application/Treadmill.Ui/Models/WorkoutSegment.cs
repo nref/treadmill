@@ -76,10 +76,13 @@ namespace Treadmill.Ui.Models
                 _elapsedSeconds = value;
 
                 NotifyPropertyChanged();
+                NotifyPropertyChanged(nameof(PercentComplete));
             }
         }
 
-        public double Distance { get; set; }
+        public double PercentComplete => ElapsedSeconds / (double)DurationSeconds;
+
+        public double DistanceMiles { get; set; }
         public double Incline { get; set; }
 
         /// <summary>
@@ -87,22 +90,22 @@ namespace Treadmill.Ui.Models
         /// </summary>
         public Pace Pace { get => Pace.FromSpeed(Speed); set => Speed = value.ToSpeed(); }
 
-        public int DurationSeconds { get => (int)(60 * 60 * Distance / Speed); }
+        public int DurationSeconds { get => (int)(60 * 60 * DistanceMiles / Speed); }
         public double Speed { get => _speed; set => _speed = Math.Round(value, 1); }
 
         public static WorkoutSegment MetersAtPace(double distance, string paceMinPerMi)
         {
-            return new WorkoutSegment { Distance = distance * 0.000621371 }.AtPace(paceMinPerMi);
+            return new WorkoutSegment { DistanceMiles = distance * 0.000621371 }.AtPace(paceMinPerMi);
         }
 
         public static WorkoutSegment KilometersAtPace(double distance, string paceMinPerMi)
         {
-            return new WorkoutSegment { Distance = distance * 0.62171 }.AtPace(paceMinPerMi);
+            return new WorkoutSegment { DistanceMiles = distance * 0.62171 }.AtPace(paceMinPerMi);
         }
 
         public static WorkoutSegment MilesAtPace(double distance, string paceMinPerMi)
         {
-            return new WorkoutSegment { Distance = distance }.AtPace(paceMinPerMi);
+            return new WorkoutSegment { DistanceMiles = distance }.AtPace(paceMinPerMi);
         }
 
         public static WorkoutSegment MinutesAtPace(double minutes, string paceMinPerMi)
@@ -138,7 +141,7 @@ namespace Treadmill.Ui.Models
 
         public static WorkoutSegment WithDuration(this WorkoutSegment segment, double durationSeconds)
         {
-            segment.Distance = durationSeconds / (segment.Pace.MinutesPerMile * 60); // s / (s/mi) == mi
+            segment.DistanceMiles = durationSeconds / (segment.Pace.MinutesPerMile * 60); // s / (s/mi) == mi
             return segment;
         }
 

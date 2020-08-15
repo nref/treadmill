@@ -21,7 +21,7 @@ namespace Treadmill.Infrastructure
         {
             Container = new StandardKernel(new NinjectSettings { LoadExtensions = false });
 
-            Container.Bind<ILoggingService>().To<LoggingService>();
+            Container.Bind<ILogService>().To<LogService>();
 
             Container.Bind<ITreadmillService>().To<TreadmillService>()
                 .WithConstructorArgument("metrics", new UdpService(config.MetricsIp, config.MetricsPort));

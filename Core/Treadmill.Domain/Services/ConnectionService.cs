@@ -11,16 +11,16 @@
     public class ConnectionService : IConnectionService
     {
         public event ConnectionChangedEvent ConnectionChanged;
-        private readonly ILoggingService _logger;
+        private readonly ILogService _logger;
 
-        public ConnectionService(ILoggingService logger)
+        public ConnectionService(ILogService logger)
         {
             _logger = logger;
         }
 
         public void NotifyConnectionChanged(string message)
         {
-            _logger.LogEvent($"NotifyConnectionChanged({message})");
+            _logger.Add($"NotifyConnectionChanged({message})");
             ConnectionChanged?.Invoke(message);
         }
     }

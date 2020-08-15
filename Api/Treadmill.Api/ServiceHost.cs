@@ -15,9 +15,9 @@ namespace Treadmill.Api
     public class ServiceHost
     {
         private readonly IPreferencesAdapter _config;
-        private readonly ILoggingService _logger;
+        private readonly ILogService _logger;
 
-        public ServiceHost(IPreferencesAdapter config, ILoggingService logger)
+        public ServiceHost(IPreferencesAdapter config, ILogService logger)
         {
             _config = config;
             _logger = logger;
@@ -37,12 +37,12 @@ namespace Treadmill.Api
 
                 try
                 {
-                    new SelfHost(new ApiCompositionRoot(dc))
+                    new SelfHost(new ApiCompositionRoot(dc), _logger)
                         .Run(dc.ListenUri);
                 }
                 catch (Exception e)
                 {
-                    _logger.LogEvent(e.Message);
+                    _logger.Add(e.Message);
                 }
             });
         }

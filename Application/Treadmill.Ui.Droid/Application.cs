@@ -52,8 +52,8 @@ namespace Treadmill.Ui.Droid
             _container.Rebind<IPreferencesAdapter>()
                 .ToConstant(config);
 
-            _container.Rebind<ILoggingService>()
-                .To<LoggingService>()
+            _container.Rebind<ILogService>()
+                .To<LogService>()
                 .InSingletonScope();
 
             _container.Rebind<IConnectionService>()

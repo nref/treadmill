@@ -1,5 +1,5 @@
-﻿using Treadmill.Domain;
-using Treadmill.Domain.Adapters;
+﻿using Treadmill.Domain.Adapters;
+using Treadmill.Domain.Services;
 using Xamarin.Forms;
 
 namespace Treadmill.Ui.ViewModels
@@ -21,10 +21,10 @@ namespace Treadmill.Ui.ViewModels
 
         public string DisplayName { get; set; } = "Settings";
 
-        private readonly ILoggingService _logger;
+        private readonly ILogService _logger;
         private readonly IPreferencesAdapter _config;
 
-        public SettingsViewModel(ILoggingService logger, IPreferencesAdapter config)
+        public SettingsViewModel(ILogService logger, IPreferencesAdapter config)
         {
             _logger = logger;
             _config = config;
@@ -33,7 +33,7 @@ namespace Treadmill.Ui.ViewModels
 
         private void HandlePreferenceChanged(string name, object value)
         {
-            _logger.LogEvent($"Preference {name} changed to {value}");
+            _logger.Add($"Preference {name} changed to {value}");
             OnPropertyChanged(name);
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Treadmill.Api;
+using Treadmill.Domain.Services;
 using Treadmill.Hosting;
 using Treadmill.Infrastructure;
 
@@ -16,7 +17,7 @@ namespace Treadmill.App
                 ListenUri = "http://localhost:8002/"
             };
 
-            new SelfHost(new ApiCompositionRoot(config))
+            new SelfHost(new ApiCompositionRoot(config), new LogService())
                 .Run(config.ListenUri);
         }
     }

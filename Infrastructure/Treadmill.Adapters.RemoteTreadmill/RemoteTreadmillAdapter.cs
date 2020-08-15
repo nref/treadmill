@@ -15,7 +15,7 @@ namespace Treadmill.Adapters.RemoteTreadmill
         public event MetricChangedEvent SpeedChanged;
         public event MetricChangedEvent InclineChanged;
 
-        private readonly ILoggingService _logger;
+        private readonly ILogService _logger;
         private readonly IConnectionService _connections;
         private readonly IPreferencesAdapter _config;
         private readonly IRemoteTreadmillClient _client;
@@ -55,7 +55,7 @@ namespace Treadmill.Adapters.RemoteTreadmill
 
         public RemoteTreadmillAdapter
         (
-            ILoggingService logger, 
+            ILogService logger, 
             IConnectionService connections, 
             IPreferencesAdapter config, 
             IRemoteTreadmillClient client,
@@ -131,7 +131,7 @@ namespace Treadmill.Adapters.RemoteTreadmill
             }
             catch (Exception e)
             {
-                _logger.LogEvent($"{json}: {e.Message}");
+                _logger.Add($"{json}: {e.Message}");
             }
         }
 
@@ -225,7 +225,7 @@ namespace Treadmill.Adapters.RemoteTreadmill
         private void Disconnect(Exception e)
         {
             HandleDisconnected();
-            _logger.LogEvent(e.Message);
+            _logger.Add(e.Message);
         }
     }
 }

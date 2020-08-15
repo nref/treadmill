@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
+using Treadmill.Domain;
+using Treadmill.Domain.Services;
 using Treadmill.Hosting.Exceptions;
 using Treadmill.Hosting.Extensions;
 using Treadmill.Infrastructure;
@@ -13,12 +15,13 @@ namespace Treadmill.Hosting
     public class SelfHost
     {
         private readonly HttpListener _listener = new HttpListener();
-
+        private readonly ILogService _log;
         private Dictionary<string, IController> _controllers = new Dictionary<string, IController>();
 
-        public SelfHost(ICompositionRoot root)
+        public SelfHost(ICompositionRoot root, ILogService log)
         {
             RegisterControllers(root.GetAll<IController>());
+            _log = log;
         }
 
         public void RegisterControllers(IEnumerable<IController> controllers) 
@@ -26,10 +29,10 @@ namespace Treadmill.Hosting
 
         public void Run(string uri)
         {
-            Console.WriteLine("Starting...");
+            _log.Add("Starting...");
             _listener.Prefixes.Add(uri);
             _listener.Start();
-            Console.WriteLine("Started");
+            _log.Add("Started");
 
             while (true)
             {
@@ -44,11 +47,11 @@ namespace Treadmill.Hosting
 
         private async Task RunOnceSafe(HttpListenerContext context)
         {
-            await FuncExtensions.SafeCall
+            await Async.SafeExec
             (
                 async () =>
                 {
-                    Console.WriteLine($"{context.Request.HttpMethod} {context.Request.Url}");
+                    _log.Add($"{context.Request.HttpMethod} {context.Request.Url}");
 
                     HttpReponse response;
 
@@ -61,10 +64,10 @@ namespace Treadmill.Hosting
                         response = e.Reponse;
                     }
 
-                    Console.WriteLine($"Response: {response.Data}");
+                    _log.Add($"Response: {response.Data}");
                     await context.Response.Write(response.Code, response.Data);
                 },
-                async () => await context.Response.Write(HttpStatusCode.BadRequest, "BadRequest")
+                async (e) => await context.Response.Write(HttpStatusCode.BadRequest, "BadRequest")
             ).ConfigureAwait(false);
         }
 

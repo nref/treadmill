@@ -67,7 +67,7 @@ namespace Treadmill.Ui.ViewModels
         private bool _workoutActive;
         private Workout _workout;
 
-        private readonly ILoggingService _logger;
+        private readonly ILogService _logger;
         private readonly IRemoteTreadmillAdapter _treadmill;
         private DateTime _segmentStart;
         private TimeSpan _pollInterval = new TimeSpan(0, 0, 1);
@@ -75,7 +75,7 @@ namespace Treadmill.Ui.ViewModels
         private WorkoutSegment Segment { get => _segmentIndex < Workout.Count ? Workout[_segmentIndex] : null; }
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public WorkoutViewModel(ILoggingService logger, IRemoteTreadmillAdapter treadmill)
+        public WorkoutViewModel(ILogService logger, IRemoteTreadmillAdapter treadmill)
         {
             _logger = logger;
             _treadmill = treadmill;
@@ -87,6 +87,11 @@ namespace Treadmill.Ui.ViewModels
             HandleDeleteSegment = new Command(DeleteSegment);
         }
 
+        public void HandleItemSelected(ListView source, WorkoutSegment selection)
+        {
+            source.ScrollTo(selection, ScrollToPosition.Start, true);
+        }
+
         private void DeleteSegment(object segment)
         {
             Workout.Remove(segment as WorkoutSegment);
@@ -96,7 +101,7 @@ namespace Treadmill.Ui.ViewModels
         {
             Paused = true;
 
-            _logger.LogEvent($"Pausing workout");
+            _logger.Add($"Pausing workout");
             await _treadmill.Pause();
         }
 
@@ -104,13 +109,13 @@ namespace Treadmill.Ui.ViewModels
         {
             Paused = false;
 
-            _logger.LogEvent($"Resuming workout");
+            _logger.Add($"Resuming workout");
             await _treadmill.Resume();
         }
 
         private async void EndWorkout()
         {
-            _logger.LogEvent($"Ending workout");
+            _logger.Add($"Ending workout");
 
             await _treadmill.End();
             Paused = false;
@@ -121,13 +126,13 @@ namespace Treadmill.Ui.ViewModels
         {
             if (Workout == default)
             {
-                _logger.LogEvent($"Cannot start workout; none selected");
+                _logger.Add($"Cannot start workout; none selected");
                 return;
             }
 
             Reset();
 
-            _logger.LogEvent($"Beginning workout");
+            _logger.Add($"Beginning workout");
             Active = true;
             await _treadmill.Start();
 
@@ -141,13 +146,13 @@ namespace Treadmill.Ui.ViewModels
 
             if (_segmentIndex >= Workout.Count)
             {
-                _logger.LogEvent($"Workout finished");
+                _logger.Add($"Workout finished");
                 await _treadmill.End();
                 Active = false;
                 return;
             }
 
-            _logger.LogEvent($"Beginning segment {_segmentIndex + 1}");
+            _logger.Add($"Beginning segment {_segmentIndex + 1}");
 
             Segment.Active = true;
             _segmentStart = DateTime.UtcNow;
@@ -165,7 +170,7 @@ namespace Treadmill.Ui.ViewModels
 
             if (_segmentIndex >= Workout.Count)
             {
-                _logger.LogEvent($"Workout finished mid-segment");
+                _logger.Add($"Workout finished mid-segment");
                 _treadmill.End();
                 Active = false;
                 return false;
@@ -173,7 +178,7 @@ namespace Treadmill.Ui.ViewModels
 
             if (token.IsCancellationRequested)
             {
-                _logger.LogEvent($"Segment cancelled");
+                _logger.Add($"Segment cancelled");
                 return false;
             }
 
@@ -188,7 +193,7 @@ namespace Treadmill.Ui.ViewModels
 
             if (segmentDone)
             {
-                _logger.LogEvent($"Finished segment {_segmentIndex + 1}");
+                _logger.Add($"Finished segment {_segmentIndex + 1}");
 
                 Segment.Active = false;
                 _segmentIndex++;

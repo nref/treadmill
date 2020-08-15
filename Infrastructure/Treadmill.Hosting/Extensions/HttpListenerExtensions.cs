@@ -151,7 +151,6 @@ namespace Treadmill.Hosting.Extensions
                 }
 
                 data[parameters.First()] = body;
-                Console.WriteLine($"Body: {body}");
             }
 
             return data;

@@ -1,5 +1,4 @@
 ﻿using Treadmill.Ui.Models;
-using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
 using Treadmill.Domain.Services;
@@ -28,9 +27,9 @@ namespace Treadmill.Ui.ViewModels
         }
         public string DisplayName { get; set; } = "Log";
         
-        private readonly ILoggingService _logger;
+        private readonly ILogService _logger;
 
-        public LogViewModel(ILoggingService logger)
+        public LogViewModel(ILogService logger)
         {
             _logger = logger;
             _logger.EventLogged += HandleEventLogged;
@@ -41,7 +40,7 @@ namespace Treadmill.Ui.ViewModels
 
         private void HandleEventLogged(string message)
         {
-            Log.Insert(0, new LogEntry { Message = $"{DateTime.Now}: {message}\n" });
+            Log.Insert(0, new LogEntry { Message = message });
         }
     }
 }

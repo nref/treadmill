@@ -3,12 +3,14 @@ using Android.Runtime;
 using Caliburn.Micro;
 using Ninject;
 using Ninject.Extensions.Conventions;
-using Treadmill.Ui.Clients;
 using Treadmill.Ui.DomainServices;
 using Treadmill.Ui.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Treadmill.Domain.Adapters;
+using Treadmill.Adapters.RemoteTreadmill;
+using Treadmill.Domain.Services;
 
 namespace Treadmill.Ui.Droid
 {
@@ -34,7 +36,7 @@ namespace Treadmill.Ui.Droid
         {
             var settings = new NinjectSettings() { LoadExtensions = false };
             _container = new StandardKernel(settings);
-            var config = new PreferencesService();
+            var config = new XamarinPreferencesAdapter();
 
             _container.Bind(x =>
             {
@@ -47,6 +49,9 @@ namespace Treadmill.Ui.Droid
                 .To<WorkoutViewModel>()
                 .InSingletonScope();
 
+            _container.Rebind<IPreferencesAdapter>()
+                .ToConstant(config);
+
             _container.Rebind<ILoggingService>()
                 .To<LoggingService>()
                 .InSingletonScope();
@@ -55,15 +60,17 @@ namespace Treadmill.Ui.Droid
                 .To<ConnectionService>()
                 .InSingletonScope();
 
-            _container.Rebind<ITreadmillService>()
-                .To<TreadmillService>()
-                .InSingletonScope();
+            _container.Rebind<IHttpService>().To<HttpService>()
+                .WithConstructorArgument("url", config.LocalUrl);
 
-            _container.Rebind<IPreferencesService>()
-                .ToConstant(config);
+            _container.Rebind<IRemoteTreadmillAdapter>()
+                .To<RemoteTreadmillAdapter>()
+                .InSingletonScope()
+                .WithConstructorArgument("udpMetrics", new UdpService(config.LocalIp, config.LocalUdpPort))
+                .WithConstructorArgument("health", new UdpService(config.LocalIp, config.LocalUdpHealthPort));
 
-            _container.Rebind<ITreadmillClient>()
-                .To<TreadmillClient>()
+            _container.Rebind<IRemoteTreadmillClient>()
+                .To<RemoteTreadmillClient>()
                 .WithConstructorArgument("remoteUrl", config.RemoteUrl);
         }
 

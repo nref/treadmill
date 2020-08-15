@@ -10,6 +10,8 @@ namespace Treadmill.App
         {
             var config = new DomainConfiguration 
             { 
+                MetricsIp = "192.168.1.164",
+                MetricsPort = 7887,
                 GpioClientRemoteUrl = "http://zerow2:8001" ,
                 ListenUri = "http://localhost:8002/"
             };

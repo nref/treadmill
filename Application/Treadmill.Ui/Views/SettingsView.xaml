@@ -83,6 +83,14 @@
                     <Entry Grid.Column="1" Text="{Binding LocalUdpHealthPort, Mode=OneWay, Converter={StaticResource intToStringConverter}}" />
                 </Grid>
 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Text="UDP Metrics Port" FontSize="Small" VerticalOptions="Center"/>
+                    <Entry Grid.Column="1" Text="{Binding LocalUdpMetricsPort, Mode=OneWay, Converter={StaticResource intToStringConverter}}" />
+                </Grid>
             </StackLayout>
         </ScrollView>
     </ContentView.Content>

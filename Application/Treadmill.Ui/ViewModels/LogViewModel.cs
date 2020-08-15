@@ -1,9 +1,8 @@
-﻿using Treadmill.Ui.DomainServices;
-using Treadmill.Ui.Models;
+﻿using Treadmill.Ui.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
+using Treadmill.Domain.Services;
 
 namespace Treadmill.Ui.ViewModels
 {

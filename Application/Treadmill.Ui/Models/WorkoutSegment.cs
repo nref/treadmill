@@ -3,6 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Treadmill.Models;
 
 namespace Treadmill.Ui.Models
 {
@@ -70,7 +71,7 @@ namespace Treadmill.Ui.Models
             get => _elapsedSeconds; 
             set
             {
-                if (Math.Abs(_elapsedSeconds - value) < Utility.ZERO)
+                if (Math.Abs(_elapsedSeconds - value) < MathExtensions.ZERO)
                     return;
                 _elapsedSeconds = value;
 

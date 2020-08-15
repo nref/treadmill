@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Treadmill.Domain.Adapters;
 
-namespace Treadmill.Domain
+namespace Treadmill.Domain.Services
 {
     public interface ITreadmillService
     {
@@ -11,10 +11,18 @@ namespace Treadmill.Domain
     public class TreadmillService : ITreadmillService
     {
         private readonly ITreadmillAdapter _adapter;
+        private readonly IUdpService _metrics;
 
-        public TreadmillService(ITreadmillAdapter adapter)
+        public TreadmillService(ITreadmillAdapter adapter, IUdpService metrics)
         {
             _adapter = adapter;
+            _metrics = metrics;
+            Task.Run(() => metrics.Serve(HandleMetricsChanged));
+        }
+
+        private void HandleMetricsChanged(string message)
+        {
+            System.Console.WriteLine($"HandleMetricsChanged({message.Replace("\n", "")})");
         }
 
         public async Task SetSpeed(double speed)

@@ -107,6 +107,14 @@
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\Treadmill.Domain\Treadmill.Domain.csproj">
+      <Project>{72662B8D-005D-4AE6-81E2-CB2E77B413C2}</Project>
+      <Name>Treadmill.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Treadmill.Adapters.RemoteTreadmill\Treadmill.Adapters.RemoteTreadmill.csproj">
+      <Project>{74CE8F62-22F3-45B7-9521-E4043CC23E67}</Project>
+      <Name>Treadmill.Adapters.RemoteTreadmill</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Treadmill.Ui\Treadmill.Ui.csproj">
       <Project>{3F12EF7D-9001-4FF3-85A7-86D2B56B065A}</Project>
       <Name>Treadmill.Ui</Name>

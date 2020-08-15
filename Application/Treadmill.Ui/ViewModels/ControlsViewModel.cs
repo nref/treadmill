@@ -1,8 +1,9 @@
-﻿using Treadmill.Ui.DomainServices;
-using Treadmill.Ui.Shared;
-using System;
+﻿using System;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Treadmill.Models;
+using Treadmill.Domain.Adapters;
+using Treadmill.Domain.Services;
 
 namespace Treadmill.Ui.ViewModels
 {
@@ -13,7 +14,7 @@ namespace Treadmill.Ui.ViewModels
 
     public class ControlsViewModel : BindableObject, IControlsViewModel
     {
-        private readonly ITreadmillService _service;
+        private readonly IRemoteTreadmillAdapter _service;
         private readonly IConnectionService _connections;
 
         private string _connectionStatus = "---";
@@ -63,7 +64,7 @@ namespace Treadmill.Ui.ViewModels
             get => _speed;
             set
             {
-                if (Math.Abs(value - _speed) < Utility.ZERO)
+                if (Math.Abs(value - _speed) < MathExtensions.ZERO)
                     return;
                 _speed = value;
                 OnPropertyChanged();
@@ -75,7 +76,7 @@ namespace Treadmill.Ui.ViewModels
             get => _incline;
             set
             {
-                if (Math.Abs(value - _incline) < Utility.ZERO)
+                if (Math.Abs(value - _incline) < MathExtensions.ZERO)
                     return;
                 _incline = value;
                 OnPropertyChanged();
@@ -95,7 +96,7 @@ namespace Treadmill.Ui.ViewModels
 
         public string DisplayName { get; set; } = "Controls";
 
-        public ControlsViewModel(IConnectionService connections, ITreadmillService service)
+        public ControlsViewModel(IConnectionService connections, IRemoteTreadmillAdapter service)
         {
             _connections = connections;
             _service = service;

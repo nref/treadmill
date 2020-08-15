@@ -1,4 +1,4 @@
-﻿namespace Treadmill.Ui.DomainServices
+﻿namespace Treadmill.Domain.Services
 {
     public delegate void MessageLoggedEvent(string message);
 

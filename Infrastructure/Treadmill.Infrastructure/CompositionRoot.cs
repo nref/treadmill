@@ -4,6 +4,7 @@ using System.Linq;
 using Treadmill.Adapters.Gpio;
 using Treadmill.Domain;
 using Treadmill.Domain.Adapters;
+using Treadmill.Domain.Services;
 
 namespace Treadmill.Infrastructure
 {
@@ -16,20 +17,15 @@ namespace Treadmill.Infrastructure
     {
         protected IKernel Container { get; private set; }
 
-        private readonly DomainConfiguration _config;
-
         public CompositionRoot(DomainConfiguration config)
         {
-            _config = config;
             Container = new StandardKernel(new NinjectSettings { LoadExtensions = false });
 
-            //Container.Bind(x => x
-            //    .FromAssembliesMatching("Treadmill.*")
-            //    .SelectAllClasses()
-            //    .BindDefaultInterface()
-            //);
+            Container.Bind<ILoggingService>().To<LoggingService>();
 
-            Container.Bind<ITreadmillService>().To<TreadmillService>();
+            Container.Bind<ITreadmillService>().To<TreadmillService>()
+                .WithConstructorArgument("metrics", new UdpService(config.MetricsIp, config.MetricsPort));
+
             Container.Bind<ITreadmillAdapter>().To<TreadmillAdapter>();
             Container.Bind<ITreadmillClient>().To<GpioClient>().WithConstructorArgument("remoteUrl", config.GpioClientRemoteUrl);
         }

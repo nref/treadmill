@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Treadmill.Domain;
+using Treadmill.Domain.Services;
 using Treadmill.Dto;
 using Treadmill.Hosting.Attributes;
 using Treadmill.Infrastructure;

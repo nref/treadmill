@@ -1,4 +1,4 @@
-﻿namespace Treadmill.Ui.DomainServices
+﻿namespace Treadmill.Domain.Services
 {
     public delegate void ConnectionChangedEvent(string status);
 
@@ -12,7 +12,6 @@
     {
         public event ConnectionChangedEvent ConnectionChanged;
         private readonly ILoggingService _logger;
-
 
         public ConnectionService(ILoggingService logger)
         {

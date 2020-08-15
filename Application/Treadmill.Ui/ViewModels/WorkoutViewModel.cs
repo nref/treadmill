@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Input;
-using Treadmill.Ui.DomainServices;
+using Treadmill.Domain.Adapters;
+using Treadmill.Domain.Services;
 using Treadmill.Ui.Models;
 using Xamarin.Forms;
 
@@ -67,14 +68,14 @@ namespace Treadmill.Ui.ViewModels
         private Workout _workout;
 
         private readonly ILoggingService _logger;
-        private readonly ITreadmillService _treadmill;
+        private readonly IRemoteTreadmillAdapter _treadmill;
         private DateTime _segmentStart;
         private TimeSpan _pollInterval = new TimeSpan(0, 0, 1);
         private int _segmentIndex;
-        private WorkoutSegment _segment { get => _segmentIndex < Workout.Count ? Workout[_segmentIndex] : null; }
+        private WorkoutSegment Segment { get => _segmentIndex < Workout.Count ? Workout[_segmentIndex] : null; }
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public WorkoutViewModel(ILoggingService logger, ITreadmillService treadmill)
+        public WorkoutViewModel(ILoggingService logger, IRemoteTreadmillAdapter treadmill)
         {
             _logger = logger;
             _treadmill = treadmill;
@@ -148,11 +149,11 @@ namespace Treadmill.Ui.ViewModels
 
             _logger.LogEvent($"Beginning segment {_segmentIndex + 1}");
 
-            _segment.Active = true;
+            Segment.Active = true;
             _segmentStart = DateTime.UtcNow;
 
-            await _treadmill.GoToIncline(_segment.Incline);
-            await _treadmill.GoToSpeed(_segment.Speed);
+            await _treadmill.GoToIncline(Segment.Incline);
+            await _treadmill.GoToSpeed(Segment.Speed);
 
             Device.StartTimer(_pollInterval, () => SegmentTick(_cts.Token));
         }
@@ -182,14 +183,14 @@ namespace Treadmill.Ui.ViewModels
                 return true;
             }
 
-            _segment.ElapsedSeconds = (int)(DateTime.UtcNow - _segmentStart).TotalSeconds;
-            bool segmentDone = _segment.ElapsedSeconds >= _segment.DurationSeconds;
+            Segment.ElapsedSeconds = (int)(DateTime.UtcNow - _segmentStart).TotalSeconds;
+            bool segmentDone = Segment.ElapsedSeconds >= Segment.DurationSeconds;
 
             if (segmentDone)
             {
                 _logger.LogEvent($"Finished segment {_segmentIndex + 1}");
 
-                _segment.Active = false;
+                Segment.Active = false;
                 _segmentIndex++;
                 DoSegment();
             }
@@ -205,7 +206,7 @@ namespace Treadmill.Ui.ViewModels
 
             foreach (var segment in Workout)
             {
-                _segment.Active = false;
+                Segment.Active = false;
                 segment.ElapsedSeconds = 0;
             }
         }

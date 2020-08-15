@@ -1,4 +1,5 @@
-﻿using Treadmill.Ui.DomainServices;
+﻿using Treadmill.Domain;
+using Treadmill.Domain.Adapters;
 using Xamarin.Forms;
 
 namespace Treadmill.Ui.ViewModels
@@ -16,13 +17,14 @@ namespace Treadmill.Ui.ViewModels
         public string LocalUrl { get => _config.LocalUrl; }
         public int LocalUdpPort { get => _config.LocalUdpPort; set => _config.LocalUdpPort = value; }
         public int LocalUdpHealthPort { get => _config.LocalUdpHealthPort; set => _config.LocalUdpHealthPort = value; }
+        public int LocalUdpMetricsPort { get => _config.LocalUdpMetricsPort; set => _config.LocalUdpMetricsPort = value; }
 
         public string DisplayName { get; set; } = "Settings";
 
         private readonly ILoggingService _logger;
-        private readonly IPreferencesService _config;
+        private readonly IPreferencesAdapter _config;
 
-        public SettingsViewModel(ILoggingService logger, IPreferencesService config)
+        public SettingsViewModel(ILoggingService logger, IPreferencesAdapter config)
         {
             _logger = logger;
             _config = config;

@@ -3,9 +3,9 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Treadmill.Ui.Clients
+namespace Treadmill.Domain.Adapters
 {
-    public interface ITreadmillClient
+    public interface IRemoteTreadmillClient
     {
         /// <summary>
         /// Subscribe to metrics changes via HTTP.
@@ -38,12 +38,12 @@ namespace Treadmill.Ui.Clients
         Task<double> GetInclineFeedback();
     }
 
-    public class TreadmillClient : ITreadmillClient
+    public class RemoteTreadmillClient : IRemoteTreadmillClient
     {
         private readonly HttpClient _client = new HttpClient { Timeout = TimeSpan.FromSeconds(5) };
         private readonly string _remoteUrl;
 
-        public TreadmillClient(string remoteUrl)
+        public RemoteTreadmillClient(string remoteUrl)
         {
             _remoteUrl = remoteUrl;
         }

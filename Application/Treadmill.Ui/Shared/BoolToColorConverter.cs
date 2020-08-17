@@ -8,7 +8,7 @@ namespace Treadmill.Ui.Shared
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? Color.Moccasin : Color.Transparent;
+            return (bool)value ? (Color)parameter : Color.Transparent;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

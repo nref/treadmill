@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
-using Treadmill.Domain.Adapters;
 using Treadmill.Domain.Services;
 using Treadmill.Ui.Models;
 using Xamarin.Forms;
@@ -15,33 +15,7 @@ namespace Treadmill.Ui.ViewModels
 
     public class WorkoutViewModel : BindableObject, IWorkoutViewModel
     {
-        public bool Idle => !Active && !Paused;
-
-        public bool Paused
-        {
-            get => _paused; 
-            set
-            {
-                if (_paused == value)
-                    return;
-
-                _paused = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public bool Active 
-        { 
-            get => _workoutActive;
-            set
-            {
-                if (_workoutActive == value)
-                    return;
-
-                _workoutActive = value;
-                OnPropertyChanged();
-            }
-        }
+        public WorkoutState WorkoutState { get; }
 
         public Workout Workout
         {
@@ -57,34 +31,25 @@ namespace Treadmill.Ui.ViewModels
         }
 
         public string DisplayName { get; set; } = "Workout";
-        public ICommand HandleDoWorkout { private set; get; }
-        public ICommand HandlePauseWorkout { private set; get; }
-        public ICommand HandleResumeWorkout { private set; get; }
-        public ICommand HandleEndWorkout { private set; get; }
         public ICommand HandleDeleteSegment { private set; get; }
         
-        private bool _paused;
-        private bool _workoutActive;
         private Workout _workout;
 
         private readonly ILogService _logger;
-        private readonly IRemoteTreadmillAdapter _treadmill;
+        private readonly IRemoteTreadmillService _treadmill;
         private DateTime _segmentStart;
         private TimeSpan _pollInterval = new TimeSpan(0, 0, 1);
         private int _segmentIndex;
         private WorkoutSegment Segment { get => _segmentIndex < Workout.Count ? Workout[_segmentIndex] : null; }
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public WorkoutViewModel(ILogService logger, IRemoteTreadmillAdapter treadmill)
+        public WorkoutViewModel(ILogService logger, IRemoteTreadmillService treadmill)
         {
             _logger = logger;
             _treadmill = treadmill;
-
-            HandleDoWorkout = new Command(DoWorkout);
-            HandlePauseWorkout = new Command(PauseWorkout);
-            HandleResumeWorkout = new Command(ResumeWorkout);
-            HandleEndWorkout = new Command(EndWorkout);
             HandleDeleteSegment = new Command(DeleteSegment);
+            WorkoutState = new WorkoutState(treadmill);
+            _treadmill.PropertyChanged += WorkoutState.HandlePropertyChanged;
         }
 
         public void HandleItemSelected(ListView source, WorkoutSegment selection)
@@ -92,64 +57,43 @@ namespace Treadmill.Ui.ViewModels
             source.ScrollTo(selection, ScrollToPosition.MakeVisible, true);
         }
 
-        private void DeleteSegment(object segment)
+        private void DeleteSegment(object segment) => Workout.Remove(segment as WorkoutSegment);
+
+        public async Task<bool> PauseWorkout() => await _treadmill.Pause();
+        public async Task<bool> ResumeWorkout() => await _treadmill.Resume();
+        public async Task<bool> EndWorkout()
         {
-            Workout.Remove(segment as WorkoutSegment);
+            Reset();
+            return await _treadmill.End();
         }
 
-        private async void PauseWorkout()
-        {
-            Paused = true;
-
-            _logger.Add($"Pausing workout");
-            await _treadmill.Pause();
-        }
-
-        private async void ResumeWorkout()
-        {
-            Paused = false;
-
-            _logger.Add($"Resuming workout");
-            await _treadmill.Resume();
-        }
-
-        private async void EndWorkout()
-        {
-            _logger.Add($"Ending workout");
-
-            await _treadmill.End();
-            Paused = false;
-            Active = false;
-        }
-
-        private async void DoWorkout()
+        public async Task<bool> DoWorkout()
         {
             if (Workout == default)
             {
                 _logger.Add($"Cannot start workout; none selected");
-                return;
+                return false;
             }
 
             Reset();
 
-            _logger.Add($"Beginning workout");
-            Active = true;
-            await _treadmill.Start();
+            bool ok = await _treadmill.Start();
 
-            DoSegment();
+            return ok && await DoSegment();
         }
 
-        private async void DoSegment()
+        private async Task<bool> DoSegment()
         {
-            if (!Active)
-                return;
+            if (!WorkoutState.Active)
+            {
+                return false;
+            }
 
             if (_segmentIndex >= Workout.Count)
             {
                 _logger.Add($"Workout finished");
                 await _treadmill.End();
-                Active = false;
-                return;
+                return true;
             }
 
             _logger.Add($"Beginning segment {_segmentIndex + 1}");
@@ -157,22 +101,23 @@ namespace Treadmill.Ui.ViewModels
             Segment.Active = true;
             _segmentStart = DateTime.UtcNow;
 
-            await _treadmill.GoToIncline(Segment.Incline);
-            await _treadmill.GoToSpeed(Segment.Speed);
+            bool ok = await _treadmill.GoToIncline(Segment.Incline);
+            ok &= await _treadmill.GoToSpeed(Segment.Speed);
 
             Device.StartTimer(_pollInterval, () => SegmentTick(_cts.Token));
+
+            return ok;
         }
 
         private bool SegmentTick(CancellationToken token)
         {
-            if (!Active)
+            if (!WorkoutState.Active)
                 return false;
 
             if (_segmentIndex >= Workout.Count)
             {
                 _logger.Add($"Workout finished mid-segment");
                 _treadmill.End();
-                Active = false;
                 return false;
             }
 
@@ -182,7 +127,7 @@ namespace Treadmill.Ui.ViewModels
                 return false;
             }
 
-            if (_paused)
+            if (WorkoutState.Paused)
             {
                 _segmentStart += _pollInterval;
                 return true;
@@ -197,7 +142,9 @@ namespace Treadmill.Ui.ViewModels
 
                 Segment.Active = false;
                 _segmentIndex++;
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                 DoSegment();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
 
             return !segmentDone;

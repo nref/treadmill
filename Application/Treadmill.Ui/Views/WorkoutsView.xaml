@@ -11,13 +11,16 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <shared:BoolInverter x:Key="boolInverter" />
+            <ResourceDictionary Source="../Styles/Styles.xaml" />
         </ResourceDictionary>
     </ContentView.Resources>
 
     <ContentView.Content>
 
         <Grid>
+            
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="64"/>
             </Grid.RowDefinitions>
@@ -26,8 +29,16 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <ListView Grid.Row="0" Grid.Column="0"
+                <Label Grid.Column="0" Text="Name" FontSize="36" HorizontalOptions="Start"/>
+            </Grid>
+            
+            <ListView Grid.Row="1" Grid.Column="0"
                       ItemsSource="{Binding Workouts}"
                       SelectedItem="{Binding Workout, Mode=TwoWay}">
 
@@ -41,19 +52,19 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-            <ContentView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" 
+            <ContentView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
                          IsVisible="{Binding Editing, Converter={StaticResource boolInverter}}"
                          cal:View.Model="{Binding WorkoutViewModel}">
             </ContentView>
 
 
-            <ContentView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" 
+            <ContentView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
                          IsVisible="{Binding Editing}"
                          cal:View.Model="{Binding WorkoutEditViewModel}">
             </ContentView>
 
 
-            <StackLayout Grid.Row="1"  Grid.Column="0"  Orientation="Horizontal">
+            <StackLayout Grid.Row="2"  Grid.Column="0"  Orientation="Horizontal">
                 <ImageButton Source="pencil_240.png" 
                              BackgroundColor="Transparent"
                              cal:Message.Attach="[Event Clicked] = [HandleEditClicked]"/>

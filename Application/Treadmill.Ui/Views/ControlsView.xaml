@@ -10,31 +10,25 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <shared:StringToDoubleConverter x:Key="stringToDoubleConverter" />
+            <ResourceDictionary Source="../Styles/Styles.xaml" />
         </ResourceDictionary>
     </ContentView.Resources>
 
     <ContentView.Content>
         <Grid>
+           
             <Grid.RowDefinitions>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="70"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <Button Grid.Row="0" Text="Start" Command="{Binding HandleStart}" BackgroundColor="Green"/>
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="100"/>
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="0" Text="Pause" Command="{Binding HandlePause}" BackgroundColor="Orange" />
-                <Button Grid.Column="1" Text="Resume" Command="{Binding HandleResume}" BackgroundColor="Gray" />
-
-            </Grid>
-
-            <Grid Grid.Row="2">
+            <Grid Grid.Row="0">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -123,9 +117,26 @@
 
             </Grid>
 
-            <Button Grid.Row="3" Text="End" Command="{Binding HandleEnd}" BackgroundColor="Red"/>
+            <Button Grid.Row="1" Text="End" 
+                    IsVisible="{Binding WorkoutState.Paused}"
+                    Command="{Binding HandleEnd}"
+                    BackgroundColor="{StaticResource TreadmillRed}"/>
 
-            <Label Grid.Row="3"
+            <Button Grid.Row="2" Text="Start" 
+                    Command="{Binding HandleStart}" 
+                    BackgroundColor="{StaticResource TreadmillGreen}"/>
+
+            <Button Grid.Row="2" Text="Pause" 
+                    IsVisible="{Binding WorkoutState.Active}"
+                    Command="{Binding HandlePause}" 
+                    BackgroundColor="{StaticResource TreadmillOrange}" />
+
+            <Button Grid.Row="2" Text="Resume" 
+                    IsVisible="{Binding WorkoutState.Paused}"
+                    Command="{Binding HandleResume}" 
+                    BackgroundColor="{StaticResource TreadmillGreen}" />
+
+            <Label Grid.Row="2"
                     Text="{Binding ConnectionStatus}"
                     FontSize="Large"
                     VerticalOptions="End"

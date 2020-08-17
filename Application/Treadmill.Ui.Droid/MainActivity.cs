@@ -17,9 +17,8 @@ namespace Treadmill.Ui.Droid
             base.OnCreate(savedInstanceState);
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            // TODO this doesn't work since adding Caliburn.Micro
-            global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
+            Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);
             LoadApplication(IoC.Get<App>());
         }
 

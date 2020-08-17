@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="TreadmillWhite">#FFFFFFFF</Color>
+    <Color x:Key="TreadmillBlue">#FF9DD1EB</Color>
+    <Color x:Key="TreadmillLightBlue">#FFCEE8F5</Color>
+    <Color x:Key="TreadmillDeepBlue">#FF0096D6</Color>
+    <Color x:Key="TreadmillBlueGreen">#FF009292</Color>
+    <Color x:Key="TreadmillYellow">#FFFFD76D</Color>
+    <Color x:Key="TreadmillGreen">#FF80C342</Color>
+    <Color x:Key="TreadmillRed">#FFFF0000</Color>
+    <Color x:Key="TreadmillOrange">#FFFF8C00</Color>
+    <Color x:Key="TreadmillGray">#FFDEDEDE</Color>
+    <Color x:Key="TreadmillDarkGray">#FF505050</Color>
+    <Color x:Key="TreadmillBlack">#FF000000</Color>
+
+</ResourceDictionary>

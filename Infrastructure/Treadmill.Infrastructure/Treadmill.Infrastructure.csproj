@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Treadmill.Domain\Treadmill.Domain.csproj" />
     <ProjectReference Include="..\Treadmill.Adapters.Gpio\Treadmill.Adapters.Gpio.csproj" />
+    <ProjectReference Include="..\Treadmill.Adapters.RemoteTreadmill\Treadmill.Adapters.RemoteTreadmill.csproj" />
   </ItemGroup>
 
 </Project>

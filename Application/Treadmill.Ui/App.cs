@@ -6,13 +6,9 @@ namespace Treadmill.Ui
 {
     public class App : Application
     {
-        private readonly IKernel _container;
-
         public App(IKernel container)
         {
-            _container = container;
-
-            MainPage = _container.Get<MainView>();
+            MainPage = container.Get<MainView>();
         }
 
         protected override void OnStart()

@@ -11,10 +11,8 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <shared:BoolToColorConverter x:Key="boolToColorConverter" />
-            <shared:PausedToColorConverter x:Key="pausedToColorConverter" />
-            <shared:PausedToStringConverter x:Key="pausedToStringConverter" />
-            <shared:PausedToFontAttributesConverter x:Key="pausedToFontAttributesConverter" />
         </ResourceDictionary>
+        <ResourceDictionary Source="../Styles/Styles.xaml" />
     </ContentView.Resources>
     
     <ContentView.Content>
@@ -31,7 +29,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="0" BackgroundColor="NavajoWhite">
+            <Grid Grid.Row="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -52,7 +50,10 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                                <Grid BackgroundColor="{Binding Active, Converter={StaticResource boolToColorConverter}}">
+                                <Grid BackgroundColor="{Binding WorkoutState.Active, 
+                                     Converter={StaticResource boolToColorConverter}, 
+                                     ConverterParameter={StaticResource TreadmillBlue}}">
+                                    
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="*"/>
@@ -72,37 +73,35 @@
                 </ListView>
 
             <Button Grid.Row="2"
-                        Text="Resume"
+                        Text="End" 
                         FontSize="36"
-                        IsVisible="{Binding Paused}"
+                        IsVisible="{Binding WorkoutState.Paused}"
                         HeightRequest="200"
-                        BackgroundColor="Green"
-                        Command="{Binding HandleResumeWorkout}" />
+                        BackgroundColor="{StaticResource TreadmillRed}"
+                        cal:Message.Attach="[Event Clicked] = [EndWorkout]" />
 
             <Button Grid.Row="3"
                         Text="Begin"
                         FontSize="36"
-                        IsVisible="{Binding Idle}"
                         HeightRequest="200"
-                        BackgroundColor="Green"
-                        Command="{Binding HandleDoWorkout}" />
+                        BackgroundColor="{StaticResource TreadmillGreen}"
+                        cal:Message.Attach="[Event Clicked] = [DoWorkout]" />
 
             <Button Grid.Row="3" 
-                        Text="{Binding Paused, Converter={StaticResource pausedToStringConverter}}" 
+                        Text="Pause" 
                         FontSize="36"
-                        IsVisible="{Binding Active}"
+                        IsVisible="{Binding WorkoutState.Active}"
                         HeightRequest="200"
-                        FontAttributes="{Binding Paused, Converter={StaticResource pausedToFontAttributesConverter}}"
-                        BackgroundColor="{Binding Paused, Converter={StaticResource pausedToColorConverter}}"
-                        Command="{Binding HandlePauseWorkout}" />
-
+                        BackgroundColor="{StaticResource TreadmillYellow}"
+                        cal:Message.Attach="[Event Clicked] = [PauseWorkout]" />
+            
             <Button Grid.Row="3"
-                        Text="End" 
+                        Text="Resume"
                         FontSize="36"
-                        IsVisible="{Binding Paused}"
+                        IsVisible="{Binding WorkoutState.Paused}"
                         HeightRequest="200"
-                        BackgroundColor="Red"
-                        Command="{Binding HandleEndWorkout}" />
+                        BackgroundColor="{StaticResource TreadmillGreen}"
+                        cal:Message.Attach="[Event Clicked] = [ResumeWorkout]" />
 
         </Grid>
 

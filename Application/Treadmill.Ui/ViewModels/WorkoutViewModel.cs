@@ -89,7 +89,7 @@ namespace Treadmill.Ui.ViewModels
 
         public void HandleItemSelected(ListView source, WorkoutSegment selection)
         {
-            source.ScrollTo(selection, ScrollToPosition.Start, true);
+            source.ScrollTo(selection, ScrollToPosition.MakeVisible, true);
         }
 
         private void DeleteSegment(object segment)

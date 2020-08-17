@@ -11,13 +11,9 @@
 
     <TabbedPage.ItemTemplate>
         <DataTemplate>
-            <NavigationPage Title="{Binding DisplayName}">
-                <x:Arguments>
-                    <ContentPage NavigationPage.HasNavigationBar="False" 
-                                 Title="{Binding DisplayName}" 
-                                 cal:View.Model="{Binding}" />
-                </x:Arguments>
-            </NavigationPage>
+            <ContentPage NavigationPage.HasNavigationBar="False" 
+                         Title="{Binding DisplayName}" 
+                         cal:View.Model="{Binding}" />
         </DataTemplate>
     </TabbedPage.ItemTemplate>
 </TabbedPage>

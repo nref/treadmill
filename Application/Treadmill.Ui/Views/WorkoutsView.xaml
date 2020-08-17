@@ -4,44 +4,68 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              xmlns:shared="clr-namespace:Treadmill.Ui.Shared"
              x:Class="Treadmill.Ui.Views.WorkoutsView">
 
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <shared:BoolInverter x:Key="boolInverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
     <ContentView.Content>
-      
+
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="64"/>
             </Grid.RowDefinitions>
-            
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <ScrollView Grid.Row="0" Grid.ColumnSpan="2" BackgroundColor="WhiteSmoke">
+            <ListView Grid.Row="0" Grid.Column="0"
+                      ItemsSource="{Binding Workouts}"
+                      SelectedItem="{Binding Workout, Mode=TwoWay}">
 
-                <ListView 
-                    ItemsSource="{Binding Workouts}"
-                    SelectedItem="{Binding Workout, Mode=TwoWay}"
-                    ItemSelected="HandleItemSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Grid.Column="0" Text="{Binding Name}" FontSize="36" HorizontalOptions="Start"/>
+                        </ViewCell>
+                    </DataTemplate>
 
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                </ListView.ItemTemplate>
+            </ListView>
 
-                                    <Label Grid.Column="0" Text="{Binding Name}" FontSize="Large" HorizontalOptions="Start"/>
-                                </Grid>
-                            </ViewCell>
-                        </DataTemplate>
+            <ContentView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" 
+                         IsVisible="{Binding Editing, Converter={StaticResource boolInverter}}"
+                         cal:View.Model="{Binding WorkoutViewModel}">
+            </ContentView>
 
-                    </ListView.ItemTemplate>
-                </ListView>
-            </ScrollView>
+
+            <ContentView Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" 
+                         IsVisible="{Binding Editing}"
+                         cal:View.Model="{Binding WorkoutEditViewModel}">
+            </ContentView>
+
+
+            <StackLayout Grid.Row="1"  Grid.Column="0"  Orientation="Horizontal">
+                <ImageButton Source="pencil_240.png" 
+                             BackgroundColor="Transparent"
+                             cal:Message.Attach="[Event Clicked] = [HandleEditClicked]"/>
+
+                <ImageButton Source="plus_240.png" 
+                             BackgroundColor="Transparent"
+                             cal:Message.Attach="[Event Clicked] = [HandleAddClicked]"/>
+
+                <ImageButton Source="minus_240.png" 
+                             BackgroundColor="Transparent"
+                             cal:Message.Attach="[Event Clicked] = [HandleRemoveClicked]"/>
+            </StackLayout>
             
         </Grid>
     </ContentView.Content>

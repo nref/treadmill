@@ -12,22 +12,54 @@ namespace Treadmill.Ui.ViewModels
 
     public class WorkoutsViewModel : BindableObject, IWorkoutsViewModel
     {
-        private readonly IWorkoutViewModel _workoutViewModel;
+        public IWorkoutViewModel WorkoutViewModel { get; set; }
+        public IWorkoutEditViewModel WorkoutEditViewModel { get; }
 
         public FullyObservableCollection<Workout> Workouts { get; set; } = new FullyObservableCollection<Workout>();
 
         public string DisplayName { get; set; } = "Workouts";
 
-        public Workout Workout
+        private bool _editing;
+        public bool Editing
         {
-            get => _workoutViewModel.Workout;
-            set => _workoutViewModel.Workout = value;
+            get => _editing;
+            set
+            {
+                if (_editing == value)
+                {
+                    return;
+                }
+                _editing = value;
+
+                OnPropertyChanged();
+            }
         }
 
-        public WorkoutsViewModel(IWorkoutViewModel workoutViewModel)
+        public Workout Workout
         {
-            _workoutViewModel = workoutViewModel;
+            get => WorkoutViewModel.Workout;
+            set => WorkoutViewModel.Workout = value;
+        }
+
+        public WorkoutsViewModel(IWorkoutViewModel workoutViewModel, IWorkoutEditViewModel workoutEditViewModel)
+        {
+            WorkoutViewModel = workoutViewModel;
+            WorkoutEditViewModel = workoutEditViewModel;
             CreateWorkouts();
+        }
+
+        public void HandleEditClicked()
+        {
+            Editing = !Editing;
+        }
+
+        public void HandleAddClicked()
+        {
+            Editing = true;
+        }
+
+        public void HandleRemoveClicked()
+        {
         }
 
         private void CreateWorkouts()

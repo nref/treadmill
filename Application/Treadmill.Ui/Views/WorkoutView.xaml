@@ -3,14 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              mc:Ignorable="d"
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              xmlns:shared="clr-namespace:Treadmill.Ui.Shared"
              x:Class="Treadmill.Ui.Views.WorkoutView">
 
     <ContentView.Resources>
         <ResourceDictionary>
-            <shared:BoolInverter x:Key="boolInverter" />
             <shared:BoolToColorConverter x:Key="boolToColorConverter" />
             <shared:PausedToColorConverter x:Key="pausedToColorConverter" />
             <shared:PausedToStringConverter x:Key="pausedToStringConverter" />
@@ -22,6 +21,7 @@
       
         <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -30,35 +30,28 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-           
-            <ScrollView Grid.Row="0">
 
-                <ListView x:Name="WorkoutSegments" 
-                          Header="{Binding}"
-                          RowHeight="100" 
-                          cal:Message.Attach="[Event ItemSelected] = [Action HandleItemSelected($source, $this.SelectedItem)]"
-                          ItemsSource="{Binding Workout, Mode=TwoWay}">
-                    
-                    <ListView.HeaderTemplate>
-                        <DataTemplate>
-                            <Grid BackgroundColor="NavajoWhite">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0" BackgroundColor="NavajoWhite">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                                <Label Grid.Column="0" Text="Distance (mi)" FontSize="48" HorizontalOptions="End"/>
-                                <Label Grid.Column="1" Text="% Complete" FontSize="48" HorizontalOptions="Center"/>
-                                <Label Grid.Column="2" Text="Incline" FontSize="48" HorizontalOptions="End"/>
-                                <Label Grid.Column="3" Text="Speed" FontSize="48" HorizontalOptions="End"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.HeaderTemplate>
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
+                <Label Grid.Column="0" Text="Distance" FontSize="36" HorizontalOptions="End"/>
+                <Label Grid.Column="1" Text="Progress" FontSize="36" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Text="Incline" FontSize="36" HorizontalOptions="End"/>
+                <Label Grid.Column="3" Text="Speed" FontSize="36" HorizontalOptions="End"/>
+            </Grid>
+
+            <ListView Grid.Row="1"
+                    RowHeight="100" 
+                    cal:Message.Attach="[Event ItemSelected] = [Action HandleItemSelected($source, $this.SelectedItem)]"
+                    ItemsSource="{Binding Workout, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
                                 <Grid BackgroundColor="{Binding Active, Converter={StaticResource boolToColorConverter}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -67,43 +60,51 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Label Grid.Column="0" Text="{Binding DistanceMiles, StringFormat='{0:N2}'}" FontSize="48" HorizontalOptions="End"/>
-                                    <Label Grid.Column="1" Text="{Binding PercentComplete, StringFormat='{0:P1}'}" FontSize="48" HorizontalOptions="Center"/>
-                                    <Label Grid.Column="2" Text="{Binding Incline}" FontSize="48" HorizontalOptions="End"/>
-                                    <Label Grid.Column="3" Text="{Binding Speed}" FontSize="48" HorizontalOptions="End"/>
+                                    <Label Grid.Column="0" Text="{Binding DistanceMiles, StringFormat='{0:N2}'}" FontSize="36" HorizontalOptions="End"/>
+                                    <Label Grid.Column="1" Text="{Binding PercentComplete, StringFormat='{0:P1}'}" FontSize="36" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="2" Text="{Binding Incline}" FontSize="36" HorizontalOptions="End"/>
+                                    <Label Grid.Column="3" Text="{Binding Speed}" FontSize="36" HorizontalOptions="End"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
 
                     </ListView.ItemTemplate>
                 </ListView>
-            </ScrollView>
 
-            <Button Grid.Row="2" Text="Do Workout"
+            <Button Grid.Row="2"
+                        Text="Resume"
+                        FontSize="36"
+                        IsVisible="{Binding Paused}"
+                        HeightRequest="200"
+                        BackgroundColor="Green"
+                        Command="{Binding HandleResumeWorkout}" />
+
+            <Button Grid.Row="3"
+                        Text="Begin"
+                        FontSize="36"
                         IsVisible="{Binding Idle}"
                         HeightRequest="200"
                         BackgroundColor="Green"
                         Command="{Binding HandleDoWorkout}" />
 
-            <Button Grid.Row="2" Text="{Binding Paused, Converter={StaticResource pausedToStringConverter}}" 
+            <Button Grid.Row="3" 
+                        Text="{Binding Paused, Converter={StaticResource pausedToStringConverter}}" 
+                        FontSize="36"
                         IsVisible="{Binding Active}"
                         HeightRequest="200"
                         FontAttributes="{Binding Paused, Converter={StaticResource pausedToFontAttributesConverter}}"
                         BackgroundColor="{Binding Paused, Converter={StaticResource pausedToColorConverter}}"
                         Command="{Binding HandlePauseWorkout}" />
 
-            <Button Grid.Row="1" Text="Resume"
-                        IsVisible="{Binding Paused}"
-                        HeightRequest="200"
-                        BackgroundColor="Green"
-                        Command="{Binding HandleResumeWorkout}" />
-            
-            <Button Grid.Row="2" Text="End" 
+            <Button Grid.Row="3"
+                        Text="End" 
+                        FontSize="36"
                         IsVisible="{Binding Paused}"
                         HeightRequest="200"
                         BackgroundColor="Red"
                         Command="{Binding HandleEndWorkout}" />
 
         </Grid>
+
     </ContentView.Content>
 </ContentView>

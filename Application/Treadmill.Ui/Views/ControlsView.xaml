@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
              xmlns:shared="clr-namespace:Treadmill.Ui.Shared"
              x:Class="Treadmill.Ui.Views.ControlsView">
 
@@ -17,130 +18,136 @@
     <ContentView.Content>
         <Grid>
            
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="100"/>
-            </Grid.RowDefinitions>
-            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="0">
+            <StackLayout Grid.Column="0">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <StackLayout Grid.Row="0" Grid.Column="0">
-                    <Label x:Name="speedFeedbackLabel"
+                    <Label Grid.Column="0" Text="Speed" FontSize="36" HorizontalOptions="Center"/>
+                    <Label Grid.Column="1" Text="Incline" FontSize="36" HorizontalOptions="Center"/>
+                </Grid>
+
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <StackLayout>
+
+                        <Label x:Name="speedFeedbackLabel"
                         Text="{Binding Speed}"
-                        FontSize="Large"
-                        VerticalOptions="CenterAndExpand"
+                        FontSize="36"
+                        FontAttributes="Bold"   
                         HorizontalOptions="Center" />
 
-                    <Button Text="Speed Up"
+                        <Button Text="Speed Up"
                         WidthRequest="200"
-                        HeightRequest="75"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="Center"
+                        HeightRequest="100"
                         Command="{Binding HandleSpeedUp}" />
 
-                    <Button Text="Speed Down"
+                        <Button Text="Speed Down"
                         WidthRequest="200"
-                        HeightRequest="75"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="Center"
+                        HeightRequest="100"
                         Command="{Binding HandleSpeedDown}" />
 
-                    <Entry x:Name="speedEntry"
-                        VerticalOptions="CenterAndExpand"
+                        <Entry x:Name="speedEntry"
+                        VerticalOptions="End"
                         HorizontalOptions="Center"
                         Keyboard="Numeric"
-                        WidthRequest="60"
+                        FontSize="36"
+                        WidthRequest="200"
+                        HeightRequest="100"
                         Text="{Binding SpeedEntry, 
                             Converter={StaticResource stringToDoubleConverter}, 
                             Mode=OneWayToSource}"/>
 
-                    <Button Text="Go To Speed"
+                        <Button Text="Go To Speed"
                         WidthRequest="200"
-                        HeightRequest="75"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="Center"
+                        HeightRequest="100"
                         Command="{Binding HandleGoToSpeed}" />
-                </StackLayout>
+                    </StackLayout>
 
-                <StackLayout Grid.Row="0" Grid.Column="1">
-                    <Label x:Name="inclineFeedbackLabel"
+                    <StackLayout>
+                        <Label x:Name="inclineFeedbackLabel"
                         Text="{Binding Incline}"
-                        FontSize="Large"
-                        VerticalOptions="CenterAndExpand"
+                        FontSize="36"
+                        FontAttributes="Bold"   
                         HorizontalOptions="Center" />
 
-                    <Button Text="Incline Up"
+                        <Button Text="Incline Up"
                         WidthRequest="200"
-                        HeightRequest="75"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="Center"
+                        HeightRequest="100"
                         Command="{Binding HandleInclineUp}" />
 
-                    <Button Text="Incline Down"
+                        <Button Text="Incline Down"
                         WidthRequest="200"
-                        HeightRequest="75"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="Center"
+                        HeightRequest="100"
                         Command="{Binding HandleInclineDown}" />
 
-                    <Entry x:Name="inclineEntry"
-                        VerticalOptions="CenterAndExpand"
+                        <Entry x:Name="inclineEntry"
+                        VerticalOptions="End"
                         HorizontalOptions="Center"
                         Keyboard="Numeric"
-                        WidthRequest="60"
+                        FontSize="36"
+                        WidthRequest="200"
+                        HeightRequest="100"
                         Text="{Binding InclineEntry, 
                             Converter={StaticResource stringToDoubleConverter}, 
                             Mode=OneWayToSource}"/>
 
-                    <Button Text="Go To Incline"
+                        <Button Text="Go To Incline"
                         WidthRequest="200"
-                        HeightRequest="75"
-                        VerticalOptions="CenterAndExpand"
-                        HorizontalOptions="Center"
+                        HeightRequest="100"
                         Command="{Binding HandleGoToIncline}" />
+                    </StackLayout>
                 </StackLayout>
 
-            </Grid>
-
-            <Button Grid.Row="1" Text="End" 
-                    IsVisible="{Binding WorkoutState.Paused}"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Button Grid.Row="0" Text="End" 
+                    FontSize="36"
+                    IsVisible="{Binding WorkoutViewModel.WorkoutState.Paused}"
                     Command="{Binding HandleEnd}"
                     BackgroundColor="{StaticResource TreadmillRed}"/>
 
-            <Button Grid.Row="2" Text="Start" 
+                    <Button Grid.Row="1" Text="Begin" 
+                    FontSize="36"
                     Command="{Binding HandleStart}" 
                     BackgroundColor="{StaticResource TreadmillGreen}"/>
 
-            <Button Grid.Row="2" Text="Pause" 
-                    IsVisible="{Binding WorkoutState.Active}"
+                    <Button Grid.Row="1" Text="Pause" 
+                    FontSize="36"
+                    IsVisible="{Binding WorkoutViewModel.WorkoutState.Active}"
                     Command="{Binding HandlePause}" 
-                    BackgroundColor="{StaticResource TreadmillOrange}" />
+                    BackgroundColor="{StaticResource TreadmillYellow}" />
 
-            <Button Grid.Row="2" Text="Resume" 
-                    IsVisible="{Binding WorkoutState.Paused}"
+                    <Button Grid.Row="1" Text="Resume" 
+                    FontSize="36"
+                    IsVisible="{Binding WorkoutViewModel.WorkoutState.Paused}"
                     Command="{Binding HandleResume}" 
                     BackgroundColor="{StaticResource TreadmillGreen}" />
 
-            <Label Grid.Row="2"
+                    <Label Grid.Row="1"
                     Text="{Binding ConnectionStatus}"
                     FontSize="Large"
                     VerticalOptions="End"
                     HorizontalOptions="Start" />
+                </Grid>
+            </StackLayout>
+
+
+            <ContentView Grid.Column="1" 
+                         cal:View.Model="{Binding WorkoutViewModel}">
+            </ContentView>
+
         </Grid>
 
     </ContentView.Content>

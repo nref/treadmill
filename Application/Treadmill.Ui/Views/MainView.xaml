@@ -16,7 +16,7 @@
                 <ResourceDictionary Source="../Styles/Styles.xaml" />
         </ResourceDictionary>
     </TabbedPage.Resources>
-    
+
     <TabbedPage.ItemTemplate>
         <DataTemplate>
             <ContentPage Visual="Material"

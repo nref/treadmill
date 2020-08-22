@@ -11,12 +11,11 @@ namespace Treadmill.Ui.ViewModels
     public interface IWorkoutViewModel
     {
         Workout Workout { get; set; }
+        WorkoutState WorkoutState { get; }
     }
 
     public class WorkoutViewModel : BindableObject, IWorkoutViewModel
     {
-        public WorkoutState WorkoutState { get; }
-
         public Workout Workout
         {
             get => _workout;
@@ -29,6 +28,7 @@ namespace Treadmill.Ui.ViewModels
                 OnPropertyChanged();
             }
         }
+        public WorkoutState WorkoutState { get; }
 
         public string DisplayName { get; set; } = "Workout";
         public ICommand HandleDeleteSegment { private set; get; }
@@ -54,7 +54,6 @@ namespace Treadmill.Ui.ViewModels
 
         public void HandleItemSelected(ListView source, WorkoutSegment selection)
         {
-            source.ScrollTo(selection, ScrollToPosition.MakeVisible, true);
         }
 
         private void DeleteSegment(object segment) => Workout.Remove(segment as WorkoutSegment);

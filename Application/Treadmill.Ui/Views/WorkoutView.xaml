@@ -22,13 +22,8 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
             <Grid Grid.Row="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -44,13 +39,14 @@
             </Grid>
 
             <ListView Grid.Row="1"
-                    RowHeight="100" 
+                    RowHeight="75" 
                     cal:Message.Attach="[Event ItemSelected] = [Action HandleItemSelected($source, $this.SelectedItem)]"
+                    SelectionMode="None"
                     ItemsSource="{Binding Workout, Mode=TwoWay}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                                <Grid BackgroundColor="{Binding WorkoutState.Active, 
+                                <Grid BackgroundColor="{Binding Active, 
                                      Converter={StaticResource boolToColorConverter}, 
                                      ConverterParameter={StaticResource TreadmillBlue}}">
                                     
@@ -72,36 +68,33 @@
                     </ListView.ItemTemplate>
                 </ListView>
 
-            <Button Grid.Row="2"
+                <Button Grid.Row="1"
                         Text="End" 
                         FontSize="36"
                         IsVisible="{Binding WorkoutState.Paused}"
-                        HeightRequest="200"
                         BackgroundColor="{StaticResource TreadmillRed}"
                         cal:Message.Attach="[Event Clicked] = [EndWorkout]" />
 
-            <Button Grid.Row="3"
+                <Button Grid.Row="2"
                         Text="Begin"
                         FontSize="36"
-                        HeightRequest="200"
                         BackgroundColor="{StaticResource TreadmillGreen}"
                         cal:Message.Attach="[Event Clicked] = [DoWorkout]" />
 
-            <Button Grid.Row="3" 
+                <Button Grid.Row="2" 
                         Text="Pause" 
                         FontSize="36"
                         IsVisible="{Binding WorkoutState.Active}"
-                        HeightRequest="200"
                         BackgroundColor="{StaticResource TreadmillYellow}"
                         cal:Message.Attach="[Event Clicked] = [PauseWorkout]" />
-            
-            <Button Grid.Row="3"
+
+                <Button Grid.Row="2"
                         Text="Resume"
                         FontSize="36"
                         IsVisible="{Binding WorkoutState.Paused}"
-                        HeightRequest="200"
                         BackgroundColor="{StaticResource TreadmillGreen}"
                         cal:Message.Attach="[Event Clicked] = [ResumeWorkout]" />
+
 
         </Grid>
 

@@ -3,6 +3,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Treadmill.Models;
 using Treadmill.Domain.Services;
+using Treadmill.Ui.Models;
 
 namespace Treadmill.Ui.ViewModels
 {
@@ -82,8 +83,6 @@ namespace Treadmill.Ui.ViewModels
             }
         }
 
-        public WorkoutState WorkoutState { get; }
-
         public ICommand HandleStart { private set; get; }
         public ICommand HandleEnd { private set; get; }
         public ICommand HandlePause { private set; get; }
@@ -96,17 +95,22 @@ namespace Treadmill.Ui.ViewModels
         public ICommand HandleGoToIncline { private set; get; }
 
         public string DisplayName { get; set; } = "Controls";
+        public IWorkoutViewModel WorkoutViewModel { get; }
 
-        public ControlsViewModel(IConnectionService connections, IRemoteTreadmillService service)
+        public ControlsViewModel
+        (
+            IWorkoutViewModel workoutViewModel, 
+            IConnectionService connections, 
+            IRemoteTreadmillService service
+        )
         {
+            WorkoutViewModel = workoutViewModel;
             _connections = connections;
             _service = service;
 
             _connections.ConnectionChanged += HandleConnectionChanged;
             service.SpeedChanged += HandleSpeedChanged;
             service.InclineChanged += HandleInclineChanged;
-
-            WorkoutState = new WorkoutState(service);
 
             HandleStart = new Command(async () => await _service.Start());
             HandleEnd = new Command(async () => await _service.End());

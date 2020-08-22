@@ -2,7 +2,7 @@ run:
 	$(MAKE) -C i2c
 	sudo nice -n 0 ./i2c/bin/i2c >> i2c.log 2>&1 &
 	python3 -u main.py >> main.log 2>&1 &
-	tail -f main.log
+	tail -n 0 -f main.log
 
 stop:
 	sudo pkill -f main.py

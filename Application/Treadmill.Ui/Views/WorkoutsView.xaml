@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+             xmlns:shared="clr-namespace:Treadmill.Ui.Shared"
+             x:Class="Treadmill.Ui.Views.WorkoutsView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <shared:BoolInverter x:Key="boolInverter" />
+            <ResourceDictionary Source="../Styles/Styles.xaml" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+
+        <Grid>
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="64"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid Grid.Row="0" Grid.Column="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Text="Name" FontSize="36" HorizontalOptions="Start"/>
+            </Grid>
+            
+            <ListView Grid.Row="1" Grid.Column="0"
+                      ItemsSource="{Binding Workouts}"
+                      SelectedItem="{Binding Workout, Mode=TwoWay}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Grid.Column="0" Text="{Binding Name}" FontSize="36" HorizontalOptions="Start"/>
+                        </ViewCell>
+                    </DataTemplate>
+
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <ContentView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
+                         IsVisible="{Binding Editing, Converter={StaticResource boolInverter}}"
+                         cal:View.Model="{Binding WorkoutViewModel}">
+            </ContentView>
+
+
+            <ContentView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
+                         IsVisible="{Binding Editing}"
+                         cal:View.Model="{Binding WorkoutEditViewModel}">
+            </ContentView>
+
+
+            <StackLayout Grid.Row="2"  Grid.Column="0"  Orientation="Horizontal">
+                <ImageButton Source="pencil_240.png" 
+                             BackgroundColor="Transparent"
+                             cal:Message.Attach="[Event Clicked] = [HandleEditClicked]"/>
+
+                <ImageButton Source="plus_240.png" 
+                             BackgroundColor="Transparent"
+                             cal:Message.Attach="[Event Clicked] = [HandleAddClicked]"/>
+
+                <ImageButton Source="minus_240.png" 
+                             BackgroundColor="Transparent"
+                             cal:Message.Attach="[Event Clicked] = [HandleRemoveClicked]"/>
+            </StackLayout>
+            
+        </Grid>
+    </ContentView.Content>
+</ContentView>

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <AssemblyName>Treadmill.Infrastructure</AssemblyName>
+    <RootNamespace>Treadmill.Infrastructure</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ninject" Version="3.3.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Core\Treadmill.Domain\Treadmill.Domain.csproj" />
+    <ProjectReference Include="..\Treadmill.Adapters.Gpio\Treadmill.Adapters.Gpio.csproj" />
+    <ProjectReference Include="..\Treadmill.Adapters.RemoteTreadmill\Treadmill.Adapters.RemoteTreadmill.csproj" />
+  </ItemGroup>
+
+</Project>

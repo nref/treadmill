@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:shared="clr-namespace:Treadmill.Ui.Shared"
+             x:Class="Treadmill.Ui.Views.ControlsView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <shared:StringToDoubleConverter x:Key="stringToDoubleConverter" />
+            <ResourceDictionary Source="../Styles/Styles.xaml" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <ContentView.Content>
+        <Grid>
+           
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0" Grid.Column="0">
+                    <Label x:Name="speedFeedbackLabel"
+                        Text="{Binding Speed}"
+                        FontSize="Large"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center" />
+
+                    <Button Text="Speed Up"
+                        WidthRequest="200"
+                        HeightRequest="75"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Command="{Binding HandleSpeedUp}" />
+
+                    <Button Text="Speed Down"
+                        WidthRequest="200"
+                        HeightRequest="75"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Command="{Binding HandleSpeedDown}" />
+
+                    <Entry x:Name="speedEntry"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Keyboard="Numeric"
+                        WidthRequest="60"
+                        Text="{Binding SpeedEntry, 
+                            Converter={StaticResource stringToDoubleConverter}, 
+                            Mode=OneWayToSource}"/>
+
+                    <Button Text="Go To Speed"
+                        WidthRequest="200"
+                        HeightRequest="75"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Command="{Binding HandleGoToSpeed}" />
+                </StackLayout>
+
+                <StackLayout Grid.Row="0" Grid.Column="1">
+                    <Label x:Name="inclineFeedbackLabel"
+                        Text="{Binding Incline}"
+                        FontSize="Large"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center" />
+
+                    <Button Text="Incline Up"
+                        WidthRequest="200"
+                        HeightRequest="75"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Command="{Binding HandleInclineUp}" />
+
+                    <Button Text="Incline Down"
+                        WidthRequest="200"
+                        HeightRequest="75"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Command="{Binding HandleInclineDown}" />
+
+                    <Entry x:Name="inclineEntry"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Keyboard="Numeric"
+                        WidthRequest="60"
+                        Text="{Binding InclineEntry, 
+                            Converter={StaticResource stringToDoubleConverter}, 
+                            Mode=OneWayToSource}"/>
+
+                    <Button Text="Go To Incline"
+                        WidthRequest="200"
+                        HeightRequest="75"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Command="{Binding HandleGoToIncline}" />
+                </StackLayout>
+
+            </Grid>
+
+            <Button Grid.Row="1" Text="End" 
+                    IsVisible="{Binding WorkoutState.Paused}"
+                    Command="{Binding HandleEnd}"
+                    BackgroundColor="{StaticResource TreadmillRed}"/>
+
+            <Button Grid.Row="2" Text="Start" 
+                    Command="{Binding HandleStart}" 
+                    BackgroundColor="{StaticResource TreadmillGreen}"/>
+
+            <Button Grid.Row="2" Text="Pause" 
+                    IsVisible="{Binding WorkoutState.Active}"
+                    Command="{Binding HandlePause}" 
+                    BackgroundColor="{StaticResource TreadmillOrange}" />
+
+            <Button Grid.Row="2" Text="Resume" 
+                    IsVisible="{Binding WorkoutState.Paused}"
+                    Command="{Binding HandleResume}" 
+                    BackgroundColor="{StaticResource TreadmillGreen}" />
+
+            <Label Grid.Row="2"
+                    Text="{Binding ConnectionStatus}"
+                    FontSize="Large"
+                    VerticalOptions="End"
+                    HorizontalOptions="Start" />
+        </Grid>
+
+    </ContentView.Content>
+</ContentView>

@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+             xmlns:shared="clr-namespace:Treadmill.Ui.Shared"
+             x:Class="Treadmill.Ui.Views.WorkoutView">
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <shared:BoolToColorConverter x:Key="boolToColorConverter" />
+        </ResourceDictionary>
+        <ResourceDictionary Source="../Styles/Styles.xaml" />
+    </ContentView.Resources>
+    
+    <ContentView.Content>
+      
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Grid.Column="0" Text="Distance" FontSize="36" HorizontalOptions="End"/>
+                <Label Grid.Column="1" Text="Progress" FontSize="36" HorizontalOptions="Center"/>
+                <Label Grid.Column="2" Text="Incline" FontSize="36" HorizontalOptions="End"/>
+                <Label Grid.Column="3" Text="Speed" FontSize="36" HorizontalOptions="End"/>
+            </Grid>
+
+            <ListView Grid.Row="1"
+                    RowHeight="100" 
+                    cal:Message.Attach="[Event ItemSelected] = [Action HandleItemSelected($source, $this.SelectedItem)]"
+                    ItemsSource="{Binding Workout, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                                <Grid BackgroundColor="{Binding WorkoutState.Active, 
+                                     Converter={StaticResource boolToColorConverter}, 
+                                     ConverterParameter={StaticResource TreadmillBlue}}">
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Column="0" Text="{Binding DistanceMiles, StringFormat='{0:N2}'}" FontSize="36" HorizontalOptions="End"/>
+                                    <Label Grid.Column="1" Text="{Binding PercentComplete, StringFormat='{0:P1}'}" FontSize="36" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="2" Text="{Binding Incline}" FontSize="36" HorizontalOptions="End"/>
+                                    <Label Grid.Column="3" Text="{Binding Speed}" FontSize="36" HorizontalOptions="End"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+
+                    </ListView.ItemTemplate>
+                </ListView>
+
+            <Button Grid.Row="2"
+                        Text="End" 
+                        FontSize="36"
+                        IsVisible="{Binding WorkoutState.Paused}"
+                        HeightRequest="200"
+                        BackgroundColor="{StaticResource TreadmillRed}"
+                        cal:Message.Attach="[Event Clicked] = [EndWorkout]" />
+
+            <Button Grid.Row="3"
+                        Text="Begin"
+                        FontSize="36"
+                        HeightRequest="200"
+                        BackgroundColor="{StaticResource TreadmillGreen}"
+                        cal:Message.Attach="[Event Clicked] = [DoWorkout]" />
+
+            <Button Grid.Row="3" 
+                        Text="Pause" 
+                        FontSize="36"
+                        IsVisible="{Binding WorkoutState.Active}"
+                        HeightRequest="200"
+                        BackgroundColor="{StaticResource TreadmillYellow}"
+                        cal:Message.Attach="[Event Clicked] = [PauseWorkout]" />
+            
+            <Button Grid.Row="3"
+                        Text="Resume"
+                        FontSize="36"
+                        IsVisible="{Binding WorkoutState.Paused}"
+                        HeightRequest="200"
+                        BackgroundColor="{StaticResource TreadmillGreen}"
+                        cal:Message.Attach="[Event Clicked] = [ResumeWorkout]" />
+
+        </Grid>
+
+    </ContentView.Content>
+</ContentView>

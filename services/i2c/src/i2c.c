@@ -90,7 +90,7 @@ void parse_i2c(int SCL, int SDA)
         case SCL_STEADY + SDA_RISING:
             if (SCL)
             {
-                printf("message end. len=%d, bit=%d\n",received_length,bit);
+                // printf("message end. len=%d, bit=%d\n",received_length,bit);
                 in_data = 0;
                 byte = 0;
                 bit = 0;
@@ -135,7 +135,7 @@ void handle_interrupt(int _)
 
 void handle_scl_changed(int gpio, int level, uint32_t tick)
 {
-    //printf("handle_scl_changed: %d\n", level);
+    // printf("handle_scl_changed: %d\n", level);
     if (gpio != scl_pin)
         return;
 
@@ -145,7 +145,7 @@ void handle_scl_changed(int gpio, int level, uint32_t tick)
 
 void handle_sda_changed(int gpio, int level, uint32_t tick)
 {
-    //printf("handle_sda_changed: %d\n", level);
+    // printf("handle_sda_changed: %d\n", level);
     if (gpio != sda_pin)
         return;
 

@@ -21,6 +21,7 @@ namespace Treadmill.Ui.Droid
 
             Container.Bind<IPreferencesAdapter>().To<XamarinPreferencesAdapter>();
             Container.Rebind<IWorkoutViewModel>().To<WorkoutViewModel>().InSingletonScope();
+            Container.Rebind<IWorkoutsViewModel>().To<WorkoutsViewModel>().InSingletonScope();
         }
 
         public static IEnumerable<Assembly> SelectAssemblies() => new[]

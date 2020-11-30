@@ -13,7 +13,8 @@
 
     <TabbedPage.Resources>
         <ResourceDictionary>
-                <ResourceDictionary Source="../Styles/Styles.xaml" />
+            <ResourceDictionary Source="../Styles/Styles.xaml" />
+            <ResourceDictionary x:Name="styles"/>
         </ResourceDictionary>
     </TabbedPage.Resources>
 

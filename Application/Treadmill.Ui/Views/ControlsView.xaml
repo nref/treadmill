@@ -106,41 +106,6 @@
                     </StackLayout>
                 </StackLayout>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    
-                    <Button Grid.Row="0" Text="End" 
-                    FontSize="36"
-                    IsVisible="{Binding WorkoutViewModel.WorkoutState.Paused}"
-                    Command="{Binding HandleEnd}"
-                    BackgroundColor="{StaticResource TreadmillRed}"/>
-
-                    <Button Grid.Row="1" Text="Begin" 
-                    FontSize="36"
-                    Command="{Binding HandleStart}" 
-                    BackgroundColor="{StaticResource TreadmillGreen}"/>
-
-                    <Button Grid.Row="1" Text="Pause" 
-                    FontSize="36"
-                    IsVisible="{Binding WorkoutViewModel.WorkoutState.Active}"
-                    Command="{Binding HandlePause}" 
-                    BackgroundColor="{StaticResource TreadmillYellow}" />
-
-                    <Button Grid.Row="1" Text="Resume" 
-                    FontSize="36"
-                    IsVisible="{Binding WorkoutViewModel.WorkoutState.Paused}"
-                    Command="{Binding HandleResume}" 
-                    BackgroundColor="{StaticResource TreadmillGreen}" />
-
-                    <Label Grid.Row="1"
-                    Text="{Binding ConnectionStatus}"
-                    FontSize="Large"
-                    VerticalOptions="End"
-                    HorizontalOptions="Start" />
-                </Grid>
             </StackLayout>
 
 

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Treadmill.Domain.Adapters;
 
 namespace Treadmill.Domain.Services

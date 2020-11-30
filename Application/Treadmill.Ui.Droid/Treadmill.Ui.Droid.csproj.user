@@ -3,7 +3,7 @@
   <PropertyGroup>
     <SelectedDevice>Amazon KFSUWI</SelectedDevice>
     <!-- <SelectedDevice>pixel_2_pie_9_0_-_api_28</SelectedDevice> -->
-    <DefaultDevice>pixel_2_pie_9_0_-_api_28</DefaultDevice>
+    <DefaultDevice>VisualStudio_android-25_x86_phone</DefaultDevice>
     <AndroidDesignerPreferredTheme>Theme.AppCompat.Light.NoActionBar</AndroidDesignerPreferredTheme>
   </PropertyGroup>
 </Project>

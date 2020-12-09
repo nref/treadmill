@@ -38,6 +38,8 @@ namespace Treadmill.Infrastructure
 
             Container.Bind<ITreadmillService>().To<TreadmillService>()
                 .WithConstructorArgument("metrics", new UdpService(config.MetricsIp, config.LocalUdpMetricsPort));
+            
+                Container.Bind<ITreadmillAdapter>().To<TreadmillAdapter>();
 
             Container.Bind<ITreadmillClient>().To<GpioClient>()
                 .WithConstructorArgument("remoteUrl", config.GpioClientRemoteUrl);

@@ -27,6 +27,7 @@ namespace Treadmill.Ui.Droid
 
         protected override void Configure()
         {
+            LogManager.GetLog = type => new CaliburnMicroLogger(type); // This makes the UI slow. Use if needed
             var prefs = new XamarinPreferencesAdapter();
             var config = new DomainConfiguration(prefs);
             _container = new DroidCompositionRoot(config);

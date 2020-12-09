@@ -45,7 +45,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Label Grid.Column="0" Text="{Binding Name}" FontSize="36" HorizontalOptions="Start"/>
+                            <Label Text="{Binding Name}" FontSize="36" HorizontalOptions="Start"/>
                         </ViewCell>
                     </DataTemplate>
 
@@ -53,29 +53,36 @@
             </ListView>
 
             <ContentView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
-                         IsVisible="{Binding Editing, Converter={StaticResource boolInverter}}"
                          cal:View.Model="{Binding WorkoutViewModel}">
             </ContentView>
 
-
-            <ContentView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
-                         IsVisible="{Binding Editing}"
-                         cal:View.Model="{Binding WorkoutEditViewModel}">
-            </ContentView>
-
-
             <StackLayout Grid.Row="2"  Grid.Column="0"  Orientation="Horizontal">
-                <ImageButton Source="pencil_240.png" 
-                             BackgroundColor="Transparent"
-                             cal:Message.Attach="[Event Clicked] = [HandleEditClicked]"/>
-
                 <ImageButton Source="plus_240.png" 
                              BackgroundColor="Transparent"
-                             cal:Message.Attach="[Event Clicked] = [HandleAddClicked]"/>
+                             cal:Message.Attach="[Event Clicked] = [HandleStartAdd]"/>
 
                 <ImageButton Source="minus_240.png" 
                              BackgroundColor="Transparent"
-                             cal:Message.Attach="[Event Clicked] = [HandleRemoveClicked]"/>
+                             cal:Message.Attach="[Event Clicked] = [HandleStartRemove]"/>
+            </StackLayout>
+
+            <StackLayout Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"
+                    Background="Red"
+                    IsVisible="{Binding ConfirmingRemove}">
+
+                <Label Text="Really delete?" FontSize="36"/>
+                <Button Text="Yes" cal:Message.Attach="[Event Clicked] = [HandleConfirmRemove]"/>
+                <Button Text="Cancel" cal:Message.Attach="[Event Clicked] = [HandleCancelRemove]"/>
+            </StackLayout>
+
+            <StackLayout Grid.Row="0" Grid.RowSpan="3" Grid.Column="0"
+                    Background="Green"
+                    IsVisible="{Binding Adding}">
+
+                <Label Text="Workout Name:" FontSize="36"/>
+                <Entry Text="{Binding NewWorkoutName}"/>
+                <Button Text="Add" cal:Message.Attach="[Event Clicked] = [HandleFinishAdd]"/>
+                <Button Text="Cancel" cal:Message.Attach="[Event Clicked] = [HandleCancelAdd]"/>
             </StackLayout>
             
         </Grid>

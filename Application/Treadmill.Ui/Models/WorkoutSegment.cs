@@ -37,12 +37,12 @@ namespace Treadmill.Ui.Models
 
     public class Workout : FullyObservableCollection<WorkoutSegment>
     {
-        public Workout(string name = null)
+        public string Name { get; set; }
+
+        public Workout(string name = default)
         {
             Name = name;
         }
-
-        public string Name { get; set; }
     }
 
     public class WorkoutSegment : INotifyPropertyChanged
@@ -50,6 +50,8 @@ namespace Treadmill.Ui.Models
         private bool _active;
         private int _elapsedSeconds;
         private double _speed;
+        private double _incline;
+        private double _distanceMiles;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -68,7 +70,7 @@ namespace Treadmill.Ui.Models
 
         public int ElapsedSeconds
         {
-            get => _elapsedSeconds; 
+            get => _elapsedSeconds;
             set
             {
                 if (Math.Abs(_elapsedSeconds - value) < MathExtensions.ZERO)
@@ -81,9 +83,17 @@ namespace Treadmill.Ui.Models
         }
 
         public double PercentComplete => ElapsedSeconds / (double)DurationSeconds;
-
-        public double DistanceMiles { get; set; }
-        public double Incline { get; set; }
+        public double DistanceMiles
+        {
+            get => _distanceMiles;
+            set
+            {
+                if (Math.Abs(_distanceMiles - value) < MathExtensions.ZERO)
+                    return;
+                _distanceMiles = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Min/mi
@@ -91,7 +101,29 @@ namespace Treadmill.Ui.Models
         public Pace Pace { get => Pace.FromSpeed(Speed); set => Speed = value.ToSpeed(); }
 
         public int DurationSeconds { get => (int)(60 * 60 * DistanceMiles / Speed); }
-        public double Speed { get => _speed; set => _speed = Math.Round(value, 1); }
+        public double Speed
+        {
+            get => _speed;
+            set
+            {
+                if (Math.Abs(_speed - value) < MathExtensions.ZERO)
+                    return;
+                _speed = Math.Round(value, 1);
+                NotifyPropertyChanged();
+            }
+        }
+
+        public double Incline
+        {
+            get => _incline;
+            set
+            {
+                if (Math.Abs(_incline - value) < MathExtensions.ZERO)
+                    return;
+                _incline = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public static WorkoutSegment MetersAtPace(double distance, string paceMinPerMi)
         {

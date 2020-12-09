@@ -337,6 +337,43 @@ namespace Treadmill.Ui.ViewModels
                 WorkoutSegment.MetersAtPace(400, recovery),
                 WorkoutSegment.MilesAtPace(1, "00:6:20.000"),
             });
-        }
+
+            Workouts.Add(new Workout("1up 1mi 1dn")
+            {
+                WorkoutSegment.MilesAtPace(1.0, "00:08:20.000").AtIncline(1),
+
+                // strides
+                WorkoutSegment.MetersAtPace(100, "00:6:15.000").AtIncline(1),
+                WorkoutSegment.MetersAtPace(100, recovery),
+                WorkoutSegment.MetersAtPace(100, "00:6:00.000").AtIncline(1),
+                WorkoutSegment.MetersAtPace(100, recovery),
+
+                // main set
+                WorkoutSegment.MilesAtPace(1, "00:6:00.000").AtIncline(1),
+
+                WorkoutSegment.MilesAtPace(1.0, "00:08:57.000").AtIncline(1),
+            });
+
+            Workouts.Add(new Workout("1up 4x[800m 400jg]")
+            {
+                WorkoutSegment.MilesAtPace(1.0, "00:08:00.000").AtIncline(1),
+
+                // strides
+                WorkoutSegment.MetersAtPace(100, "00:6:00.000").AtIncline(1),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(1),
+                WorkoutSegment.MetersAtPace(100, "00:5:46.000").AtIncline(1),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(1),
+
+                // main set
+                WorkoutSegment.MetersAtPace(800, "00:5:53.000").AtIncline(1),
+                WorkoutSegment.MetersAtPace(400, recovery).AtIncline(1),
+                WorkoutSegment.MetersAtPace(800, "00:5:46.000").AtIncline(1),
+                WorkoutSegment.MetersAtPace(400, recovery).AtIncline(1),
+                WorkoutSegment.MetersAtPace(800, "00:5:40.000").AtIncline(1),
+                WorkoutSegment.MetersAtPace(400, recovery).AtIncline(1),
+                WorkoutSegment.MetersAtPace(800, "00:5:30.000").AtIncline(1),
+                WorkoutSegment.MetersAtPace(400, recovery).AtIncline(1),
+            });
+    }
     }
 }

@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=5
 User=root
-WorkingDirectory=/home/pi/precor956i/services
+WorkingDirectory=/home/pi/treadmill/services
 ExecStart=/usr/bin/make run
 
 [Install]

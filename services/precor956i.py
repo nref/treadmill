@@ -143,13 +143,13 @@ class Precor956i:
 
     def validate_state(self):
         
-        if (self.state in [TreadmillState.Started] and self.speed_feedback < ZERO):
-            print(f"speed is zero. Assuming paused.")
-            self.state = TreadmillState.Paused
+        # if (self.state in [TreadmillState.Started] and self.speed_feedback < ZERO):
+        #     print(f"speed is zero. Assuming paused.")
+        #     self.state = TreadmillState.Paused
 
-        if (self.state not in [TreadmillState.Started] and self.speed_feedback > ZERO):
-            print(f"speed is nonzero. Assuming started.")
-            self.state = TreadmillState.Started
+        # if (self.state not in [TreadmillState.Started] and self.speed_feedback > ZERO):
+        #     print(f"speed is nonzero. Assuming started.")
+        #     self.state = TreadmillState.Started
         pass
 
     # Do not change speed or incline outside of the Started state

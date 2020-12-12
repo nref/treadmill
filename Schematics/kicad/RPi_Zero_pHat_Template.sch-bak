@@ -1,0 +1,728 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector:Conn_01x06_Male J5
+U 1 1 5E5BC209
+P 6250 1600
+F 0 "J5" H 6358 1981 50  0000 C CNN
+F 1 "Conn_01x06_Male" H 6358 1890 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Horizontal" H 6250 1600 50  0001 C CNN
+F 3 "~" H 6250 1600 50  0001 C CNN
+	1    6250 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector-ML:RPi_GPIO J7
+U 1 1 5516AE26
+P 7200 3900
+F 0 "J7" H 7950 4150 60  0000 C CNN
+F 1 "RPi_GPIO" H 7950 4050 60  0000 C CNN
+F 2 "RPi_Hat:Pin_Header_Straight_2x20" H 7200 3900 60  0001 C CNN
+F 3 "" H 7200 3900 60  0000 C CNN
+	1    7200 3900
+	1    0    0    -1  
+$EndComp
+Text Notes 7150 6200 0    100  Italic 0
+Thru-Hole Connector
+Wire Wire Line
+	1700 6200 2700 6200
+Wire Wire Line
+	1700 6100 2700 6100
+Wire Wire Line
+	1700 6000 2700 6000
+Wire Wire Line
+	1700 5900 2700 5900
+Wire Wire Line
+	1700 5800 2700 5800
+Wire Wire Line
+	1700 5700 2700 5700
+$Comp
+L Connector:Conn_01x06_Male J4
+U 1 1 5E5C0128
+P 2500 5900
+F 0 "J4" H 2608 6281 50  0000 C CNN
+F 1 "Conn_01x06_Male" H 2608 6190 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Horizontal" H 2500 5900 50  0001 C CNN
+F 3 "~" H 2500 5900 50  0001 C CNN
+	1    2500 5900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR02
+U 1 1 5E5F7A02
+P 2250 5200
+F 0 "#PWR02" H 2250 4950 50  0001 C CNN
+F 1 "GND" H 2255 5027 50  0000 C CNN
+F 2 "" H 2250 5200 50  0001 C CNN
+F 3 "" H 2250 5200 50  0001 C CNN
+	1    2250 5200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR01
+U 1 1 5E5FAB2D
+P 2250 4600
+F 0 "#PWR01" H 2250 4450 50  0001 C CNN
+F 1 "+5V" H 2265 4773 50  0000 C CNN
+F 2 "" H 2250 4600 50  0001 C CNN
+F 3 "" H 2250 4600 50  0001 C CNN
+	1    2250 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4500 5000 5450 5000
+Wire Wire Line
+	4500 4950 4500 5000
+Wire Wire Line
+	4500 4600 4900 4600
+Wire Wire Line
+	4500 4650 4500 4600
+Wire Wire Line
+	4500 5500 5450 5500
+Wire Wire Line
+	4500 5450 4500 5500
+Wire Wire Line
+	4500 5150 4500 5100
+Wire Wire Line
+	4500 6000 5450 6000
+Wire Wire Line
+	4500 5950 4500 6000
+Wire Wire Line
+	4500 5650 4500 5600
+$Comp
+L Device:LED D7
+U 1 1 5E6033FE
+P 4500 5800
+F 0 "D7" V 4447 5878 50  0000 L CNN
+F 1 "LED" V 4538 5878 50  0000 L CNN
+F 2 "LED_THT:LED_D3.0mm" H 4500 5800 50  0001 C CNN
+F 3 "~" H 4500 5800 50  0001 C CNN
+	1    4500 5800
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D6
+U 1 1 5E602CD7
+P 4500 5300
+F 0 "D6" V 4447 5378 50  0000 L CNN
+F 1 "LED" V 4538 5378 50  0000 L CNN
+F 2 "LED_THT:LED_D3.0mm" H 4500 5300 50  0001 C CNN
+F 3 "~" H 4500 5300 50  0001 C CNN
+	1    4500 5300
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D5
+U 1 1 5E602607
+P 4500 4800
+F 0 "D5" V 4447 4878 50  0000 L CNN
+F 1 "LED" V 4538 4878 50  0000 L CNN
+F 2 "LED_THT:LED_D3.0mm" H 4500 4800 50  0001 C CNN
+F 3 "~" H 4500 4800 50  0001 C CNN
+	1    4500 4800
+	0    1    1    0   
+$EndComp
+$Comp
+L Transistor_BJT:PN2222A Q6
+U 1 1 5E5D3B60
+P 5550 5300
+F 0 "Q6" H 5740 5346 50  0000 L CNN
+F 1 "PN2222A" H 5740 5255 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5750 5225 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 5550 5300 50  0001 L CNN
+	1    5550 5300
+	-1   0    0    1   
+$EndComp
+$Comp
+L Transistor_BJT:PN2222A Q5
+U 1 1 5E5D43B9
+P 5550 4800
+F 0 "Q5" H 5740 4846 50  0000 L CNN
+F 1 "PN2222A" H 5740 4755 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5750 4725 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 5550 4800 50  0001 L CNN
+	1    5550 4800
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4500 3500 5450 3500
+Wire Wire Line
+	4500 3450 4500 3500
+Wire Wire Line
+	4500 3150 4500 3100
+Wire Wire Line
+	4500 3950 4500 4000
+Wire Wire Line
+	4500 3650 4500 3600
+Wire Wire Line
+	4500 4450 4500 4500
+Wire Wire Line
+	4500 4100 4900 4100
+Wire Wire Line
+	4500 4150 4500 4100
+$Comp
+L Device:LED D4
+U 1 1 5E60E958
+P 4500 4300
+F 0 "D4" V 4447 4378 50  0000 L CNN
+F 1 "LED" V 4538 4378 50  0000 L CNN
+F 2 "LED_THT:LED_D3.0mm" H 4500 4300 50  0001 C CNN
+F 3 "~" H 4500 4300 50  0001 C CNN
+	1    4500 4300
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D3
+U 1 1 5E60E95E
+P 4500 3800
+F 0 "D3" V 4447 3878 50  0000 L CNN
+F 1 "LED" V 4538 3878 50  0000 L CNN
+F 2 "LED_THT:LED_D3.0mm" H 4500 3800 50  0001 C CNN
+F 3 "~" H 4500 3800 50  0001 C CNN
+	1    4500 3800
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:LED D2
+U 1 1 5E60E964
+P 4500 3300
+F 0 "D2" V 4447 3378 50  0000 L CNN
+F 1 "LED" V 4538 3378 50  0000 L CNN
+F 2 "LED_THT:LED_D3.0mm" H 4500 3300 50  0001 C CNN
+F 3 "~" H 4500 3300 50  0001 C CNN
+	1    4500 3300
+	0    1    1    0   
+$EndComp
+$Comp
+L Transistor_BJT:PN2222A Q3
+U 1 1 5E60E96B
+P 5550 3800
+F 0 "Q3" H 5740 3846 50  0000 L CNN
+F 1 "PN2222A" H 5740 3755 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5750 3725 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 5550 3800 50  0001 L CNN
+	1    5550 3800
+	-1   0    0    1   
+$EndComp
+$Comp
+L Transistor_BJT:PN2222A Q2
+U 1 1 5E60E971
+P 5550 3300
+F 0 "Q2" H 5740 3346 50  0000 L CNN
+F 1 "PN2222A" H 5740 3255 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5750 3225 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 5550 3300 50  0001 L CNN
+	1    5550 3300
+	-1   0    0    1   
+$EndComp
+$Comp
+L Transistor_BJT:PN2222A Q4
+U 1 1 5E60E977
+P 5550 4300
+F 0 "Q4" H 5740 4346 50  0000 L CNN
+F 1 "PN2222A" H 5740 4255 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5750 4225 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 5550 4300 50  0001 L CNN
+	1    5550 4300
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5750 5300 5750 5600
+Wire Wire Line
+	5750 5600 7000 5600
+Wire Wire Line
+	5750 4800 5850 4800
+Wire Wire Line
+	5850 4800 5850 5500
+Wire Wire Line
+	5850 5500 7000 5500
+Wire Wire Line
+	5750 4300 5950 4300
+Wire Wire Line
+	5950 4300 5950 5400
+Wire Wire Line
+	5950 5400 7000 5400
+Wire Wire Line
+	5750 3800 6050 3800
+Wire Wire Line
+	6050 3800 6050 5300
+Wire Wire Line
+	6050 5300 7000 5300
+$Comp
+L Transistor_BJT:PN2222A Q7
+U 1 1 5E5D2562
+P 5550 5800
+F 0 "Q7" H 5740 5846 50  0000 L CNN
+F 1 "PN2222A" H 5740 5755 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 5750 5725 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 5550 5800 50  0001 L CNN
+	1    5550 5800
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5750 5800 5750 5700
+Wire Wire Line
+	5750 5700 7000 5700
+Wire Wire Line
+	5750 3300 6150 3300
+Wire Wire Line
+	6150 3300 6150 4600
+Wire Wire Line
+	6150 4600 7000 4600
+$Comp
+L Connector:Conn_01x02_Male J2
+U 1 1 5E5C1325
+P 2500 4850
+F 0 "J2" H 2608 5031 50  0000 C CNN
+F 1 "Conn_01x02_Male" H 2608 4940 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Horizontal" H 2500 4850 50  0001 C CNN
+F 3 "~" H 2500 4850 50  0001 C CNN
+	1    2500 4850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2700 6200 4250 6200
+Wire Wire Line
+	4250 6200 4250 6000
+Wire Wire Line
+	4250 6000 4500 6000
+Connection ~ 2700 6200
+Connection ~ 4500 6000
+Wire Wire Line
+	2700 6100 4150 6100
+Wire Wire Line
+	4150 6100 4150 5500
+Wire Wire Line
+	4150 5500 4500 5500
+Connection ~ 2700 6100
+Connection ~ 4500 5500
+Wire Wire Line
+	2700 6000 4050 6000
+Wire Wire Line
+	4050 6000 4050 5000
+Wire Wire Line
+	4050 5000 4500 5000
+Connection ~ 2700 6000
+Connection ~ 4500 5000
+Wire Wire Line
+	2700 5900 3950 5900
+Wire Wire Line
+	3950 5900 3950 4500
+Wire Wire Line
+	3950 4500 4500 4500
+Connection ~ 2700 5900
+Connection ~ 4500 4500
+Wire Wire Line
+	2700 5800 3850 5800
+Wire Wire Line
+	3850 5800 3850 4000
+Connection ~ 2700 5800
+Connection ~ 4500 4000
+Wire Wire Line
+	2700 5700 3750 5700
+Wire Wire Line
+	3750 5700 3750 3500
+Wire Wire Line
+	3750 3500 4500 3500
+Connection ~ 2700 5700
+Connection ~ 4500 3500
+Wire Wire Line
+	3850 4000 4500 4000
+Wire Wire Line
+	5850 5800 7000 5800
+Wire Wire Line
+	5850 6300 5850 5800
+$Comp
+L Device:LED D1
+U 1 1 5E66AB69
+P 2800 4150
+F 0 "D1" V 2747 4228 50  0000 L CNN
+F 1 "LED" V 2838 4228 50  0000 L CNN
+F 2 "LED_THT:LED_D3.0mm" H 2800 4150 50  0001 C CNN
+F 3 "~" H 2800 4150 50  0001 C CNN
+	1    2800 4150
+	-1   0    0    1   
+$EndComp
+$Comp
+L Transistor_BJT:PN2222A Q1
+U 1 1 5E67EB0E
+P 2100 4250
+F 0 "Q1" H 2290 4296 50  0000 L CNN
+F 1 "PN2222A" H 2290 4205 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 2300 4175 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 2100 4250 50  0001 L CNN
+	1    2100 4250
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	2200 4250 2200 4150
+Wire Wire Line
+	2200 4150 2300 4150
+Wire Wire Line
+	2650 4150 2300 4150
+Connection ~ 2300 4150
+Wire Wire Line
+	2100 4450 2100 4500
+Wire Wire Line
+	2100 4500 600  4500
+Wire Wire Line
+	600  6400 9000 6400
+Wire Wire Line
+	9000 6400 9000 5800
+Wire Wire Line
+	9000 5800 8900 5800
+$Comp
+L Connector:Conn_01x02_Male J1
+U 1 1 5E5C0963
+P 1450 4850
+F 0 "J1" H 1558 5031 50  0000 C CNN
+F 1 "Conn_01x02_Male" H 1558 4940 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Horizontal" H 1450 4850 50  0001 C CNN
+F 3 "~" H 1450 4850 50  0001 C CNN
+	1    1450 4850
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2250 4600 2250 4850
+Connection ~ 2250 4850
+Wire Wire Line
+	1650 4850 2250 4850
+Wire Wire Line
+	2250 4850 2700 4850
+Wire Wire Line
+	2250 4950 2700 4950
+Connection ~ 2700 4950
+Wire Wire Line
+	600  4500 600  4950
+Wire Wire Line
+	1650 4950 600  4950
+Connection ~ 600  4950
+Wire Wire Line
+	600  4950 600  6400
+$Comp
+L Transistor_BJT:PN2222A Q8
+U 1 1 5E744D5B
+P 8600 1300
+F 0 "Q8" H 8790 1346 50  0000 L CNN
+F 1 "PN2222A" H 8790 1255 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 8800 1225 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 8600 1300 50  0001 L CNN
+	1    8600 1300
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5E74D1AA
+P 9150 1500
+F 0 "R2" H 9220 1546 50  0000 L CNN
+F 1 "R1K" H 9220 1455 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal" V 9080 1500 50  0001 C CNN
+F 3 "~" H 9150 1500 50  0001 C CNN
+	1    9150 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 5E74DC15
+P 9150 1300
+F 0 "R1" H 9220 1346 50  0000 L CNN
+F 1 "R1K" H 9220 1255 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal" V 9080 1300 50  0001 C CNN
+F 3 "~" H 9150 1300 50  0001 C CNN
+	1    9150 1300
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8500 1500 9000 1500
+Wire Wire Line
+	8800 1300 9000 1300
+Wire Wire Line
+	8500 1100 7850 1100
+Wire Wire Line
+	7850 1100 7850 1500
+Wire Wire Line
+	9300 1300 9600 1300
+Wire Wire Line
+	9600 1300 9600 1500
+Wire Wire Line
+	9600 4700 8900 4700
+Wire Wire Line
+	9300 1500 9600 1500
+Connection ~ 9600 1500
+Wire Wire Line
+	9600 1500 9600 4700
+$Comp
+L Transistor_BJT:PN2222A Q9
+U 1 1 5E7A02CA
+P 8600 1850
+F 0 "Q9" H 8790 1896 50  0000 L CNN
+F 1 "PN2222A" H 8790 1805 50  0000 L CNN
+F 2 "Package_TO_SOT_THT:TO-92_Inline" H 8800 1775 50  0001 L CIN
+F 3 "http://www.fairchildsemi.com/ds/PN/PN2222A.pdf" H 8600 1850 50  0001 L CNN
+	1    8600 1850
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:R R4
+U 1 1 5E7A02D0
+P 9150 2050
+F 0 "R4" H 9220 2096 50  0000 L CNN
+F 1 "R1K" H 9220 2005 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal" V 9080 2050 50  0001 C CNN
+F 3 "~" H 9150 2050 50  0001 C CNN
+	1    9150 2050
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Device:R R3
+U 1 1 5E7A02D6
+P 9150 1850
+F 0 "R3" H 9220 1896 50  0000 L CNN
+F 1 "R1K" H 9220 1805 50  0000 L CNN
+F 2 "Resistor_THT:R_Axial_DIN0204_L3.6mm_D1.6mm_P7.62mm_Horizontal" V 9080 1850 50  0001 C CNN
+F 3 "~" H 9150 1850 50  0001 C CNN
+	1    9150 1850
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	8500 2050 9000 2050
+Wire Wire Line
+	8800 1850 9000 1850
+Wire Wire Line
+	8500 1650 8500 1600
+Wire Wire Line
+	9300 1850 9500 1850
+Wire Wire Line
+	9500 1850 9500 2050
+Wire Wire Line
+	9500 4600 8900 4600
+Wire Wire Line
+	9300 2050 9500 2050
+Connection ~ 9500 2050
+Wire Wire Line
+	9500 2050 9500 4600
+NoConn ~ 8900 3900
+NoConn ~ 8900 4000
+NoConn ~ 8900 4100
+NoConn ~ 8900 4200
+NoConn ~ 8900 4300
+NoConn ~ 8900 4400
+NoConn ~ 8900 4500
+NoConn ~ 7000 3900
+NoConn ~ 7000 4000
+NoConn ~ 7000 4100
+NoConn ~ 7000 4200
+NoConn ~ 7000 4300
+NoConn ~ 7000 4400
+NoConn ~ 7000 4500
+NoConn ~ 7000 4700
+NoConn ~ 7000 4800
+NoConn ~ 7000 4900
+NoConn ~ 7000 5000
+NoConn ~ 7000 5100
+NoConn ~ 7000 5200
+NoConn ~ 8900 4800
+NoConn ~ 8900 4900
+NoConn ~ 8900 5000
+NoConn ~ 8900 5100
+NoConn ~ 8900 5200
+NoConn ~ 8900 5300
+NoConn ~ 8900 5400
+NoConn ~ 8900 5500
+NoConn ~ 8900 5600
+NoConn ~ 8900 5700
+NoConn ~ 1900 4150
+Connection ~ 7500 1600
+Wire Wire Line
+	8500 1600 7500 1600
+Wire Wire Line
+	7500 1500 7850 1500
+Connection ~ 7500 1500
+Wire Wire Line
+	6450 1900 7500 1900
+Wire Wire Line
+	6450 1800 7500 1800
+Wire Wire Line
+	7500 1700 6450 1700
+Wire Wire Line
+	6450 1600 7500 1600
+Wire Wire Line
+	6450 1500 7500 1500
+Wire Wire Line
+	6450 1400 7500 1400
+$Comp
+L Connector:Conn_01x06_Male J6
+U 1 1 5E5BCC50
+P 7300 1600
+F 0 "J6" H 7408 1981 50  0000 C CNN
+F 1 "Conn_01x06_Male" H 7408 1890 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Horizontal" H 7300 1600 50  0001 C CNN
+F 3 "~" H 7300 1600 50  0001 C CNN
+	1    7300 1600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5E85FC88
+P 2600 4600
+F 0 "#FLG0101" H 2600 4675 50  0001 C CNN
+F 1 "PWR_FLAG" V 2600 4728 50  0000 L CNN
+F 2 "" H 2600 4600 50  0001 C CNN
+F 3 "~" H 2600 4600 50  0001 C CNN
+	1    2600 4600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2600 4600 2250 4600
+Connection ~ 2250 4600
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 5E865FC8
+P 2600 5100
+F 0 "#FLG0102" H 2600 5175 50  0001 C CNN
+F 1 "PWR_FLAG" V 2600 5228 50  0000 L CNN
+F 2 "" H 2600 5100 50  0001 C CNN
+F 3 "~" H 2600 5100 50  0001 C CNN
+	1    2600 5100
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	2250 5100 2600 5100
+Connection ~ 2250 5100
+Wire Wire Line
+	2250 5100 2250 5200
+Wire Wire Line
+	2250 5100 1200 5100
+Wire Wire Line
+	1200 5100 1200 6300
+Wire Wire Line
+	2250 4950 2250 5100
+Wire Wire Line
+	3150 4950 3150 4150
+Wire Wire Line
+	2700 4950 3150 4950
+Wire Wire Line
+	3150 4150 2950 4150
+Wire Wire Line
+	4500 3100 4900 3100
+Wire Wire Line
+	4500 4000 5450 4000
+Wire Wire Line
+	4500 3600 4900 3600
+Wire Wire Line
+	4500 4500 5450 4500
+Wire Wire Line
+	4500 5100 4900 5100
+Wire Wire Line
+	1200 6300 5850 6300
+$Comp
+L power:GND #PWR0101
+U 1 1 5E901E54
+P 4900 5600
+F 0 "#PWR0101" H 4900 5350 50  0001 C CNN
+F 1 "GND" H 4905 5427 50  0000 C CNN
+F 2 "" H 4900 5600 50  0001 C CNN
+F 3 "" H 4900 5600 50  0001 C CNN
+	1    4900 5600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0102
+U 1 1 5E903217
+P 4900 5100
+F 0 "#PWR0102" H 4900 4850 50  0001 C CNN
+F 1 "GND" H 4905 4927 50  0000 C CNN
+F 2 "" H 4900 5100 50  0001 C CNN
+F 3 "" H 4900 5100 50  0001 C CNN
+	1    4900 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5E90735C
+P 4900 4600
+F 0 "#PWR0103" H 4900 4350 50  0001 C CNN
+F 1 "GND" H 4905 4427 50  0000 C CNN
+F 2 "" H 4900 4600 50  0001 C CNN
+F 3 "" H 4900 4600 50  0001 C CNN
+	1    4900 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0104
+U 1 1 5E90B79A
+P 4900 4100
+F 0 "#PWR0104" H 4900 3850 50  0001 C CNN
+F 1 "GND" H 4905 3927 50  0000 C CNN
+F 2 "" H 4900 4100 50  0001 C CNN
+F 3 "" H 4900 4100 50  0001 C CNN
+	1    4900 4100
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5E90F894
+P 4900 3600
+F 0 "#PWR0105" H 4900 3350 50  0001 C CNN
+F 1 "GND" H 4905 3427 50  0000 C CNN
+F 2 "" H 4900 3600 50  0001 C CNN
+F 3 "" H 4900 3600 50  0001 C CNN
+	1    4900 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0106
+U 1 1 5E913B50
+P 4900 3100
+F 0 "#PWR0106" H 4900 2850 50  0001 C CNN
+F 1 "GND" H 4905 2927 50  0000 C CNN
+F 2 "" H 4900 3100 50  0001 C CNN
+F 3 "" H 4900 3100 50  0001 C CNN
+	1    4900 3100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x06_Male J3
+U 1 1 5E5C0122
+P 1500 5900
+F 0 "J3" H 1608 6281 50  0000 C CNN
+F 1 "Conn_01x06_Male" H 1608 6190 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Horizontal" H 1500 5900 50  0001 C CNN
+F 3 "~" H 1500 5900 50  0001 C CNN
+	1    1500 5900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4500 5600 4900 5600
+Connection ~ 4900 5600
+Wire Wire Line
+	4900 5600 5450 5600
+Connection ~ 4900 5100
+Wire Wire Line
+	4900 5100 5450 5100
+Connection ~ 4900 4600
+Wire Wire Line
+	4900 4600 5450 4600
+Connection ~ 4900 4100
+Wire Wire Line
+	4900 4100 5450 4100
+Connection ~ 4900 3600
+Wire Wire Line
+	4900 3600 5450 3600
+Connection ~ 4900 3100
+Wire Wire Line
+	4900 3100 5450 3100
+$EndSCHEMATC

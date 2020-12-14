@@ -35,6 +35,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2BB4D330
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Treadmill.Adapters.RemoteTreadmill", "Infrastructure\Treadmill.Adapters.RemoteTreadmill\Treadmill.Adapters.RemoteTreadmill.csproj", "{74CE8F62-22F3-45B7-9521-E4043CC23E67}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Treadmill.Data", "Infrastructure\Treadmill.Data\Treadmill.Data.csproj", "{2F82A2BE-8D61-4E1A-B7AC-A43BEFDA4EC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{74CE8F62-22F3-45B7-9521-E4043CC23E67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74CE8F62-22F3-45B7-9521-E4043CC23E67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74CE8F62-22F3-45B7-9521-E4043CC23E67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F82A2BE-8D61-4E1A-B7AC-A43BEFDA4EC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F82A2BE-8D61-4E1A-B7AC-A43BEFDA4EC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F82A2BE-8D61-4E1A-B7AC-A43BEFDA4EC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F82A2BE-8D61-4E1A-B7AC-A43BEFDA4EC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +109,7 @@ Global
 		{51109C51-39FD-49FD-AE70-37B3211B9DA4} = {AAA6A452-0143-4E48-A8E7-9D7EDD6C3EA4}
 		{421E826B-1288-46E8-8CDE-DBD0701D6795} = {AAA6A452-0143-4E48-A8E7-9D7EDD6C3EA4}
 		{74CE8F62-22F3-45B7-9521-E4043CC23E67} = {AAA6A452-0143-4E48-A8E7-9D7EDD6C3EA4}
+		{2F82A2BE-8D61-4E1A-B7AC-A43BEFDA4EC5} = {AAA6A452-0143-4E48-A8E7-9D7EDD6C3EA4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31622A81-6C2B-493D-B863-AB1C65E1217D}

@@ -374,6 +374,6 @@ namespace Treadmill.Ui.ViewModels
                 WorkoutSegment.MetersAtPace(800, "00:5:30.000").AtIncline(1),
                 WorkoutSegment.MetersAtPace(400, recovery).AtIncline(1),
             });
-    }
+        }
     }
 }

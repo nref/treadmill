@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Treadmill.Adapters.Gpio
@@ -50,7 +50,7 @@ namespace Treadmill.Adapters.Gpio
         public async Task<Dictionary<int, bool>> GetGpios()
         {
             var json = await GetAsync($"pins");
-            return JsonSerializer.Deserialize<Dictionary<int, bool>>(json);
+            return JsonConvert.DeserializeObject<Dictionary<int, bool>>(json);
         }
 
         private async Task<string> GetAsync(string route)

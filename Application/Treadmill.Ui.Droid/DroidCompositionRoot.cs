@@ -29,5 +29,6 @@ namespace Treadmill.Ui.Droid
                 Assembly.GetExecutingAssembly(),
                 typeof(MainViewModel).Assembly,
             };
+      Container.Bind<IAlertService>().To<DroidAlertService>();
     }
 }

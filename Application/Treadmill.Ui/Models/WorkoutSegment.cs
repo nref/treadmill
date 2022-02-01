@@ -17,7 +17,7 @@ namespace Treadmill.Ui.Models
             return new Pace { MinutesPerMile = TimeSpan.Parse(pace).TotalMinutes };
         }
 
-        public string MinutesPerMileString => TimeSpan.FromMinutes(MinutesPerMile).ToString();
+        public string MinutesPerMileString => TimeSpan.FromMinutes(MinutesPerMile).ToString("g");
 
         public override string ToString()
         {
@@ -79,9 +79,11 @@ namespace Treadmill.Ui.Models
 
                 NotifyPropertyChanged();
                 NotifyPropertyChanged(nameof(PercentComplete));
-            }
+                NotifyPropertyChanged(nameof(TimeRemaining));
+      }
         }
 
+        public TimeSpan TimeRemaining => TimeSpan.FromSeconds(DurationSeconds-ElapsedSeconds);
         public double PercentComplete => ElapsedSeconds / (double)DurationSeconds;
         public double DistanceMiles
         {

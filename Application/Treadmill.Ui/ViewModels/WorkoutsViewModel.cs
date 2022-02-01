@@ -162,6 +162,169 @@ namespace Treadmill.Ui.ViewModels
 
             Workouts.Add(workout2);
 
+            string abbyJog = "00:12:00.000";
+            string abbyEasy = "00:20:00.000";
+
+            Workouts.Add(new Workout("C25K Week 1")
+            {
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(60, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(60, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(60, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(60, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(60, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(60, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(60, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(60, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+            });
+
+            Workouts.Add(new Workout("C25K Week 2")
+            {
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(90, abbyJog),
+                WorkoutSegment.MinutesAtPace(2, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(90, abbyJog),
+                WorkoutSegment.MinutesAtPace(2, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(90, abbyJog),
+                WorkoutSegment.MinutesAtPace(2, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(90, abbyJog),
+                WorkoutSegment.MinutesAtPace(2, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(90, abbyJog),
+                WorkoutSegment.MinutesAtPace(2, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(90, abbyJog),
+                WorkoutSegment.MinutesAtPace(2, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+            });
+
+            Workouts.Add(new Workout("C25K Week 3")
+            {
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(90, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(3, abbyJog),
+                WorkoutSegment.MinutesAtPace(3, abbyEasy),
+
+                WorkoutSegment.SecondsAtPace(90, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(3, abbyJog),
+                WorkoutSegment.MinutesAtPace(3, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+            });
+
+            Workouts.Add(new Workout("C25K Week 4")
+            {
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(3, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyJog),
+                WorkoutSegment.MinutesAtPace(2.5, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(3, abbyJog),
+                WorkoutSegment.SecondsAtPace(90, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyJog),
+
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+            });
+
+            Workouts.Add(new Workout("C25K Week 5")
+            {
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyJog),
+                WorkoutSegment.MinutesAtPace(3, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyJog),
+                WorkoutSegment.MinutesAtPace(3, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyJog),
+
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+            });
+
+            Workouts.Add(new Workout("C25K Week 6")
+            {
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyJog),
+                WorkoutSegment.MinutesAtPace(3, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(8, abbyJog),
+                WorkoutSegment.MinutesAtPace(3, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(5, abbyJog),
+
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+            });
+
+            Workouts.Add(new Workout("C25K Week 7")
+            {
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(12, abbyJog),
+                WorkoutSegment.MinutesAtPace(3, abbyEasy),
+                WorkoutSegment.MinutesAtPace(12, abbyJog),
+
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+            });
+
+            Workouts.Add(new Workout("C25K Week 8")
+            {
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+
+                WorkoutSegment.MinutesAtPace(14, abbyJog),
+                WorkoutSegment.MinutesAtPace(3, abbyEasy),
+                WorkoutSegment.MinutesAtPace(14, abbyJog),
+
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+            });
+
+            Workouts.Add(new Workout("Abby Practice 5km")
+            {
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+
+                WorkoutSegment.MilesAtPace(1, abbyJog),
+                WorkoutSegment.MinutesAtPace(2, abbyEasy),
+
+                WorkoutSegment.MilesAtPace(1, abbyJog),
+                WorkoutSegment.MinutesAtPace(2, abbyEasy),
+
+                WorkoutSegment.MilesAtPace(0.9, abbyJog),
+
+                WorkoutSegment.MinutesAtPace(5, abbyEasy),
+            });
+
             var recovery = "00:11:00.000";
             Workouts.Add(new Workout("8x400m")
             {
@@ -373,6 +536,39 @@ namespace Treadmill.Ui.ViewModels
                 WorkoutSegment.MetersAtPace(400, recovery).AtIncline(1),
                 WorkoutSegment.MetersAtPace(800, "00:5:30.000").AtIncline(1),
                 WorkoutSegment.MetersAtPace(400, recovery).AtIncline(1),
+            });
+
+            Workouts.Add(new Workout("long reps uphill")
+            {
+                // warm up
+                WorkoutSegment.MilesAtPace(2.0, "00:09:30.000").AtIncline(1),
+
+                // strides
+                WorkoutSegment.MetersAtPace(100, "00:9:45.000").AtIncline(10),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(10),
+                WorkoutSegment.MetersAtPace(100, "00:9:30.000").AtIncline(10),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(10),
+                WorkoutSegment.MetersAtPace(100, "00:9:15.000").AtIncline(10),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(10),
+                WorkoutSegment.MetersAtPace(100, "00:9:00.000").AtIncline(10),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(10),
+
+                // main set
+                WorkoutSegment.MetersAtPace(500, "00:9:00.000").AtIncline(10),
+                WorkoutSegment.MinutesAtPace(5, "00:18:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(500, "00:9:00.000").AtIncline(10),
+                WorkoutSegment.MinutesAtPace(5, "00:18:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(500, "00:9:00.000").AtIncline(10),
+                WorkoutSegment.MinutesAtPace(5, "00:18:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(500, "00:9:00.000").AtIncline(10),
+                WorkoutSegment.MinutesAtPace(5, "00:18:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(500, "00:9:00.000").AtIncline(10),
+                WorkoutSegment.MinutesAtPace(5, "00:18:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(500, "00:9:00.000").AtIncline(10),
+                WorkoutSegment.MinutesAtPace(5, "00:18:00.000").AtIncline(0),
+
+                // cool down
+                WorkoutSegment.MilesAtPace(1.0, "00:10:00.000").AtIncline(0),
             });
         }
     }

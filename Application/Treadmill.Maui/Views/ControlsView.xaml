@@ -1,0 +1,97 @@
+﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:Treadmill.Maui.Shared"
+             x:Class="Treadmill.Maui.Views.ControlsView">
+
+  <ContentView.Resources>
+    <ResourceDictionary>
+      <shared:StringToDoubleConverter x:Key="stringToDoubleConverter" />
+      <ResourceDictionary Source="../Styles/Styles.xaml" />
+    </ResourceDictionary>
+  </ContentView.Resources>
+
+  <ContentView.Content>
+    <Grid>
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+
+      <Grid Grid.Column="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="0" Grid.Row="0" Text="Speed" HorizontalOptions="Center"/>
+
+        <Label Grid.Column="0" Grid.Row="1"
+                        Text="{Binding Speed}"
+                        FontAttributes="Bold"   
+                        HorizontalOptions="Center" />
+
+        <Button Grid.Column="0" Grid.Row="2" 
+                        Text="Speed Up"
+                        Command="{Binding HandleSpeedUp}" />
+
+        <Button Grid.Column="0" Grid.Row="3" 
+                        Text="Speed Down"
+                        Command="{Binding HandleSpeedDown}" />
+
+        <Entry Grid.Column="0" Grid.Row="4"
+                        VerticalOptions="End"
+                        HorizontalOptions="Center"
+                        Keyboard="Numeric"
+                        Text="{Binding SpeedEntry, 
+                            Converter={StaticResource stringToDoubleConverter}, 
+                            Mode=OneWayToSource}"/>
+
+        <Button Grid.Column="0" Grid.Row="5" 
+                        Text="Go To Speed"
+                        Command="{Binding HandleGoToSpeed}" />
+
+        <Label Grid.Column="1" Grid.Row="0" Text="Incline" HorizontalOptions="Center"/>
+        
+        <Label Grid.Column="1" Grid.Row="1"
+                        Text="{Binding Incline}"
+                        FontAttributes="Bold"   
+                        HorizontalOptions="Center" />
+
+        <Button Grid.Column="1" Grid.Row="2" 
+                        Text="Incline Up"
+                        Command="{Binding HandleInclineUp}" />
+
+        <Button Grid.Column="1" Grid.Row="3" 
+                        Text="Incline Down"
+                        Command="{Binding HandleInclineDown}" />
+
+        <Entry Grid.Column="1" Grid.Row="4"
+                        VerticalOptions="End"
+                        HorizontalOptions="Center"
+                        Keyboard="Numeric"
+                        Text="{Binding InclineEntry, 
+                            Converter={StaticResource stringToDoubleConverter}, 
+                            Mode=OneWayToSource}"/>
+
+        <Button Grid.Column="1" Grid.Row="5" 
+                        Text="Go To Incline"
+                        Command="{Binding HandleGoToIncline}" />
+      </Grid>
+
+      <ContentView Grid.Column="1" Content="{Binding WorkoutViewModel}"/>
+
+
+    </Grid>
+
+  </ContentView.Content>
+</ContentView>

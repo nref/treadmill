@@ -1,62 +1,58 @@
-﻿using Ninject;
+﻿using Autofac;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using Treadmill.Adapters.Gpio;
+using System.Reflection;
 using Treadmill.Adapters.RemoteTreadmill;
 using Treadmill.Domain.Adapters;
 using Treadmill.Domain.Services;
 
 namespace Treadmill.Infrastructure
 {
-    public interface ICompositionRoot
+  public interface ICompositionRoot
+  {
+    object Get(Type t);
+    T Get<T>();
+  }
+
+  public class CompositionRoot : ICompositionRoot
+  {
+    private readonly DomainConfiguration _config;
+
+    protected IContainer _Container { get; set; }
+
+    public virtual IEnumerable<Assembly> Assemblies { get; } = new List<Assembly>() { Assembly.GetExecutingAssembly() };
+
+    public CompositionRoot(DomainConfiguration config)
     {
-        object Get(Type t);
-        List<object> GetAll(Type t);
-        T Get<T>();
-        List<T> GetAll<T>();
-        void Inject(object instance);
+      _config = config;
     }
 
-    public class CompositionRoot : ICompositionRoot
+    public virtual void Configure(ContainerBuilder builder)
     {
-        protected IKernel Container { get; private set; }
+      foreach (var assembly in Assemblies)
+      {
+        builder.RegisterAssemblyTypes(assembly).AsImplementedInterfaces();
+      }
 
-        public CompositionRoot(DomainConfiguration config)
-        {
-            Container = new StandardKernel(new NinjectSettings { LoadExtensions = false });
+      builder.RegisterType<RemoteTreadmillAdapter>()
+                .As<IRemoteTreadmillAdapter>()
+                .SingleInstance()
+                .WithParameter("udpMetrics", new UdpService(_config.LocalIp, _config.LocalUdpPort))
+                .WithParameter("health", new UdpService(_config.LocalIp, _config.LocalUdpHealthPort));
 
-            Container.Bind<IRemoteTreadmillAdapter>()
-                .To<RemoteTreadmillAdapter>()
-                .InSingletonScope()
-                .WithConstructorArgument("udpMetrics", new UdpService(config.LocalIp, config.LocalUdpPort))
-                .WithConstructorArgument("health", new UdpService(config.LocalIp, config.LocalUdpHealthPort));
+      builder.RegisterType<RemoteTreadmillClient>()
+          .As<IRemoteTreadmillClient>()
+          .WithParameter("remoteUrl", _config.RemoteTreadmillServiceUrl);
 
-            Container.Bind<IRemoteTreadmillClient>()
-                .To<RemoteTreadmillClient>()
-                .WithConstructorArgument("remoteUrl", config.RemoteTreadmillServiceUrl);
+      builder.RegisterType<HttpService>().As<IHttpService>()
+          .WithParameter("url", _config.LocalUrl);
 
-            Container.Bind<ITreadmillService>().To<TreadmillService>()
-                .WithConstructorArgument("metrics", new UdpService(config.MetricsIp, config.LocalUdpMetricsPort));
-            
-                Container.Bind<ITreadmillAdapter>().To<TreadmillAdapter>();
-
-            Container.Bind<ITreadmillClient>().To<GpioClient>()
-                .WithConstructorArgument("remoteUrl", config.GpioClientRemoteUrl);
-
-            Container.Bind<IHttpService>().To<HttpService>()
-                .WithConstructorArgument("url", config.LocalUrl);
-
-            Container.Bind<IRemoteTreadmillService>().To<RemoteTreadmillService>().InSingletonScope();
-            Container.Bind<IConnectionService>().To<ConnectionService>().InSingletonScope();
-            Container.Bind<ILogService>().To<LogService>().InSingletonScope();
-        }
-
-        public object Get(Type t) => Container.Get(t);
-        public List<object> GetAll(Type t) => Container.GetAll(t).ToList();
-        public T Get<T>() => Container.Get<T>();
-        public List<T> GetAll<T>() => Container.GetAll<T>().ToList();
-
-        public void Inject(object instance) => Container.Inject(instance);
+      builder.RegisterType<RemoteTreadmillService>().As<IRemoteTreadmillService>().SingleInstance();
+      builder.RegisterType<ConnectionService>().As<IConnectionService>().SingleInstance();
+      builder.RegisterType<LogService>().As<ILogService>().SingleInstance();
     }
+
+    public object Get(Type t) => _Container.Resolve(t);
+    public T Get<T>() => _Container.Resolve<T>();
+  }
 }

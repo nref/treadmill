@@ -1,0 +1,149 @@
+﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:Treadmill.Maui.Shared"
+             x:Class="Treadmill.Maui.Views.WorkoutView">
+
+  <ContentView.Resources>
+    <ResourceDictionary>
+      <shared:BoolToColorConverter x:Key="boolToColorConverter" />
+    </ResourceDictionary>
+    <ResourceDictionary Source="../Styles/Styles.xaml" />
+  </ContentView.Resources>
+
+  <ContentView.Content>
+
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <Grid Grid.Row="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label Grid.Column="0" Text="Distance" HorizontalOptions="End"/>
+        <Label Grid.Column="1" Text="Incline" HorizontalOptions="End"/>
+        <!--<Label Grid.Column="2" Text="Speed" HorizontalOptions="End"/>-->
+        <Label Grid.Column="2" Text="Pace" HorizontalOptions="End"/>
+        <Label Grid.Column="3" Text="Time" HorizontalOptions="Center"/>
+      </Grid>
+
+      <ListView Grid.Row="1"
+                    RowHeight="75" 
+                    ItemsSource="{Binding Workout, Mode=TwoWay}"
+                    SelectedItem="{Binding SelectedSegment, Mode=TwoWay}">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <Grid BackgroundColor="{Binding Active, 
+                                     Converter={StaticResource boolToColorConverter}, 
+                                     ConverterParameter={StaticResource TreadmillBlue}}">
+
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Entry Grid.Column="0" Text="{Binding DistanceMiles, StringFormat='{0:N2}'}" HorizontalOptions="End"/>
+                <Entry Grid.Column="1" Text="{Binding Incline}" HorizontalOptions="End"/>
+                <!--<Entry Grid.Column="2" Text="{Binding Speed}" HorizontalOptions="End"/>-->
+                <Entry Grid.Column="2" Text="{Binding Pace.MinutesPerMileString}" FontSize="16" HorizontalOptions="End"/>
+                <Label Grid.Column="3" Text="{Binding TimeRemainingString}'}" HorizontalOptions="Center"/>
+                <!--<Label Grid.Column="3" Text="{Binding PercentComplete, StringFormat='{0:P1}'}" HorizontalOptions="Center"/>-->
+              </Grid>
+            </ViewCell>
+          </DataTemplate>
+
+        </ListView.ItemTemplate>
+      </ListView>
+
+      <StackLayout Grid.Row="2"  Grid.Column="0"  Orientation="Horizontal">
+        <Button Text="+" Command="{Binding StartAddCommand}"/>
+        <Button Text="-" Command="{Binding StartRemoveCommand}"/>
+        <Button Text="←" Command="{Binding PreviousSegmentCommand}"/>
+        <Button Text="→" Command="{Binding NextSegmentCommand}"/>
+
+      </StackLayout>
+
+      <Button Grid.Row="1" Grid.RowSpan="2"
+                        Text="End" 
+                        FontSize="Large"
+                        IsVisible="{Binding WorkoutState.Paused}"
+                        BackgroundColor="{StaticResource TreadmillRed}"
+                        Command="{Binding EndWorkoutCommand}" />
+
+      <Button Grid.Row="3"
+                        Text="Begin"
+                        FontSize="Large"
+                        BackgroundColor="{StaticResource TreadmillGreen}"
+                        Command="{Binding DoWorkoutCommand}" />
+
+      <Button Grid.Row="3" 
+                        Text="Pause" 
+                        FontSize="Large"
+                        IsVisible="{Binding WorkoutState.Active}"
+                        BackgroundColor="{StaticResource TreadmillYellow}"
+                        Command="{Binding PauseWorkoutCommand}" />
+
+      <Button Grid.Row="3"
+                        Text="Resume"
+                        FontSize="Large"
+                        IsVisible="{Binding WorkoutState.Paused}"
+                        BackgroundColor="{StaticResource TreadmillGreen}"
+                        Command="{Binding ResumeWorkoutCommand}" />
+
+      <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0"
+                    Background="Red"
+                    IsVisible="{Binding ConfirmingRemove}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="Large" Text="Really delete?"/>
+        <Button Grid.Row="1" Grid.Column="0" Text="Yes" Command="{Binding ConfirmRemoveCommand}"/>
+        <Button Grid.Row="1" Grid.Column="1" Text="Cancel" Command="{Binding CancelRemoveCommand}"/>
+      </Grid>
+
+      <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0"
+                    Background="Green"
+                    IsVisible="{Binding Adding}">
+        
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+          <RowDefinition/>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <Label Grid.Row="0" Grid.Column="0" Text="Distance:" FontSize="Large"/>
+        <Entry Grid.Row="0" Grid.Column="1" Text="{Binding SegmentToAdd.DistanceMiles}"/>
+        <Label Grid.Row="1" Grid.Column="0" Text="Speed:" FontSize="Large"/>
+        <Entry Grid.Row="1" Grid.Column="1" Text="{Binding SegmentToAdd.Speed}"/>
+        <Label Grid.Row="2" Grid.Column="0" Text="Incline:" FontSize="Large"/>
+        <Entry Grid.Row="2" Grid.Column="1" Text="{Binding SegmentToAdd.Incline}"/>
+        <Button Grid.Row="3" Grid.Column="0" Text="Add" Command="{Binding FinishAddCommand}"/>
+        <Button Grid.Row="3" Grid.Column="1" Text="Cancel" Command="{Binding CancelAddCommand}"/>
+      </Grid>
+
+    </Grid>
+
+  </ContentView.Content>
+</ContentView>

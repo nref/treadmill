@@ -1,0 +1,15 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Treadmill.Maui.MainPage"
+             xmlns:views="clr-namespace:Treadmill.Maui.Views"
+             xmlns:viewModels="clr-namespace:Treadmill.Maui.ViewModels"
+             BackgroundColor="{DynamicResource SecondaryColor}">
+
+  <ScrollView>
+    <Grid RowSpacing="25" RowDefinitions="Auto,Auto,Auto,Auto,*" ColumnDefinitions="*,*"
+              Padding="{OnPlatform iOS='30,60,30,30', Default='30'}">
+
+      <ContentView Grid.Row="0" Grid.Column="0" Content="{Binding MainView}" BindingContext="{Binding MainView}"/>
+    </Grid>
+  </ScrollView>
+</ContentPage>

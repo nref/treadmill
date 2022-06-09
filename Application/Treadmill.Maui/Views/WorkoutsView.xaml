@@ -1,0 +1,89 @@
+﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:shared="clr-namespace:Treadmill.Maui.Shared"
+             x:Class="Treadmill.Maui.Views.WorkoutsView">
+
+  <ContentView.Resources>
+    <ResourceDictionary>
+      <shared:BoolInverter x:Key="boolInverter" />
+      <ResourceDictionary Source="../Styles/Styles.xaml" />
+    </ResourceDictionary>
+  </ContentView.Resources>
+
+  <ContentView.Content>
+
+    <Grid>
+
+      <Grid.RowDefinitions>
+        <RowDefinition Height="9*"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+
+      <ListView Grid.Row="0" Grid.Column="0"
+                      ItemsSource="{Binding Workouts}"
+                      SelectedItem="{Binding Workout, Mode=TwoWay}">
+
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <Label Text="{Binding Name}" HorizontalOptions="Start"/>
+            </ViewCell>
+          </DataTemplate>
+
+        </ListView.ItemTemplate>
+      </ListView>
+
+      <ContentView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" Content="{Binding WorkoutViewModel}">
+      </ContentView>
+
+      <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+        <Button Text="+" Command="{Binding StartAddCommand}"/>
+        <Button Text="-" Command="{Binding StartRemoveCommand}"/>
+      </StackLayout>
+
+      <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                    Background="Red"
+                    IsVisible="{Binding ConfirmingRemove}">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Really delete?"/>
+        <Button Grid.Row="1" Grid.Column="0" Text="Yes" Command="{Binding ConfirmRemoveCommand}"/>
+        <Button Grid.Row="1" Grid.Column="1" Text="Cancel" Command="{Binding CancelRemoveCommand}"/>
+      </Grid>
+
+      <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
+                    Background="Green"
+                    IsVisible="{Binding Adding}">
+
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition/>
+          <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+          <RowDefinition/>
+          <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0" Grid.Column="0" Text="Workout Name:"/>
+        <Entry Grid.Row="0" Grid.Column="1" Text="{Binding NewWorkoutName}"/>
+        <Button Grid.Row="1" Grid.Column="0" Text="Add" Command="{Binding FinishAddCommand}"/>
+        <Button Grid.Row="1" Grid.Column="1" Text="Cancel" Command="{Binding CancelAddCommand}"/>
+      </Grid>
+
+    </Grid>
+  </ContentView.Content>
+</ContentView>

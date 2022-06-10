@@ -2,16 +2,11 @@
 
 namespace Treadmill.Maui.Views;
 
-[XamlCompilation(XamlCompilationOptions.Compile)]
-public partial class MainView : TabbedPage
+public partial class MainView : Shell
 {
-  private IMainViewModel _viewModel;
-
-  public MainView(IMainViewModel viewModel)
+  public MainView(IMainViewModel vm)
   {
-    _viewModel = viewModel;
-    BindingContext = _viewModel;
-
+    BindingContext = vm;
     InitializeComponent();
   }
 }

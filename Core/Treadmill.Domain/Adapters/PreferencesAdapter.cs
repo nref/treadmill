@@ -51,6 +51,7 @@ namespace Treadmill.Domain.Adapters
       LocalUdpMetricsPort = 7887;
 
       MetricsIp = "192.168.1.164";
+      // netsh http add urlacl url=http://+:8002/ user=DOMAIN\user
       ListenUri = $"http://{LocalIp}:8002/";
     }
 

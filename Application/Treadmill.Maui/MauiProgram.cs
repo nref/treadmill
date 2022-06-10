@@ -1,32 +1,37 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Maui.Plugins.PageResolver;
 using Treadmill.Infrastructure;
+using Treadmill.Maui;
 using Treadmill.Maui.Adapters;
 
-namespace Treadmill.Maui;
-
-public static class MauiProgram
+namespace Treadmill.Maui
 {
-  public static MauiApp CreateMauiApp()
+  public static class MauiProgram
   {
-    MauiAppBuilder builder = MauiApp.CreateBuilder();
-    builder
-      .UseMauiApp<App>()
-      .UsePageResolver()
-      .ConfigureFonts(fonts =>
-      {
-        fonts.AddFont("OpenSansRegular.ttf", "OpenSansRegular");
-      });
-
-    builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory(builder =>
+    public static MauiApp CreateMauiApp()
     {
-      var prefs = new MauiPreferencesAdapter();
-      var config = new DomainConfiguration(prefs);
-      var root = new AppCompositionRoot(config);
+      MauiAppBuilder builder = MauiApp.CreateBuilder();
+      builder
+        .UseMauiApp<App>()
+        .ConfigureFonts(fonts =>
+        {
+          fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+          fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+        })
+        .ConfigureContainer(new AutofacServiceProviderFactory(builder =>
+        {
+          var prefs = new MauiPreferencesAdapter();
+          var config = new DomainConfiguration(prefs);
+          var root = new AppCompositionRoot(config);
 
-      root.Configure(builder);
-    }));
-    return builder.Build();
+          root.Configure(builder);
+        }), builder =>
+        {
+
+        });
+
+      return builder.Build();
+    }
+
   }
 }

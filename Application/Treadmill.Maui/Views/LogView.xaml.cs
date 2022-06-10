@@ -2,16 +2,11 @@
 
 namespace Treadmill.Maui.Views;
 
-[XamlCompilation(XamlCompilationOptions.Compile)]
-public partial class LogView : ContentView
+public partial class LogView : ContentPage
 {
-  private readonly ILogViewModel _viewModel;
-
-  public LogView(ILogViewModel viewModel)
+  public LogView(ILogViewModel vm)
   {
-    _viewModel = viewModel;
-    BindingContext = _viewModel;
-
+    BindingContext = vm;
     InitializeComponent();
   }
 }

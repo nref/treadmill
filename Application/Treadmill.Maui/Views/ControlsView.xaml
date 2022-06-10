@@ -1,16 +1,17 @@
-﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:shared="clr-namespace:Treadmill.Maui.Shared"
+             xmlns:views="clr-namespace:Treadmill.Maui.Views"
              x:Class="Treadmill.Maui.Views.ControlsView">
 
-  <ContentView.Resources>
+  <ContentPage.Resources>
     <ResourceDictionary>
       <shared:StringToDoubleConverter x:Key="stringToDoubleConverter" />
       <ResourceDictionary Source="../Styles/Styles.xaml" />
     </ResourceDictionary>
-  </ContentView.Resources>
+  </ContentPage.Resources>
 
-  <ContentView.Content>
+  <ContentPage.Content>
     <Grid>
 
       <Grid.ColumnDefinitions>
@@ -18,7 +19,7 @@
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
 
-      <Grid Grid.Column="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
+      <Grid Grid.Column="0">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="*"/>
@@ -88,10 +89,11 @@
                         Command="{Binding HandleGoToIncline}" />
       </Grid>
 
-      <ContentView Grid.Column="1" Content="{Binding WorkoutViewModel}"/>
-
+      <!-- BindingContext is ControlsViewModel but we need ControlsView.WorkoutView -->
+      <ContentView Grid.Column="1" 
+                   Content="{Binding Source={RelativeSource AncestorType={x:Type views:ControlsView}}, Path=WorkoutView}"/>
 
     </Grid>
 
-  </ContentView.Content>
-</ContentView>
+  </ContentPage.Content>
+</ContentPage>

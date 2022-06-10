@@ -2,16 +2,11 @@
 
 namespace Treadmill.Maui.Views;
 
-[XamlCompilation(XamlCompilationOptions.Compile)]
-public partial class SettingsView : ContentView
+public partial class SettingsView : ContentPage
 {
-  private readonly ISettingsViewModel _viewModel;
-
-  public SettingsView(ISettingsViewModel viewModel)
+  public SettingsView(ISettingsViewModel vm)
   {
-    _viewModel = viewModel;
-    BindingContext = _viewModel;
-
+    BindingContext = vm;
     InitializeComponent();
   }
 }

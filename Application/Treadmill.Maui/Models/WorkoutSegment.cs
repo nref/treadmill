@@ -7,7 +7,7 @@ using Treadmill.Models;
 namespace Treadmill.Maui.Models;
 
 [DebuggerDisplay("{MinutesPerMileString}")]
-public class Pace
+public class Pace : Model
 {
   public double MinutesPerMile { get; set; }
 
@@ -16,7 +16,32 @@ public class Pace
     return new Pace { MinutesPerMile = TimeSpan.Parse(pace).TotalMinutes };
   }
 
-  public string MinutesPerMileString => $@"{TimeSpan.FromMinutes(MinutesPerMile):hh\:mm\:ss}/mi".TrimStart(' ', 'd', 'h', 'm', 's', '0', ':');
+  /// <summary>
+  /// Remove "/mi" and make sure the remainder is in the format hh:mm:ss.
+  /// </summary>
+  private string NormalizeMinMi(string pace)
+  {
+    string time = pace.Replace("/mi", "");
+
+    while (time.Split(":").Length < 3)
+    {
+      // By prepending 00:, we wssume we were given ss or mm:ss
+      time = $"00:{time}";
+    }
+
+    return time;
+  }
+
+  public string MinutesPerMileString
+  {
+    get => $@"{TimeSpan.FromMinutes(MinutesPerMile):hh\:mm\:ss}/mi".TrimStart(' ', 'd', 'h', 'm', 's', '0', ':');
+    set
+    {
+      string pace = NormalizeMinMi(value);
+      MinutesPerMile = FromMinutesPerMile(pace).MinutesPerMile;
+      NotifyPropertyChanged();
+    }
+  }
 
   public override string ToString()
   {

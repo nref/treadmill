@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Autofac;
 using Treadmill.Domain.Adapters;
+using Treadmill.Domain.Services;
 using Treadmill.Infrastructure;
 using Treadmill.Maui.Adapters;
 using Treadmill.Maui.ViewModels;
@@ -18,14 +19,20 @@ namespace Treadmill.Maui
     {
       base.Configure(builder);
 
+      builder.RegisterType<AlertService>().As<IAlertService>();
       builder.RegisterType<MauiPreferencesAdapter>().As<IPreferencesAdapter>();
-      builder.RegisterType<WorkoutViewModel>().As<IWorkoutViewModel>().SingleInstance();
-      builder.RegisterType<WorkoutsViewModel>().As<IWorkoutsViewModel>().SingleInstance();
 
-      builder.RegisterType<MainView>();
+      builder.RegisterType<ControlsViewModel>().As<IControlsViewModel>();
+      builder.RegisterType<LogViewModel>().As<ILogViewModel>();
+      builder.RegisterType<MainViewModel>().As<IMainViewModel>();
+      builder.RegisterType<SettingsViewModel>().As<ISettingsViewModel>();
+      builder.RegisterType<WorkoutsViewModel>().As<IWorkoutsViewModel>().SingleInstance();
+      builder.RegisterType<WorkoutViewModel>().As<IWorkoutViewModel>().SingleInstance();
+
       builder.RegisterType<ControlsView>();
-      builder.RegisterType<SettingsView>();
       builder.RegisterType<LogView>();
+      builder.RegisterType<MainView>();
+      builder.RegisterType<SettingsView>();
       builder.RegisterType<WorkoutsView>();
       builder.RegisterType<WorkoutView>();
     }
@@ -33,7 +40,8 @@ namespace Treadmill.Maui
     public override IEnumerable<Assembly> Assemblies => new[]
     {
       Assembly.GetExecutingAssembly(),
-      typeof(MainViewModel).Assembly,
+      typeof(Treadmill.Models.Log).Assembly,
+      typeof(Treadmill.Domain.Services.IAlertService).Assembly,
     };
   }
 }

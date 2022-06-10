@@ -1,23 +1,15 @@
-﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:shared="clr-namespace:Treadmill.Maui.Shared"
              x:Class="Treadmill.Maui.Views.SettingsView">
 
-  <ContentView.Resources>
+  <ContentPage.Resources>
     <ResourceDictionary>
       <shared:IntToStringConverter x:Key="intToStringConverter" />
-
-      <Style TargetType="Entry">
-        <Style.Triggers>
-          <Trigger TargetType="Entry" Property="IsFocused" Value="True">
-            <Setter Property="BackgroundColor" Value="Moccasin" />
-          </Trigger>
-        </Style.Triggers>
-      </Style>
     </ResourceDictionary>
-  </ContentView.Resources>
+  </ContentPage.Resources>
 
-  <ContentView.Content>
+  <ContentPage.Content>
     <ScrollView>
       <StackLayout>
         <Grid>
@@ -30,8 +22,7 @@
         </Grid>
 
         <Grid>
-          <BoxView BackgroundColor="Gray" />
-          <StackLayout BackgroundColor="White" Margin="5">
+          <StackLayout  Margin="5">
 
             <Grid>
               <Grid.ColumnDefinitions>
@@ -89,5 +80,5 @@
         </Grid>
       </StackLayout>
     </ScrollView>
-  </ContentView.Content>
-</ContentView>
+  </ContentPage.Content>
+</ContentPage>

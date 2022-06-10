@@ -1,5 +1,7 @@
-﻿using Treadmill.Domain.Services;
+﻿using System.Windows.Input;
+using Treadmill.Domain.Services;
 using Treadmill.Maui.Models;
+using Treadmill.Models;
 
 namespace Treadmill.Maui.ViewModels;
 
@@ -9,7 +11,7 @@ public interface IWorkoutViewModel
   WorkoutState WorkoutState { get; }
 }
 
-public class WorkoutViewModel : BindableObject, IWorkoutViewModel
+public class WorkoutViewModel : ViewModel, IWorkoutViewModel
 {
   private Workout _workout;
   public Workout Workout
@@ -21,7 +23,7 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
         return;
 
       _workout = value;
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -37,8 +39,6 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
   /// </summary>
   public WorkoutSegment SegmentToAdd { get; set; } = new WorkoutSegment();
 
-  public string DisplayName { get; set; } = "Workout";
-
   private bool _adding;
   public bool Adding
   {
@@ -51,7 +51,7 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
       }
       _adding = value;
 
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -67,12 +67,11 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
       }
       _confirmingDelete = value;
 
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
   private readonly IAlertService _alerts;
-  private readonly ILogService _logger;
   private readonly IRemoteTreadmillService _treadmill;
   private DateTime _segmentStart;
   private TimeSpan _pollInterval = new TimeSpan(0, 0, 1);
@@ -84,22 +83,57 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
   private WorkoutSegment _Segment { get => _segmentIndex < Workout.Count ? Workout[_segmentIndex] : null; }
   private CancellationTokenSource _cts = new CancellationTokenSource();
 
-  public WorkoutViewModel(IAlertService alerts, ILogService logger, IRemoteTreadmillService treadmill)
+  public ICommand StartAddCommand { private set; get; }
+  public ICommand StartRemoveCommand { private set; get; }
+  public ICommand PreviousSegmentCommand { private set; get; }
+  public ICommand NextSegmentCommand { private set; get; }
+  public ICommand EndWorkoutCommand { private set; get; }
+  public ICommand DoWorkoutCommand { private set; get; }
+  public ICommand PauseWorkoutCommand { private set; get; }
+  public ICommand ResumeWorkoutCommand { private set; get; }
+  public ICommand ConfirmRemoveCommand { private set; get; }
+  public ICommand CancelRemoveCommand { private set; get; }
+  public ICommand FinishAddCommand { private set; get; }
+  public ICommand CancelAddCommand { private set; get; }
+  
+  public WorkoutViewModel(IAlertService alerts, IRemoteTreadmillService treadmill)
   {
     _alerts = alerts;
-    _logger = logger;
     _treadmill = treadmill;
     WorkoutState = new WorkoutState(treadmill);
     _treadmill.PropertyChanged += WorkoutState.HandlePropertyChanged;
+
+    StartAddCommand = new Command(HandleStartAdd);
+    StartRemoveCommand = new Command(HandleStartRemove);
+    PreviousSegmentCommand = new Command(HandlePreviousSegment);
+    NextSegmentCommand = new Command(HandleNextSegment);
+    EndWorkoutCommand = new Command(() => _ = EndWorkout());
+    DoWorkoutCommand = new Command(() => _ = DoWorkout());
+    PauseWorkoutCommand = new Command(() => _ = PauseWorkout());
+    ResumeWorkoutCommand = new Command(() => _ = ResumeWorkout());
+    ConfirmRemoveCommand = new Command(HandleConfirmRemove);
+    CancelRemoveCommand = new Command(HandleCancelRemove);
+    FinishAddCommand = new Command(HandleFinishAdd);
+    CancelAddCommand = new Command(HandleCancelAdd);
   }
 
   public void HandleStartAdd()
   {
+    if (Workout == null)
+    {
+      return;
+    }
+
     Adding = true;
   }
 
   public void HandleFinishAdd()
   {
+    if (Workout == null)
+    {
+      return;
+    }
+
     Adding = false;
     Workout.Add(SegmentToAdd);
     SegmentToAdd = new WorkoutSegment();
@@ -112,6 +146,11 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
 
   public void HandleStartRemove()
   {
+    if (Workout == null)
+    {
+      return;
+    }
+
     if (SelectedSegment == default)
     {
       return;
@@ -122,6 +161,11 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
 
   public void HandleConfirmRemove()
   {
+    if (Workout == null)
+    {
+      return;
+    }
+
     if (SelectedSegment == default)
     {
       return;
@@ -138,13 +182,13 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
 
   public void HandleNextSegment()
   {
-    _logger.Add($"Skipping segment");
+    Log.Add($"Skipping segment");
     NextSegment();
   }
 
   public void HandlePreviousSegment()
   {
-    _logger.Add($"Going back to previous segment");
+    Log.Add($"Going back to previous segment");
     PreviousSegment();
   }
 
@@ -160,7 +204,7 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
   {
     if (Workout == default)
     {
-      _logger.Add($"Cannot start workout; none selected");
+      Log.Add($"Cannot start workout; none selected");
       return false;
     }
 
@@ -180,12 +224,12 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
 
     if (_segmentIndex >= Workout.Count)
     {
-      _logger.Add($"Workout finished");
+      Log.Add($"Workout finished");
       await _treadmill.End();
       return true;
     }
 
-    _logger.Add($"Beginning segment {_segmentIndex + 1}");
+    Log.Add($"Beginning segment {_segmentIndex + 1}");
 
     _Segment.Active = true;
     _segmentStart = DateTime.UtcNow;
@@ -195,9 +239,17 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
     bool ok = await _treadmill.GoToIncline(_Segment.Incline);
     ok &= await _treadmill.GoToSpeed(_Segment.Speed);
 
-    Device.StartTimer(_pollInterval, () => SegmentTick(_cts.Token));
+    StartSegment();
 
     return ok;
+  }
+
+  private void StartSegment()
+  {
+    var timer = Dispatcher.CreateTimer();
+    timer.Interval = _pollInterval;
+    timer.Tick += (sender, e) => SegmentTick(_cts.Token);
+    timer.Start();
   }
 
   private bool SegmentTick(CancellationToken token)
@@ -207,14 +259,14 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
 
     if (_segmentIndex >= Workout.Count)
     {
-      _logger.Add($"Workout finished mid-segment");
+      Log.Add($"Workout finished mid-segment");
       _treadmill.End();
       return false;
     }
 
     if (token.IsCancellationRequested)
     {
-      _logger.Add($"Segment cancelled");
+      Log.Add($"Segment cancelled");
       return false;
     }
 
@@ -229,7 +281,7 @@ public class WorkoutViewModel : BindableObject, IWorkoutViewModel
 
     if (segmentDone)
     {
-      _logger.Add($"Finished segment {_segmentIndex + 1}");
+      Log.Add($"Finished segment {_segmentIndex + 1}");
 
       NextSegment();
     }

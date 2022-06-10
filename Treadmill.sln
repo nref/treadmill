@@ -19,7 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2BB4D330
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Treadmill.Adapters.RemoteTreadmill", "Infrastructure\Treadmill.Adapters.RemoteTreadmill\Treadmill.Adapters.RemoteTreadmill.csproj", "{74CE8F62-22F3-45B7-9521-E4043CC23E67}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Treadmill.Maui", "Application\Treadmill.Maui\Treadmill.Maui.csproj", "{CFA80EB2-60CE-4DDC-983F-C67638627353}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Treadmill.Maui", "Application\Treadmill.Maui\Treadmill.Maui.csproj", "{9ACDF5A7-1AC8-433C-BD5E-A627A91A0867}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,12 +43,12 @@ Global
 		{74CE8F62-22F3-45B7-9521-E4043CC23E67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74CE8F62-22F3-45B7-9521-E4043CC23E67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74CE8F62-22F3-45B7-9521-E4043CC23E67}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CFA80EB2-60CE-4DDC-983F-C67638627353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CFA80EB2-60CE-4DDC-983F-C67638627353}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CFA80EB2-60CE-4DDC-983F-C67638627353}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{CFA80EB2-60CE-4DDC-983F-C67638627353}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CFA80EB2-60CE-4DDC-983F-C67638627353}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CFA80EB2-60CE-4DDC-983F-C67638627353}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9ACDF5A7-1AC8-433C-BD5E-A627A91A0867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ACDF5A7-1AC8-433C-BD5E-A627A91A0867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ACDF5A7-1AC8-433C-BD5E-A627A91A0867}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9ACDF5A7-1AC8-433C-BD5E-A627A91A0867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ACDF5A7-1AC8-433C-BD5E-A627A91A0867}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ACDF5A7-1AC8-433C-BD5E-A627A91A0867}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,7 +58,7 @@ Global
 		{97DBEB84-90AA-42A3-851E-64E8FB4131E1} = {FB5C7022-85EC-4EAD-92C1-651F0283006C}
 		{51109C51-39FD-49FD-AE70-37B3211B9DA4} = {AAA6A452-0143-4E48-A8E7-9D7EDD6C3EA4}
 		{74CE8F62-22F3-45B7-9521-E4043CC23E67} = {AAA6A452-0143-4E48-A8E7-9D7EDD6C3EA4}
-		{CFA80EB2-60CE-4DDC-983F-C67638627353} = {06CEF967-C56D-463B-94CA-69D4C610ADCE}
+		{9ACDF5A7-1AC8-433C-BD5E-A627A91A0867} = {06CEF967-C56D-463B-94CA-69D4C610ADCE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {31622A81-6C2B-493D-B863-AB1C65E1217D}

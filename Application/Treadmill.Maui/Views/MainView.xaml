@@ -1,30 +1,27 @@
-﻿<TabbedPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
-            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            x:Class="Treadmill.Maui.Views.MainView"
-            BarBackgroundColor="{StaticResource TreadmillDarkGray}"
-            ItemsSource="{Binding Items}"
-            SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
+﻿<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       x:Class="Treadmill.Maui.Views.MainView"
+       xmlns:views="clr-namespace:Treadmill.Maui.Views"
+       BackgroundColor="{StaticResource TreadmillDarkGray}">
 
-
-  <TabbedPage.Resources>
+  <Shell.Resources>
     <ResourceDictionary>
       <ResourceDictionary Source="../Styles/Styles.xaml" />
-      <ResourceDictionary x:Name="styles"/>
     </ResourceDictionary>
-  </TabbedPage.Resources>
+  </Shell.Resources>
 
-  <!--<ContentPage Content="{Binding ControlsView}" BackgroundColor="{StaticResource TreadmillGray}" Title="{Binding DisplayName}"/>
-  <ContentPage Content="{Binding WorkoutsView}" BackgroundColor="{StaticResource TreadmillGray}" Title="{Binding DisplayName}"/>
-  <ContentPage Content="{Binding SettingsView}" BackgroundColor="{StaticResource TreadmillGray}" Title="{Binding DisplayName}"/>
-  <ContentPage Content="{Binding LogView}" BackgroundColor="{StaticResource TreadmillGray}" Title="{Binding DisplayName}"/>-->
-
-  <TabbedPage.ItemTemplate>
-    <DataTemplate>
-      <ContentPage Visual="Material"
-                         BackgroundColor="{StaticResource TreadmillGray}"
-                         Title="{Binding DisplayName}" 
-                         BindingContext="{Binding}" />
-    </DataTemplate>
-  </TabbedPage.ItemTemplate>
-  
-</TabbedPage>
+  <TabBar>
+    <Tab Title="Controls">
+      <ShellContent ContentTemplate="{DataTemplate views:ControlsView}" />
+    </Tab>
+    <Tab  Title="Workouts">
+      <ShellContent ContentTemplate="{DataTemplate views:WorkoutsView}" />
+    </Tab>
+    <Tab  Title="Log">
+      <ShellContent ContentTemplate="{DataTemplate views:LogView}" />
+    </Tab>
+    <Tab Title="Settings">
+      <ShellContent ContentTemplate="{DataTemplate views:SettingsView}" />
+    </Tab>
+  </TabBar>
+</Shell>

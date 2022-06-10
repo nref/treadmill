@@ -10,7 +10,7 @@ public class AlertService : IAlertService
 {
   public void Alert(string message)
   {
-    if (Device.RuntimePlatform == Device.Android)
+    if (DeviceInfo.Platform == DevicePlatform.Android)
     {
 #if __ANDROID__
       Toast.MakeText(Android.App.Application.Context, message, ToastLength.Long).Show();

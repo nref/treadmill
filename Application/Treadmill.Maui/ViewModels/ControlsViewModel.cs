@@ -9,7 +9,7 @@ public interface IControlsViewModel
 {
 }
 
-public class ControlsViewModel : BindableObject, IControlsViewModel
+public class ControlsViewModel : ViewModel, IControlsViewModel
 {
   private readonly IRemoteTreadmillService _service;
   private readonly IConnectionService _connections;
@@ -28,7 +28,7 @@ public class ControlsViewModel : BindableObject, IControlsViewModel
       if (value == _connectionStatus)
         return;
       _connectionStatus = value;
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -40,7 +40,7 @@ public class ControlsViewModel : BindableObject, IControlsViewModel
       if (value == _speedEntry)
         return;
       _speedEntry = value;
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -52,7 +52,7 @@ public class ControlsViewModel : BindableObject, IControlsViewModel
       if (value == _inclineEntry)
         return;
       _inclineEntry = value;
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -64,7 +64,7 @@ public class ControlsViewModel : BindableObject, IControlsViewModel
       if (Math.Abs(value - _speed) < MathExtensions.ZERO)
         return;
       _speed = value;
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -76,7 +76,7 @@ public class ControlsViewModel : BindableObject, IControlsViewModel
       if (Math.Abs(value - _incline) < MathExtensions.ZERO)
         return;
       _incline = value;
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -91,21 +91,14 @@ public class ControlsViewModel : BindableObject, IControlsViewModel
   public ICommand HandleGoToSpeed { private set; get; }
   public ICommand HandleGoToIncline { private set; get; }
 
-  public string DisplayName { get; set; } = "Controls";
-  public IWorkoutViewModel WorkoutViewModel { get; }
-  public BindableObject WorkoutView { get; private set; }
-
   public ControlsViewModel
   (
-      IWorkoutViewModel workoutViewModel,
-      IConnectionService connections,
-      IRemoteTreadmillService service
+    IConnectionService connections,
+    IRemoteTreadmillService service
   )
   {
-    WorkoutViewModel = workoutViewModel;
     _connections = connections;
     _service = service;
-    WorkoutView = viewModels.GetViewFor<IWorkoutViewModel>();
 
     _connections.ConnectionChanged += HandleConnectionChanged;
     service.SpeedChanged += HandleSpeedChanged;

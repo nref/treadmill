@@ -3,7 +3,7 @@ using Treadmill.Domain.Services;
 
 namespace Treadmill.Maui.Models;
 
-public class WorkoutState : BindableObject
+public class WorkoutState : Model
 {
   private bool _paused;
   private bool _workoutActive;
@@ -17,7 +17,7 @@ public class WorkoutState : BindableObject
         return;
 
       _paused = value;
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -30,7 +30,7 @@ public class WorkoutState : BindableObject
         return;
 
       _workoutActive = value;
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 

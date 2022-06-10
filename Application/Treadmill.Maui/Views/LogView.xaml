@@ -1,18 +1,16 @@
-﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Treadmill.Maui.Views.LogView">
 
-  <ContentView.Content>
-    <ScrollView>
-      <ListView ItemsSource="{Binding Log}" HasUnevenRows="true">
-        <ListView.ItemTemplate>
-          <DataTemplate>
-            <ViewCell>
-              <Label Text="{Binding Message}" FontSize="Small"/>
-            </ViewCell>
-          </DataTemplate>
-        </ListView.ItemTemplate>
-      </ListView>
-    </ScrollView>
-  </ContentView.Content>
-</ContentView>
+  <ContentPage.Content>
+    <ListView ItemsSource="{Binding Log}" HasUnevenRows="true">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <Label Text="{Binding Message}" FontSize="Small"/>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </ContentPage.Content>
+</ContentPage>

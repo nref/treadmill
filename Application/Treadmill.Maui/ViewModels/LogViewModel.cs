@@ -1,6 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using Treadmill.Domain.Services;
+﻿using Treadmill.Domain.Services;
 using Treadmill.Maui.Models;
+using Treadmill.Maui.Shared;
 
 namespace Treadmill.Maui.ViewModels;
 
@@ -8,11 +8,11 @@ public interface ILogViewModel
 {
 }
 
-public class LogViewModel : BindableObject, ILogViewModel
+public class LogViewModel : ViewModel, ILogViewModel
 {
-  private ObservableCollection<LogEntry> _log = new();
+  private FullyObservableCollection<LogEntry> _log = new();
 
-  public ObservableCollection<LogEntry> Log
+  public FullyObservableCollection<LogEntry> Log
   {
     get => _log;
     set
@@ -20,24 +20,22 @@ public class LogViewModel : BindableObject, ILogViewModel
       if (value == _log)
         return;
       _log = value;
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
-  public string DisplayName { get; set; } = "Log";
 
-  private readonly ILogService _logger;
-
-  public LogViewModel(ILogService logger)
+  public LogViewModel()
   {
-    _logger = logger;
-    _logger.EventLogged += HandleEventLogged;
-    _logger = logger;
+    Treadmill.Models.Log.Added += HandleAdded;
 
-    HandleEventLogged("Logger ready");
+    Treadmill.Models.Log.Add("Logger ready");
   }
 
-  private void HandleEventLogged(string message)
+  private void HandleAdded(string message)
   {
-    Log.Insert(0, new LogEntry { Message = message });
+    _ui.Post(state =>
+    {
+      Log.Insert(0, new LogEntry { Message = message });
+    }, null);
   }
 }

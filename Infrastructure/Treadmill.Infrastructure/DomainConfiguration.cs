@@ -22,7 +22,6 @@ namespace Treadmill.Infrastructure
         public string GpioClientRemoteUrl { get; set; }
         public string LocalIp { get; set; }
         public int LocalHttpPort { get; set; }
-        public string LocalUrl { get; }
         public int LocalUdpPort { get; set; }
         public int LocalUdpHealthPort { get; set; }
         public int LocalUdpMetricsPort { get; set; }

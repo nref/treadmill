@@ -1,16 +1,17 @@
-﻿<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:shared="clr-namespace:Treadmill.Maui.Shared"
+             xmlns:views="clr-namespace:Treadmill.Maui.Views"
              x:Class="Treadmill.Maui.Views.WorkoutsView">
 
-  <ContentView.Resources>
+  <ContentPage.Resources>
     <ResourceDictionary>
       <shared:BoolInverter x:Key="boolInverter" />
       <ResourceDictionary Source="../Styles/Styles.xaml" />
     </ResourceDictionary>
-  </ContentView.Resources>
+  </ContentPage.Resources>
 
-  <ContentView.Content>
+  <ContentPage.Content>
 
     <Grid>
 
@@ -25,8 +26,8 @@
       </Grid.ColumnDefinitions>
 
       <ListView Grid.Row="0" Grid.Column="0"
-                      ItemsSource="{Binding Workouts}"
-                      SelectedItem="{Binding Workout, Mode=TwoWay}">
+                    ItemsSource="{Binding Workouts}"
+                    SelectedItem="{Binding Workout, Mode=TwoWay}">
 
         <ListView.ItemTemplate>
           <DataTemplate>
@@ -37,9 +38,10 @@
 
         </ListView.ItemTemplate>
       </ListView>
-
-      <ContentView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" Content="{Binding WorkoutViewModel}">
-      </ContentView>
+      
+      <!-- BindingContext is WorkoutsViewModel but we need WorkoutsView.WorkoutView -->
+      <ContentView Grid.Row="0" Grid.RowSpan="3" Grid.Column="1" 
+                   Content="{Binding Source={RelativeSource AncestorType={x:Type views:WorkoutsView}}, Path=WorkoutView}"/>
 
       <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
         <Button Text="+" Command="{Binding StartAddCommand}"/>
@@ -47,7 +49,7 @@
       </StackLayout>
 
       <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-                    Background="Red"
+                    Background="{StaticResource TreadmillDarkGray}"
                     IsVisible="{Binding ConfirmingRemove}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition/>
@@ -59,13 +61,13 @@
           <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Really delete?"/>
-        <Button Grid.Row="1" Grid.Column="0" Text="Yes" Command="{Binding ConfirmRemoveCommand}"/>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="Large" Text="Really delete?"/>
+        <Button Grid.Row="1" Grid.Column="0" Text="Yes" Command="{Binding ConfirmRemoveCommand}" Background="{StaticResource TreadmillGreen}"/>
         <Button Grid.Row="1" Grid.Column="1" Text="Cancel" Command="{Binding CancelRemoveCommand}"/>
       </Grid>
 
       <Grid Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"
-                    Background="Green"
+                    Background="{StaticResource TreadmillDarkGray}"
                     IsVisible="{Binding Adding}">
 
         <Grid.ColumnDefinitions>
@@ -80,10 +82,10 @@
 
         <Label Grid.Row="0" Grid.Column="0" Text="Workout Name:"/>
         <Entry Grid.Row="0" Grid.Column="1" Text="{Binding NewWorkoutName}"/>
-        <Button Grid.Row="1" Grid.Column="0" Text="Add" Command="{Binding FinishAddCommand}"/>
+        <Button Grid.Row="1" Grid.Column="0" Text="Add" Command="{Binding FinishAddCommand}" Background="{StaticResource TreadmillGreen}"/>
         <Button Grid.Row="1" Grid.Column="1" Text="Cancel" Command="{Binding CancelAddCommand}"/>
       </Grid>
 
     </Grid>
-  </ContentView.Content>
-</ContentView>
+  </ContentPage.Content>
+</ContentPage>

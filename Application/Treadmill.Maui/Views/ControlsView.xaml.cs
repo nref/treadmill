@@ -2,16 +2,14 @@
 
 namespace Treadmill.Maui.Views;
 
-[XamlCompilation(XamlCompilationOptions.Compile)]
-public partial class ControlsView : ContentView
+public partial class ControlsView : ContentPage
 {
-  private readonly IControlsViewModel _viewModel;
+  public WorkoutView WorkoutView { get; }
 
-  public ControlsView(IControlsViewModel viewModel)
+  public ControlsView(IControlsViewModel vm, WorkoutView workoutView)
   {
-    _viewModel = viewModel;
-    BindingContext = _viewModel;
-
+    BindingContext = vm;
+    WorkoutView = workoutView;
     InitializeComponent();
   }
 }

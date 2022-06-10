@@ -1,7 +1,6 @@
-﻿namespace Treadmill.Models
+﻿namespace Treadmill.Models;
+
+public class MathExtensions
 {
-  public class MathExtensions
-  {
-    public const double ZERO = 1e-9;
-  }
+  public const double ZERO = 1e-9;
 }

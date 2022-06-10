@@ -5,6 +5,7 @@ using System.Reflection;
 using Treadmill.Adapters.RemoteTreadmill;
 using Treadmill.Domain.Adapters;
 using Treadmill.Domain.Services;
+using Treadmill.Models;
 
 namespace Treadmill.Infrastructure
 {
@@ -45,11 +46,12 @@ namespace Treadmill.Infrastructure
           .WithParameter("remoteUrl", _config.RemoteTreadmillServiceUrl);
 
       builder.RegisterType<HttpService>().As<IHttpService>()
-          .WithParameter("url", _config.LocalUrl);
+          .WithParameter("url", _config.ListenUri);
 
       builder.RegisterType<RemoteTreadmillService>().As<IRemoteTreadmillService>().SingleInstance();
       builder.RegisterType<ConnectionService>().As<IConnectionService>().SingleInstance();
-      builder.RegisterType<LogService>().As<ILogService>().SingleInstance();
+
+      Log.Added += message => System.Diagnostics.Debug.Write(message);
     }
 
     public object Get(Type t) => _Container.Resolve(t);

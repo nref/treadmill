@@ -1,5 +1,7 @@
-﻿using Treadmill.Maui.Models;
+﻿using System.Windows.Input;
+using Treadmill.Maui.Models;
 using Treadmill.Maui.Shared;
+using Treadmill.Maui.Views;
 
 namespace Treadmill.Maui.ViewModels;
 
@@ -8,13 +10,10 @@ namespace Treadmill.Maui.ViewModels;
     bool ConfirmingRemove { get; set; }
   }
 
-public class WorkoutsViewModel : BindableObject, IWorkoutsViewModel
+public class WorkoutsViewModel : ViewModel, IWorkoutsViewModel
 {
   public IWorkoutViewModel WorkoutViewModel { get; set; }
-
   public FullyObservableCollection<Workout> Workouts { get; set; } = new FullyObservableCollection<Workout>();
-
-  public string DisplayName { get; set; } = "Workouts";
 
   public static string NewWorkoutDefaultName = "New Workout";
 
@@ -30,7 +29,7 @@ public class WorkoutsViewModel : BindableObject, IWorkoutsViewModel
       }
       _newWorkoutName = value;
 
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -46,7 +45,7 @@ public class WorkoutsViewModel : BindableObject, IWorkoutsViewModel
       }
       _adding = value;
 
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -62,7 +61,7 @@ public class WorkoutsViewModel : BindableObject, IWorkoutsViewModel
       }
       _confirmingDelete = value;
 
-      OnPropertyChanged();
+      NotifyPropertyChanged();
     }
   }
 
@@ -72,10 +71,24 @@ public class WorkoutsViewModel : BindableObject, IWorkoutsViewModel
     set => WorkoutViewModel.Workout = value;
   }
 
+  public ICommand StartAddCommand { private set; get; }
+  public ICommand StartRemoveCommand { private set; get; }
+  public ICommand ConfirmRemoveCommand { private set; get; }
+  public ICommand CancelRemoveCommand { private set; get; }
+  public ICommand FinishAddCommand { private set; get; }
+  public ICommand CancelAddCommand { private set; get; }
+
   public WorkoutsViewModel(IWorkoutViewModel workoutViewModel)
   {
     WorkoutViewModel = workoutViewModel;
     CreateWorkouts();
+
+    StartAddCommand = new Command(HandleStartAdd);
+    StartRemoveCommand = new Command(HandleStartRemove);
+    ConfirmRemoveCommand = new Command(HandleConfirmRemove);
+    CancelRemoveCommand = new Command(HandleCancelRemove);
+    FinishAddCommand = new Command(HandleFinishAdd);
+    CancelAddCommand = new Command(HandleCancelAdd);
   }
 
   public void HandleStartAdd()

@@ -20,7 +20,7 @@
         <RowDefinition Height="Auto"/>
       </Grid.RowDefinitions>
 
-      <Grid Grid.Row="0" BackgroundColor="{StaticResource TreadmillDarkGray}">
+      <Grid Grid.Row="0">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*"/>
           <ColumnDefinition Width="*"/>
@@ -101,9 +101,9 @@
                         BackgroundColor="{StaticResource TreadmillGreen}"
                         Command="{Binding ResumeWorkoutCommand}" />
 
-      <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0"
-                    Background="Red"
-                    IsVisible="{Binding ConfirmingRemove}">
+      <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" 
+            Background="{StaticResource TreadmillDarkGray}"
+            IsVisible="{Binding ConfirmingRemove}">
         <Grid.ColumnDefinitions>
           <ColumnDefinition/>
           <ColumnDefinition/>
@@ -115,19 +115,20 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" FontSize="Large" Text="Really delete?"/>
-        <Button Grid.Row="1" Grid.Column="0" Text="Yes" Command="{Binding ConfirmRemoveCommand}"/>
+        <Button Grid.Row="1" Grid.Column="0" Text="Yes" Command="{Binding ConfirmRemoveCommand}" Background="{StaticResource TreadmillRed}"/>
         <Button Grid.Row="1" Grid.Column="1" Text="Cancel" Command="{Binding CancelRemoveCommand}"/>
       </Grid>
 
-      <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0"
-                    Background="Green"
-                    IsVisible="{Binding Adding}">
+      <Grid Grid.Row="0" Grid.RowSpan="4" Grid.Column="0" 
+            Background="{StaticResource TreadmillDarkGray}"
+            IsVisible="{Binding Adding}">
         
         <Grid.ColumnDefinitions>
           <ColumnDefinition/>
           <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+          <RowDefinition/>
           <RowDefinition/>
           <RowDefinition/>
           <RowDefinition/>
@@ -139,7 +140,7 @@
         <Entry Grid.Row="1" Grid.Column="1" Text="{Binding SegmentToAdd.Speed}"/>
         <Label Grid.Row="2" Grid.Column="0" Text="Incline:" FontSize="Large"/>
         <Entry Grid.Row="2" Grid.Column="1" Text="{Binding SegmentToAdd.Incline}"/>
-        <Button Grid.Row="3" Grid.Column="0" Text="Add" Command="{Binding FinishAddCommand}"/>
+        <Button Grid.Row="3" Grid.Column="0" Text="Add" Command="{Binding FinishAddCommand}" Background="{StaticResource TreadmillGreen}"/>
         <Button Grid.Row="3" Grid.Column="1" Text="Cancel" Command="{Binding CancelAddCommand}"/>
       </Grid>
 

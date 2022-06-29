@@ -1,4 +1,5 @@
 import threading
+import datetime
 
 from gpiozero import LED
 from time import sleep
@@ -15,6 +16,7 @@ class Precor956i:
         self.run = True
         self.state = TreadmillState.Ready
         self.timestamp = "00:00"
+        self.lastUpdate = datetime.datetime.now()
         self.distance = 0.0 # mi or km
         self.speed_setpoint = 0.0 # mi/h or km/h
         self.speed_feedback = 0.0 # mi/h or km/h
@@ -60,6 +62,8 @@ class Precor956i:
         self.keep_incline_thread.start()
 
     def handle_metric_changed(self, metric, value):
+        self.lastUpdate = datetime.datetime.now()
+
         if metric == TreadmillMetric.Timestamp:
             self.timestamp = value
         elif metric == TreadmillMetric.Incline:
@@ -143,6 +147,13 @@ class Precor956i:
 
     def validate_state(self):
         
+        delta = datetime.datetime.now() - self.lastUpdate
+        maxDelta = datetime.timedelta(seconds=5)
+
+        if (self.state in [TreadmillState.Started] and delta > maxDelta):
+            print(f"No contact from treadmill in {maxDelta.total_seconds()}s. Ending workout.")
+            self.end_workout()
+
         # if (self.state in [TreadmillState.Started] and self.speed_feedback < ZERO):
         #     print(f"speed is zero. Assuming paused.")
         #     self.state = TreadmillState.Paused
@@ -150,7 +161,6 @@ class Precor956i:
         # if (self.state not in [TreadmillState.Started] and self.speed_feedback > ZERO):
         #     print(f"speed is nonzero. Assuming started.")
         #     self.state = TreadmillState.Started
-        pass
 
     # Do not change speed or incline outside of the Started state
     def state_ok(self):
@@ -219,6 +229,7 @@ class Precor956i:
             return
 
         self.state = TreadmillState.Starting
+        self.lastUpdate = datetime.datetime.now()
         self.pulse(self.start, then_wait_s=1) # Ready -> Starting
         self.increment_speed() # Bypasses 3, 2, 1 countdown
         self.speed_setpoint = 1.0

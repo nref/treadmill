@@ -47,7 +47,7 @@ class MetricsBoardBase:
 
         for url, callback in self.remote_callbacks.items(): 
             try:
-                callback.handle_metric_changed(metric, value)
+                callback.handle_metric_changed(self.treadmill.state, metric, value)
             except Exception as e:
                 print(str(e))
                 callbacks_to_remove.append(url)

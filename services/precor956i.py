@@ -16,7 +16,10 @@ class Precor956i:
         self.run = True
         self.state = TreadmillState.Ready
         self.timestamp = "00:00"
+
         self.lastUpdate = datetime.datetime.now()
+        self.heartbeat = datetime.timedelta(seconds=5)
+
         self.distance = 0.0 # mi or km
         self.speed_setpoint = 0.0 # mi/h or km/h
         self.speed_feedback = 0.0 # mi/h or km/h
@@ -65,6 +68,7 @@ class Precor956i:
         self.lastUpdate = datetime.datetime.now()
 
     def handle_metric_changed(self, metric, value):
+
         if metric == TreadmillMetric.Timestamp:
             self.timestamp = value
         elif metric == TreadmillMetric.Incline:
@@ -148,11 +152,10 @@ class Precor956i:
 
     def validate_state(self):
         
-        delta = datetime.datetime.now() - self.lastUpdate
-        maxDelta = datetime.timedelta(seconds=5)
+        heartbeat = datetime.datetime.now() - self.lastUpdate
 
-        if (self.state in [TreadmillState.Started] and delta > maxDelta):
-            print(f"No contact from treadmill in {maxDelta.total_seconds()}s. Ending workout.")
+        if (self.state in [TreadmillState.Started] and heartbeat > self.heartbeat):
+            print(f"No contact from treadmill in {self.heartbeat.total_seconds()}s. Ending workout.")
             self.end_workout()
 
         # if (self.state in [TreadmillState.Started] and self.speed_feedback < ZERO):

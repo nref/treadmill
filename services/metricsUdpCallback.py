@@ -13,11 +13,11 @@ class MetricsUdpCallback:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 
-    def handle_metric_changed(self, metric, value):
+    def handle_metric_changed(self, state, metric, value):
         if metric in [TreadmillMetric.Timestamp]:
             return # Don't care and timestamp causes problems with json.dumps
 
-        data = { "metric": metric, "value": value } 
+        data = { "state": state, "metric": metric, "value": value } 
         self.send_udp(json.dumps(data, default=str))
 
     def send_udp(self, msg):

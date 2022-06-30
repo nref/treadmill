@@ -61,9 +61,10 @@ class Precor956i:
         self.keep_speed_thread.start()
         self.keep_incline_thread.start()
 
-    def handle_metric_changed(self, metric, value):
+    def handle_data(self, chars):
         self.lastUpdate = datetime.datetime.now()
 
+    def handle_metric_changed(self, metric, value):
         if metric == TreadmillMetric.Timestamp:
             self.timestamp = value
         elif metric == TreadmillMetric.Incline:

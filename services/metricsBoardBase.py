@@ -9,6 +9,7 @@ class MetricsBoardBase:
 
     def __init__(self, treadmill):
         self.run = True
+        self.treadmill = treadmill
         self.callbacks = [treadmill.handle_metric_changed]
         self.remote_callbacks = {}
         
@@ -66,6 +67,7 @@ class MetricsBoardBase:
             Sample data: "  58:43  0.5   7.2   0.15"
         """
         
+        self.treadmill.handle_data(chars) 
         #print(chars)
         timestamp = chars[2:7]
         incline = chars[9:13]

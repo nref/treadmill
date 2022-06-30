@@ -89,7 +89,7 @@ namespace Treadmill.Adapters.RemoteTreadmill
       Task.Run(async () => await udpMetrics.Serve(ParseMetrics));
       Task.Run(async () => await health.Serve(HandleHealthCallback));
       Task.Run(async () => await ManageRegistration());
-      Task.Run(async () => await Poll());
+      //Task.Run(async () => await Poll());
     }
 
     public async Task<bool> Start() => await SafeExecAsync(async () => await _client.Start());

@@ -14,7 +14,7 @@ class Precor956i:
     def __init__(self):
 
         self.run = True
-        self.set_state(TreadmillState.Ready)
+        self.state = TreadmillState.Ready
         self.state_changed_callbacks = []
         self.timestamp = "00:00"
 
@@ -66,7 +66,7 @@ class Precor956i:
         self.keep_incline_thread.start()
 
     def set_state(self, state):
-        if (self.state == state)
+        if self.state == state:
             return
         self.state = state
         self.notify_state_changed(state)
@@ -157,10 +157,17 @@ class Precor956i:
                 continue
 
             if diff < 0:
+                print(self.state)
                 increment_func()
             elif diff > 0:
                 decrement_func()
 
+    # Do not change speed or incline outside of the Started state
+    def state_ok(self):
+        self.validate_state()
+        return self.state in [TreadmillState.Started]
+
+    # Stop workout if we haven't heard from teh treadmill in a while
     def validate_state(self):
         
         heartbeat = datetime.datetime.now() - self.lastUpdate
@@ -168,19 +175,6 @@ class Precor956i:
         if (self.state in [TreadmillState.Started] and heartbeat > self.heartbeat):
             print(f"No contact from treadmill in {self.heartbeat.total_seconds()}s. Ending workout.")
             self.end_workout()
-
-        # if (self.state in [TreadmillState.Started] and self.speed_feedback < ZERO):
-        #     print(f"speed is zero. Assuming paused.")
-        #     self.set_state(TreadmillState.Paused)
-
-        # if (self.state not in [TreadmillState.Started] and self.speed_feedback > ZERO):
-        #     print(f"speed is nonzero. Assuming started.")
-        #     self.set_state(TreadmillState.Started)
-
-    # Do not change speed or incline outside of the Started state
-    def state_ok(self):
-        self.validate_state()
-        return self.state in [TreadmillState.Started]
 
     # Do not change speed or incline when the setpoint has been reached
     def setpoint_reached(self, diff):
@@ -253,23 +247,23 @@ class Precor956i:
 
     def pause(self):
         if self.state == TreadmillState.Started:
-            self.pulse(self.reset, then_wait_s=1) # Started -> Paused
             self.set_state(TreadmillState.Paused)
+            self.pulse(self.reset, then_wait_s=1) # Started -> Paused
 
     def resume(self):
         if self.state == TreadmillState.Paused:
-            self.pulse(self.start, then_wait_s=1) # Paused -> Started
             self.set_state(TreadmillState.Started)
+            self.pulse(self.start, then_wait_s=1) # Paused -> Started
 
     def end_from_pause(self):
         if self.state == TreadmillState.Paused:
-            self.pulse(self.reset, then_wait_s=1) # Paused -> Summary
             self.set_state(TreadmillState.Summary)
+            self.pulse(self.reset, then_wait_s=1) # Paused -> Summary
 
     def close_summary(self):
         if self.state == TreadmillState.Summary:
+            self.set_state(TreadmillState.Ready)
             self.pulse(self.reset, then_wait_s=1) # Summary -> Ready
-        self.set_state(TreadmillState.Ready)
 
     def end_workout(self):
         

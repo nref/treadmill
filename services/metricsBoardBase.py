@@ -10,7 +10,7 @@ class MetricsBoardBase:
     def __init__(self, treadmill):
         self.run = True
         self.treadmill = treadmill
-        self.treadmill.state_changed_callbacks.append(handle_state_changed)
+        self.treadmill.state_changed_callbacks.append(self.handle_state_changed)
         self.metrics_callbacks = {}
         
         self.timestamp = "00:00"
@@ -53,8 +53,8 @@ class MetricsBoardBase:
         self.run = False
         self.run_thread.join()
 
-    def handle_state_changed(state):
-        self.notify_metric_changed(TreadmillMetric.State, state))
+    def handle_state_changed(self, state):
+        self.notify_metric_changed(TreadmillMetric.State, state)
 
     def handle_data(self, chars):
         """

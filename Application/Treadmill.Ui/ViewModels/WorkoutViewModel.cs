@@ -96,6 +96,15 @@ namespace Treadmill.Ui.ViewModels
       _treadmill = treadmill;
       WorkoutState = new WorkoutState(treadmill);
       _treadmill.PropertyChanged += WorkoutState.HandlePropertyChanged;
+      _treadmill.StateChanged += HandleStateChanged;
+    }
+
+    private void HandleStateChanged(Treadmill.Models.TreadmillState state)
+    {
+      if (WorkoutState.Active && state != Treadmill.Models.TreadmillState.Started)
+      {
+        Reset();
+      }
     }
 
     public void HandleStartAdd()

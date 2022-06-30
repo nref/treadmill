@@ -8,6 +8,6 @@ class MetricsHttpCallback:
     def __init__(self, url):
         self.url = url
 
-    def handle_metric_changed(self, state, metric, value):
-        data = { "state": state, "metric": metric, "value": value } 
+    def handle_metric_changed(self, metric, value):
+        data = { "metric": metric, "value": value } 
         requests.post(self.url, json.dumps(data, default=str))

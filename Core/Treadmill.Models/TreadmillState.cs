@@ -2,6 +2,8 @@
 {
   public enum TreadmillState
   {
+    Unknown = -1,
+
     /// <summary>
     /// The treadmill is not running
     /// </summary>

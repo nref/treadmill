@@ -69,13 +69,13 @@ namespace Treadmill.Adapters.RemoteTreadmill
 
     public RemoteTreadmillAdapter
     (
-        ILogService logger,
-        IConnectionService connections,
-        IPreferencesAdapter config,
-        IRemoteTreadmillClient client,
-        IUdpService udpMetrics,
-        IUdpService health,
-        IHttpService httpMetrics
+      ILogService logger,
+      IConnectionService connections,
+      IPreferencesAdapter config,
+      IRemoteTreadmillClient client,
+      IUdpService udpMetrics,
+      IUdpService health,
+      IHttpService httpMetrics
     )
     {
       _logger = logger;
@@ -121,6 +121,7 @@ namespace Treadmill.Adapters.RemoteTreadmill
 
     private async Task<double> GetSpeedFeedback() => await SafeExecAsync(async () => await _client.GetSpeedFeedback());
     private async Task<double> GetInclineFeedback() => await SafeExecAsync(async () => await _client.GetInclineFeedback());
+    private async Task<TreadmillState> GetState() => await SafeExecAsync(async () => await _client.GetState());
 
     private void HandleHealthCallback(string message)
     {
@@ -133,7 +134,6 @@ namespace Treadmill.Adapters.RemoteTreadmill
       {
         var obj = JsonConvert.DeserializeObject<TreadmillMetric>(json);
 
-        State = obj.State;
         switch (obj.Metric)
         {
           case Metric.Speed:
@@ -141,6 +141,9 @@ namespace Treadmill.Adapters.RemoteTreadmill
             break;
           case Metric.Incline:
             Incline = Convert.ToDouble(obj.Value);
+            break;
+          case Metric.State:
+            State = TreadmillStateMapper.Map(obj.Value);
             break;
         }
       }
@@ -170,7 +173,7 @@ namespace Treadmill.Adapters.RemoteTreadmill
 
       await Async.SafeExec(async () =>
       {
-              //bool ok2 = await AddHttpMetricsCallback(_config.LocalUrl);
+        //bool ok2 = await AddHttpMetricsCallback(_config.LocalUrl);
         bool ok = await AddUdpMetricsCallback(_config.LocalIp, _config.LocalUdpPort);
         if (ok)
         {
@@ -186,10 +189,10 @@ namespace Treadmill.Adapters.RemoteTreadmill
       {
         if (new[]
         {
-                    _lastMessage,
-                    _healthAdapter.LastMessage,
-                    _metricsAdapter.LastMessage
-                }.All(x => (DateTime.UtcNow - x).TotalSeconds > _callbackTimeoutSeconds))
+          _lastMessage,
+          _healthAdapter.LastMessage,
+          _metricsAdapter.LastMessage
+        }.All(x => (DateTime.UtcNow - x).TotalSeconds > _callbackTimeoutSeconds))
         {
           HandleDisconnected();
         }
@@ -224,14 +227,15 @@ namespace Treadmill.Adapters.RemoteTreadmill
       while (true)
       {
         await PollOnce();
-        await Task.Delay(5 * 1000).ConfigureAwait(false);
+        await Task.Delay(TimeSpan.FromSeconds(5)).ConfigureAwait(false);
       }
     }
 
     private async Task PollOnce()
     {
-      Speed = await SafeExecAsync(async () => await GetSpeedFeedback());
-      Incline = await SafeExecAsync(async () => await GetInclineFeedback());
+      Speed = await GetSpeedFeedback();
+      Incline = await GetInclineFeedback();
+      State = await GetState();
     }
 
     private async Task SafeExecAsync(Func<Task> f) => await Async.SafeExec(f, Disconnect);

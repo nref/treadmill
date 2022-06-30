@@ -14,7 +14,8 @@ class Precor956i:
     def __init__(self):
 
         self.run = True
-        self.state = TreadmillState.Ready
+        self.set_state(TreadmillState.Ready)
+        self.state_changed_callbacks = []
         self.timestamp = "00:00"
 
         self.lastUpdate = datetime.datetime.now()
@@ -63,6 +64,16 @@ class Precor956i:
         
         self.keep_speed_thread.start()
         self.keep_incline_thread.start()
+
+    def set_state(self, state):
+        if (self.state == state)
+            return
+        self.state = state
+        self.notify_state_changed(state)
+
+    def notify_state_changed(self, state):
+        for callback in self.state_changed_callbacks:
+            callback(state)
 
     def handle_data(self, chars):
         self.lastUpdate = datetime.datetime.now()
@@ -160,11 +171,11 @@ class Precor956i:
 
         # if (self.state in [TreadmillState.Started] and self.speed_feedback < ZERO):
         #     print(f"speed is zero. Assuming paused.")
-        #     self.state = TreadmillState.Paused
+        #     self.set_state(TreadmillState.Paused)
 
         # if (self.state not in [TreadmillState.Started] and self.speed_feedback > ZERO):
         #     print(f"speed is nonzero. Assuming started.")
-        #     self.state = TreadmillState.Started
+        #     self.set_state(TreadmillState.Started)
 
     # Do not change speed or incline outside of the Started state
     def state_ok(self):
@@ -232,33 +243,33 @@ class Precor956i:
         if self.state != TreadmillState.Ready:
             return
 
-        self.state = TreadmillState.Starting
+        self.set_state(TreadmillState.Starting)
         self.lastUpdate = datetime.datetime.now()
         self.pulse(self.start, then_wait_s=1) # Ready -> Starting
         self.increment_speed() # Bypasses 3, 2, 1 countdown
         self.speed_setpoint = 1.0
         self.speed_expected = 1.0
-        self.state = TreadmillState.Started
+        self.set_state(TreadmillState.Started)
 
     def pause(self):
         if self.state == TreadmillState.Started:
             self.pulse(self.reset, then_wait_s=1) # Started -> Paused
-            self.state = TreadmillState.Paused
+            self.set_state(TreadmillState.Paused)
 
     def resume(self):
         if self.state == TreadmillState.Paused:
             self.pulse(self.start, then_wait_s=1) # Paused -> Started
-            self.state = TreadmillState.Started
+            self.set_state(TreadmillState.Started)
 
     def end_from_pause(self):
         if self.state == TreadmillState.Paused:
             self.pulse(self.reset, then_wait_s=1) # Paused -> Summary
-            self.state = TreadmillState.Summary
+            self.set_state(TreadmillState.Summary)
 
     def close_summary(self):
         if self.state == TreadmillState.Summary:
             self.pulse(self.reset, then_wait_s=1) # Summary -> Ready
-        self.state = TreadmillState.Ready
+        self.set_state(TreadmillState.Ready)
 
     def end_workout(self):
         

@@ -28,8 +28,8 @@ class TreadmillRequestHandler(BaseHTTPRequestHandler):
 
         self.post_routes = {
             '/callbacks/health' : healthController.add_listener,
-            '/callbacks/metrics/http' : self.add_http_callback,
-            '/callbacks/metrics/udp' : self.add_udp_callback,
+            '/callbacks/metrics/http' : self.add_metrics_http_callback,
+            '/callbacks/metrics/udp' : self.add_metrics_udp_callback,
             '/incline/setpoint' : tm.go_to_incline,
             '/speed/setpoint' : tm.go_to_speed,
             '/start' : tm.start_workout,
@@ -51,13 +51,13 @@ class TreadmillRequestHandler(BaseHTTPRequestHandler):
 
         BaseHTTPRequestHandler.__init__(self, *args)
 
-    def add_http_callback(self, url):
+    def add_metrics_http_callback(self, url):
         callback = MetricsHttpCallback(url)
-        self.metrics.add_remote_callback(callback)
+        self.metrics.add_metrics_callback(callback)
 
-    def add_udp_callback(self, addr):
+    def add_metrics_udp_callback(self, addr):
         callback = MetricsUdpCallback(addr)
-        self.metrics.add_remote_callback(callback)
+        self.metrics.add_metrics_callback(callback)
 
     def takes_float_arg(self, route):
         return route in self.route_takes_float_arg and self.route_takes_float_arg[route]

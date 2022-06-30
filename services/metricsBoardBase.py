@@ -10,8 +10,8 @@ class MetricsBoardBase:
     def __init__(self, treadmill):
         self.run = True
         self.treadmill = treadmill
-        self.callbacks = [treadmill.handle_metric_changed]
-        self.remote_callbacks = {}
+        self.treadmill.state_changed_callbacks.append(handle_state_changed)
+        self.metrics_callbacks = {}
         
         self.timestamp = "00:00"
         self.distance = 0.0
@@ -24,41 +24,37 @@ class MetricsBoardBase:
     def read_forever(self):
         pass
 
-    def add_callback(self, callback):
-        self.callbacks.append(callback)
+    def add_metrics_callback(self, callback):
+        if callback.url not in self.metrics_callbacks:
+            print(f'Adding metrics callback {callback.url}')
+            self.metrics_callbacks[callback.url] = callback
 
-    def remove_callback(self, callback):
-        self.callbacks.remove(callback)
-
-    def add_remote_callback(self, callback):
-        if callback.url not in self.remote_callbacks:
-            print(f'Adding remote callback {callback.url}')
-            self.remote_callbacks[callback.url] = callback
-
-    def remove_remote_callback(self, url):
-        self.remote_callbacks.pop(url, None)
+    def remove_metrics_callback(self, url):
+        self.metrics_callbacks.pop(url, None)
 
     def notify_metric_changed(self, metric, value):
+        self.treadmill.handle_metric_changed(metric, value)
+
         # Do not modify collection while iterating
         callbacks_to_remove = []
-       
-        for callback in self.callbacks:
-            callback(metric, value)
 
-        for url, callback in self.remote_callbacks.items(): 
+        for url, callback in self.metrics_callbacks.items(): 
             try:
-                callback.handle_metric_changed(self.treadmill.state, metric, value)
+                callback.handle_metric_changed(metric, value)
             except Exception as e:
                 print(str(e))
                 callbacks_to_remove.append(url)
         
         for url in callbacks_to_remove:
-            print(f'Removing callback: {url}')
-            self.remove_remote_callback(url)
+            print(f'Removing metrics callback: {url}')
+            self.remove_metrics_callback(url)
 
     def close(self):
         self.run = False
         self.run_thread.join()
+
+    def handle_state_changed(state):
+        self.notify_metric_changed(TreadmillMetric.State, state))
 
     def handle_data(self, chars):
         """
@@ -68,11 +64,13 @@ class MetricsBoardBase:
         """
         
         self.treadmill.handle_data(chars) 
+
         #print(chars)
         timestamp = chars[2:7]
         incline = chars[9:13]
         speed = chars[15:19]
         distance = chars[20:25]
+
         try:
             new_speed_feedback = float(speed)
 

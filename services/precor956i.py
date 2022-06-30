@@ -28,9 +28,6 @@ class Precor956i:
         self.incline_setpoint = 0.0 # percent grade, 0.0-15.0
         self.incline_feedback = 0.0 # percent grade, 0.0-15.0
 
-        self.speed_expected = 0.0 # The speed that would be expected from the count of pulses on the speed pins
-        self.incline_expected = 0.0 # The incline that would be expected from the count of pulses on the incline pins
-
         self.speed_min = 0.5
         self.speed_max = 12.0
 
@@ -92,9 +89,13 @@ class Precor956i:
         elif metric == TreadmillMetric.Distance:
             self.distance = value
 
-    def pulse(self, led, duration_s = 0.1, then_wait_s = 0.1):
-        print(f'pulse({led.pin}, {duration_s}, {then_wait_s})')
+    # Fast: Leave the pin on. This causes speed or incline to change rapidly.
+    def pulse(self, led, duration_s = 0.1, then_wait_s = 0.1, fast: bool = False):
+        print(f'pulse(pin={led.pin}, duration_s={duration_s}, then_wait_s={then_wait_s}, fast={fast})')
         led.on()
+
+        if fast:
+            return
 
         if duration_s > 0:
             sleep(duration_s)
@@ -106,11 +107,9 @@ class Precor956i:
 
     def diff_speed(self):
         return self.speed_feedback - self.speed_setpoint
-        # return self.speed_expected - self.speed_setpoint
 
     def diff_incline(self):
         return self.incline_feedback - self.incline_setpoint
-        # return self.incline_expected - self.incline_setpoint
 
     def rate_limit_speed(self):
         diff = self.diff_speed()
@@ -156,9 +155,12 @@ class Precor956i:
                 or self.setpoint_reached(diff):
                 continue
 
-            if diff < 0:
-                print(self.state)
+            if diff < -1:
+                increment_func(fast=True)
+            elif diff < 0:
                 increment_func()
+            elif diff > 1: 
+                decrement_func(fast=True)
             elif diff > 0:
                 decrement_func()
 
@@ -167,7 +169,7 @@ class Precor956i:
         self.validate_state()
         return self.state in [TreadmillState.Started]
 
-    # Stop workout if we haven't heard from teh treadmill in a while
+    # Stop workout if we haven't heard from the treadmill in a while
     def validate_state(self):
         
         heartbeat = datetime.datetime.now() - self.lastUpdate
@@ -213,25 +215,21 @@ class Precor956i:
         self.incline_setpoint = incline
         return f"Setting incline setpoint to {incline}"
 
-    def increment_speed(self):
+    def increment_speed(self, fast: bool = False):
         if self.state in [TreadmillState.Starting, TreadmillState.Started]:
-            self.pulse(self.speed_up, then_wait_s=0.1)
-            self.speed_expected += 0.1
+            self.pulse(self.speed_up, then_wait_s=0.1, fast=fast)
 
-    def decrement_speed(self):
+    def decrement_speed(self, fast: bool = False):
         if self.state == TreadmillState.Started:
-            self.pulse(self.speed_down, then_wait_s=0.1)
-            self.speed_expected -= 0.1
+            self.pulse(self.speed_down, then_wait_s=0.1, fast=fast)
 
-    def increment_incline(self):
+    def increment_incline(self, fast: bool = False):
         if self.state == TreadmillState.Started:
-            self.pulse(self.incline_up, then_wait_s=0.25)
-            self.incline_expected += 0.5
+            self.pulse(self.incline_up, then_wait_s=0.25, fast=fast)
 
-    def decrement_incline(self):
+    def decrement_incline(self, fast: bool = False):
         if self.state == TreadmillState.Started:
-            self.pulse(self.incline_down, then_wait_s=0.25)
-            self.incline_expected -= 0.5
+            self.pulse(self.incline_down, then_wait_s=0.25, fast=fast)
 
     def start_workout(self):
         if self.state != TreadmillState.Ready:
@@ -242,12 +240,12 @@ class Precor956i:
         self.pulse(self.start, then_wait_s=1) # Ready -> Starting
         self.increment_speed() # Bypasses 3, 2, 1 countdown
         self.speed_setpoint = 1.0
-        self.speed_expected = 1.0
         self.set_state(TreadmillState.Started)
 
     def pause(self):
         if self.state == TreadmillState.Started:
             self.set_state(TreadmillState.Paused)
+            self.release_pins()
             self.pulse(self.reset, then_wait_s=1) # Started -> Paused
 
     def resume(self):
@@ -276,8 +274,12 @@ class Precor956i:
 
         self.speed_setpoint = 0.0
         self.incline_setpoint = 0.0
-        self.speed_expected = 0.0
-        self.incline_expected = 0.0
+
+    def release_pins(self):
+        self.speed_up.off()
+        self.speed_down.off()
+        self.incline_up.off()
+        self.incline_down.off()
 
     def close(self):
         self.run = False

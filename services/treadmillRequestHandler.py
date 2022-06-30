@@ -13,12 +13,10 @@ class TreadmillRequestHandler(BaseHTTPRequestHandler):
         self.get_routes = {
             '/incline/setpoint' : tm.incline_setpoint,
             '/incline/feedback' : tm.incline_setpoint,
-            '/incline/expected' : tm.incline_expected,
             '/incline/min' : tm.incline_min,
             '/incline/max' : tm.incline_max,
             '/speed/setpoint' : tm.speed_setpoint,
             '/speed/feedback' : tm.speed_feedback,
-            '/speed/expected' : tm.speed_expected,
             '/speed/min' : tm.speed_min,
             '/speed/max' : tm.speed_max,
             '/distance' : tm.distance,

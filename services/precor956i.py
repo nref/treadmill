@@ -245,7 +245,7 @@ class Precor956i:
     def pause(self):
         if self.state == TreadmillState.Started:
             self.set_state(TreadmillState.Paused)
-            self.release_pins()
+            self.release_pins() # In case any were held for fast accel/decel
             self.pulse(self.reset, then_wait_s=1) # Started -> Paused
 
     def resume(self):

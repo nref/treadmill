@@ -4,22 +4,32 @@ public static class Program
 {
   public static void Main()
   {
-    using var reader = new UpcaReader("COM3");
+    using var reader = new UpcaReader("COM6");
     var parser = new UpcaParser();
+
+    _ = Task.Run(async () =>
+    {
+      while (true)
+      {
+        reader.Write("[ver]");
+        await Task.Delay(1000);
+      }
+    });
 
     string buffer = "";
 
     while (reader.IsOpen)
     {
       string s = reader.ReadAll();
-      buffer += s;
       Console.Write(s);
 
-      if (parser.TryParse(buffer, out string? result))
-      {
-        buffer = buffer.Replace($"[{result}]", "");
-        Console.WriteLine(result);
-      }
+      //buffer += s;
+
+      //if (parser.TryParse(buffer, out string? result))
+      //{
+      //  buffer = buffer.Replace($"[{result}]", "");
+      //  Console.WriteLine(result);
+      //}
     }
   }
 }
@@ -38,6 +48,7 @@ public class UpcaReader : IDisposable
     _port.Open();
   }
 
+  public void Write(string message) => _port.Write(message);
   public string ReadAll() => _port.ReadExisting();
   public void Dispose() => _port.Dispose();
 }

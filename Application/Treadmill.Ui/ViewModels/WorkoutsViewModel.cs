@@ -570,6 +570,60 @@ namespace Treadmill.Ui.ViewModels
                 // cool down
                 WorkoutSegment.MilesAtPace(1.0, "00:10:00.000").AtIncline(0),
             });
+
+            Workouts.Add(new Workout("14x100m 800m")
+            {
+                // warm up
+                WorkoutSegment.MilesAtPace(2.0, "00:09:30.000").AtIncline(1),
+
+                // strides
+                WorkoutSegment.MetersAtPace(100, "00:8:00.000").AtIncline(5),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(5),
+                WorkoutSegment.MetersAtPace(100, "00:7:45.000").AtIncline(5),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(5),
+                WorkoutSegment.MetersAtPace(100, "00:7:30.000").AtIncline(5),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(5),
+                WorkoutSegment.MetersAtPace(100, "00:7:15.000").AtIncline(5),
+                WorkoutSegment.MetersAtPace(100, recovery).AtIncline(5),
+
+                // main set
+                // 14x100
+                WorkoutSegment.MetersAtPace(100, "00:7:30.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:7:30.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:7:20.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:7:20.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:7:10.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:7:10.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:7:00.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+
+                WorkoutSegment.MetersAtPace(100, "00:7:00.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:6:50.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:6:50.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:6:40.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:6:40.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:6:30.000").AtIncline(5),
+                WorkoutSegment.SecondsAtPace(45, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(100, "00:6:30.000").AtIncline(5),
+
+                // 800
+                WorkoutSegment.MinutesAtPace(2, "00:11:00.000").AtIncline(0),
+                WorkoutSegment.MetersAtPace(800, "00:5:30.000").AtIncline(1),
+
+                // cool down
+                WorkoutSegment.MilesAtPace(2.0, "00:10:00.000").AtIncline(0),
+            });
         }
     }
 }
